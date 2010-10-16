@@ -423,6 +423,10 @@ class pChart {
 	 * Compute and draw the scale 
 	 */
 	function drawScale($Data, $DataDescription, $ScaleMode, $R, $G, $B, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
+		if (empty($Data)) {
+			throw new InvalidArgumentException("Empty data passed to drawScale()");
+		}
+
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data );
 		
@@ -4019,8 +4023,6 @@ class pChart {
 				$Scale2 = ($this->VMax - $this->VMin) / $Factor / 2;
 				$Scale4 = ($this->VMax - $this->VMin) / $Factor / 4;
 
-				print "$Scale1, $Scale2, $Scale4\n";
-				
 				if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
 					$ScaleOk = TRUE;
 					$Divisions = floor ( $Scale1 );
