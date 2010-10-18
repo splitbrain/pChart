@@ -32,7 +32,7 @@ class pData {
 		$this->DataDescription ["Unit"] ["Y"] = NULL;
 	}
 	
-	public function ImportFromCSV($FileName, $Delimiter = ",", $DataColumns = -1, $HasHeader = FALSE, $DataName = -1) {
+	public function importFromCSV($FileName, $Delimiter = ",", $DataColumns = -1, $HasHeader = FALSE, $DataName = -1) {
 		$handle = @fopen ( $FileName, "r" );
 
 		if ($handle == null) {
@@ -159,7 +159,7 @@ class pData {
 	 * @see RemoveSerie()
 	 */
 	public function removeSeries($SerieName = "Series1") {
-		$this->RemoveSerie($SerieName);
+		$this->removeSerie($SerieName);
 	}
 	
 	public function removeSerie($SerieName = "Series1") {
@@ -179,7 +179,7 @@ class pData {
 	 * @see SetAbsciseLabelSerie
 	 */
 	public function setAbsciseLabelSeries($SerieName = "Name") {
-		$this->SetAbsciseLabelSerie($SerieName);
+		$this->setAbsciseLabelSerie($SerieName);
 	}
 		
 	public function setAbsciseLabelSerie($SerieName = "Name") {
@@ -193,7 +193,7 @@ class pData {
 	 * @see SetSerieName()
 	 */
 	public function setSeriesName($Name, $SeriesName = "Series1") {
-		$this->SetSerieName($Name, $SerieName);
+		$this->setSerieName($Name, $SerieName);
 	}
 	
 	public function setSerieName($Name, $SerieName = "Series1") {
