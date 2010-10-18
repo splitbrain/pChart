@@ -118,16 +118,7 @@ class pData {
 		}
 	}
 	
-	/**
-	 * Alias for AddSerie
-	 * @param string $SerieName
-	 * @see AddSerie
-	 */
 	public function addSeries($SerieName = "Series1") {
-		$this->AddSerie($SerieName);
-	}
-	
-	public function addSerie($SerieName = "Series1") {
 		if (! isset ( $this->DataDescription ["Values"] )) {
 			$this->DataDescription ["Values"] [] = $SerieName;
 		} else {
@@ -153,16 +144,7 @@ class pData {
 		}
 	}
 	
-	/**
-	 * Alias for RemoveSerie
-	 * @param string $SerieName
-	 * @see RemoveSerie()
-	 */
 	public function removeSeries($SerieName = "Series1") {
-		$this->removeSerie($SerieName);
-	}
-	
-	public function removeSerie($SerieName = "Series1") {
 		if (! isset ( $this->DataDescription ["Values"] ))
 			return (0);
 		
@@ -173,30 +155,11 @@ class pData {
 		}
 	}
 	
-	/**
-	 * Alilas for SetAbsciseLabelSerie
-	 * @param string $SerieName
-	 * @see SetAbsciseLabelSerie
-	 */
 	public function setAbsciseLabelSeries($SerieName = "Name") {
-		$this->setAbsciseLabelSerie($SerieName);
-	}
-		
-	public function setAbsciseLabelSerie($SerieName = "Name") {
 		$this->DataDescription ["Position"] = $SerieName;
 	}
 	
-	/**
-	 * Alias for SetSerieName
-	 * @param string $Name
-	 * @param string $SerieName
-	 * @see SetSerieName()
-	 */
 	public function setSeriesName($Name, $SeriesName = "Series1") {
-		$this->setSerieName($Name, $SerieName);
-	}
-	
-	public function setSerieName($Name, $SerieName = "Series1") {
 		$this->DataDescription ["Description"] [$SerieName] = $Name;
 	}
 	
