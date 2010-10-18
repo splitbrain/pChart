@@ -201,7 +201,7 @@ class pData {
 	 * @param string $SerieName
 	 * @see SetAbsciseLabelSerie
 	 */
-	public function setAbsciseLabelSeries($SerieName = "Name") {
+	public function setAbscissaLabelSeries($SerieName = "Name") {
 		$this->setAbsciseLabelSerie($SerieName);
 	}
 		
