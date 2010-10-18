@@ -114,7 +114,7 @@ class pData {
 	 * auto-incremented ID values based on the current state of the
 	 * data set.
 	 */
-	public function AddPoint($Value, $Serie = "Serie1", $Description = "") {
+	public function addPoint($Value, $Serie = "Serie1", $Description = "") {
 		if (is_array ( $Value ) && count ( $Value ) == 1)
 			$Value = $Value [0];
 		
@@ -146,11 +146,11 @@ class pData {
 	 * @param string $SerieName
 	 * @see AddSerie
 	 */
-	public function AddSeries($SerieName = "Serie1") {
+	public function addSeries($SerieName = "Serie1") {
 		$this->AddSerie($SerieName);
 	}
 	
-	public function AddSerie($SerieName = "Serie1") {
+	public function addSerie($SerieName = "Serie1") {
 		if (! isset ( $this->DataDescription ["Values"] )) {
 			$this->DataDescription ["Values"] [] = $SerieName;
 		} else {
@@ -165,7 +165,7 @@ class pData {
 		}
 	}
 	
-	public function AddAllSeries() {
+	public function addAllSeries() {
 		unset ( $this->DataDescription ["Values"] );
 		
 		if (isset ( $this->Data [0] )) {
@@ -181,11 +181,11 @@ class pData {
 	 * @param string $SerieName
 	 * @see RemoveSerie()
 	 */
-	public function RemoveSeries($SerieName = "Serie1") {
+	public function removeSeries($SerieName = "Serie1") {
 		$this->RemoveSerie($SerieName);
 	}
 	
-	public function RemoveSerie($SerieName = "Serie1") {
+	public function removeSerie($SerieName = "Serie1") {
 		if (! isset ( $this->DataDescription ["Values"] ))
 			return (0);
 		
@@ -201,11 +201,11 @@ class pData {
 	 * @param string $SerieName
 	 * @see SetAbsciseLabelSerie
 	 */
-	public function SetAbsciseLabelSeries($SerieName = "Name") {
+	public function setAbsciseLabelSeries($SerieName = "Name") {
 		$this->SetAbsciseLabelSerie($SerieName);
 	}
 		
-	public function SetAbsciseLabelSerie($SerieName = "Name") {
+	public function setAbsciseLabelSerie($SerieName = "Name") {
 		$this->DataDescription ["Position"] = $SerieName;
 	}
 	
@@ -215,35 +215,35 @@ class pData {
 	 * @param string $SerieName
 	 * @see SetSerieName()
 	 */
-	public function SetSeriesName($Name, $SerieName = "Serie1") {
+	public function setSeriesName($Name, $SerieName = "Serie1") {
 		$this->SetSerieName($Name, $SerieName);
 	}
 	
-	public function SetSerieName($Name, $SerieName = "Serie1") {
+	public function setSerieName($Name, $SerieName = "Serie1") {
 		$this->DataDescription ["Description"] [$SerieName] = $Name;
 	}
 	
-	public function SetXAxisName($Name = "X Axis") {
+	public function setXAxisName($Name = "X Axis") {
 		$this->DataDescription ["Axis"] ["X"] = $Name;
 	}
 	
-	public function SetYAxisName($Name = "Y Axis") {
+	public function setYAxisName($Name = "Y Axis") {
 		$this->DataDescription ["Axis"] ["Y"] = $Name;
 	}
 	
-	public function SetXAxisFormat($Format = "number") {
+	public function setXAxisFormat($Format = "number") {
 		$this->DataDescription ["Format"] ["X"] = $Format;
 	}
 	
-	public function SetYAxisFormat($Format = "number") {
+	public function setYAxisFormat($Format = "number") {
 		$this->DataDescription ["Format"] ["Y"] = $Format;
 	}
 	
-	public function SetXAxisUnit($Unit = "") {
+	public function setXAxisUnit($Unit = "") {
 		$this->DataDescription ["Unit"] ["X"] = $Unit;
 	}
 	
-	public function SetYAxisUnit($Unit = "") {
+	public function setYAxisUnit($Unit = "") {
 		$this->DataDescription ["Unit"] ["Y"] = $Unit;
 	}
 	
@@ -252,11 +252,11 @@ class pData {
 	 * @param string $Name
 	 * @param string $Symbol
 	 */
-	public function SetSeriesSymbol($Name, $Symbol) {
+	public function setSeriesSymbol($Name, $Symbol) {
 		$this->SetSeriesSymbol($Name, $Symbol);
 	}
 	
-	public function SetSerieSymbol($Name, $Symbol) {
+	public function setSerieSymbol($Name, $Symbol) {
 		$this->DataDescription ["Symbol"] [$Name] = $Symbol;
 	}
 	
@@ -277,11 +277,11 @@ class pData {
 			unset ( $this->DataDescription ["Values"] [$Key] );
 	}
 	
-	public function GetData() {
+	public function getData() {
 		return ($this->Data);
 	}
 	
-	public function GetDataDescription() {
+	public function getDataDescription() {
 		return ($this->DataDescription);
 	}
 }
