@@ -68,7 +68,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
 		$DataSet->AddPoint(array("January", "February", "March", "April", "May"), "Serie2");
 		$DataSet->AddAllSeries();
-		$DataSet->SetAbsciseLabelSerie("Serie2");
+		$DataSet->setAbscissaLabelSeries("Serie2");
 		
 		// Initialise the graph
 		$Test = new pChart(420, 250);
