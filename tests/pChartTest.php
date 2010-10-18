@@ -72,9 +72,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 			$DataSet->AddPoint(sin($i*3.14/180)*80+$i,"Serie2");
 		}
 		
-		$DataSet->SetSerieName("Trigonometric function","Serie1");
-		$DataSet->AddSerie("Serie1");
-		$DataSet->AddSerie("Serie2");
+		$DataSet->setSeriesName("Trigonometric function","Serie1");
+		$DataSet->addSeries("Serie1");
+		$DataSet->addSeries("Serie2");
 		$DataSet->SetXAxisName("X Axis");
 		$DataSet->SetYAxisName("Y Axis");
 
@@ -101,7 +101,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Draw the legend
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/pf_arma_five.ttf",6);
-		$DataSet->RemoveSerie("Serie2");
+		$DataSet->removeSeries("Serie2");
 		$Test->drawLegend(160,5,$DataSet->GetDataDescription(),0,0,0,0,0,0,255,255,255,FALSE);
 		
 		$Test->Render(dirname(__FILE__)."/actual/example24.png");
