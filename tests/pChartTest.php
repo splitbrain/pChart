@@ -94,6 +94,36 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedContents, $actualContents);
 	}
 
+	public function testFlatPieGraph() {
+		// Dataset definition 
+		$DataSet = new pData();
+		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
+		$DataSet->AddPoint(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie("Serie2");
+		
+		// Initialise the graph
+		$Test = new pChart(300, 200);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
+		$Test->drawFilledRoundedRectangle(7, 7, 293, 193, 5, 240, 240, 240);
+		$Test->drawRoundedRectangle(5, 5, 295, 195, 5, 230, 230, 230);
+		
+		// Draw the pie chart
+		$Test->setAntialiasQuality(0);
+		$Test->setShadowProperties(2, 2, 200, 200, 200);
+		$Test->drawFlatPieGraphWithShadow($DataSet->GetData(), 
+										  $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8);
+		$Test->clearShadow();
+		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
+							 $DataSet->GetDataDescription(), 250, 250, 250);
+		$Test->Render(dirname(__FILE__)."/actual/example13.png");
+
+		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example13.png');
+		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example13.png');
+		
+		$this->assertEquals($expectedContents, $actualContents);
+	}
+
 	/**
 	 * Based on Example24.php
 	 */
@@ -143,6 +173,48 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example24.png');
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example24.png');
+
+		$this->assertEquals($expectedContents, $actualContents);
+	}
+
+	public function testDrawFilledCubicCurve() {
+		// Dataset definition 
+		$DataSet = new pData;
+		$DataSet->AddPoint(array(1,4,3,2,3,3,2,1,0,7,4,3,2,3,3,5,1,0,7),"Serie1");
+		$DataSet->AddPoint(array(1,4,2,6,2,3,0,1,5,1,2,4,5,2,1,0,6,4,2),"Serie2");
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie();
+		$DataSet->SetSerieName("January","Serie1");
+		$DataSet->SetSerieName("February","Serie2");
+		
+		// Initialise the graph
+		$Test = new pChart(700,230);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setGraphArea(50,30,585,200);
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+		
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+		
+		// Draw the cubic curve graph
+		$Test->drawFilledCubicCurve($DataSet->GetData(),$DataSet->GetDataDescription(),.1,50);
+		
+		// Finish the graph
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(50,22,"Example 7",50,50,50,585);
+		$Test->Render(dirname(__FILE__).'/actual/example7.png');
+
+		$expectedContents = file_get_contents(dirname(__FILE__)
+											  .'/expected/example7.png');
+		$actualContents = file_get_contents(dirname(__FILE__)
+											.'/actual/example7.png');
 
 		$this->assertEquals($expectedContents, $actualContents);
 	}
