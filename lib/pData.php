@@ -155,7 +155,7 @@ class pData {
 		}
 	}
 	
-	public function setAbsciseLabelSeries($SerieName = "Name") {
+	public function setAbscissaLabelSeries($SerieName = "Name") {
 		$this->DataDescription ["Position"] = $SerieName;
 	}
 	
