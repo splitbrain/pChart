@@ -19,14 +19,14 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testLineChart() {
 		$DataSet = new pData;   
-		$DataSet->ImportFromCSV(dirname(__FILE__)."/../sample/bulkdata.csv",",",array(1,2,3),FALSE,0);   
-		$DataSet->AddAllSeries();   
-		$DataSet->SetAbsciseLabelSerie();   
-		$DataSet->SetSerieName("January","Serie1");   
-		$DataSet->SetSerieName("February","Serie2");   
-		$DataSet->SetSerieName("March","Serie3");   
-		$DataSet->SetYAxisName("Average age");
-		$DataSet->SetYAxisUnit("µs");
+		$DataSet->importFromCSV(dirname(__FILE__)."/../sample/bulkdata.csv",",",array(1,2,3),FALSE,0);   
+		$DataSet->addAllSeries();   
+		$DataSet->setAbscissaLabelSeries();   
+		$DataSet->setSeriesName("January","Serie1");   
+		$DataSet->setSeriesName("February","Serie2");   
+		$DataSet->setSeriesName("March","Serie3");   
+		$DataSet->setYAxisName("Average age");
+		$DataSet->setYAxisUnit("µs");
   
 		// Initialise the graph   
 		$Test = new pChart(700,230);

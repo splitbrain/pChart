@@ -160,7 +160,7 @@ class pData {
 	}
 	
 	public function setSeriesName($Name, $SeriesName = "Series1") {
-		$this->DataDescription ["Description"] [$SerieName] = $Name;
+		$this->DataDescription ["Description"] [$SeriesName] = $Name;
 	}
 	
 	public function setXAxisName($Name = "X Axis") {
