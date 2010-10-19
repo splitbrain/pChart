@@ -2847,7 +2847,17 @@ class pChart {
 			$Angle = $iAngle + $SpliceDistanceRatio;
 		}
 		
-		/* Draw Bottom polygons */
+		$this->drawPieGraphBottomPolygons($iValues, $BotPlots,
+										  $EnhanceColors, $aBotPlots);
+		
+		$this->drawPieGraphLayers($iValues, $TopPlots, $EnhanceColors,
+								  $SpliceHeight, $this->Palette);
+		
+		$this->drawPieGraphTopPolygons($iValues, $TopPlots, $EnhanceColors,
+									   $aTopPlots);
+	}
+
+	private function drawPieGraphBottomPolygons(array $iValues, array $BotPlots, $EnhanceColors, array $aBotPlots) {
 		foreach ( $iValues as $Key => $Value ) {
 			$C_GraphLo = $this->AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"], - 20 );
 			imagefilledpolygon ( $this->Picture, $BotPlots [$Key], (count ( $BotPlots [$Key] ) + 1) / 2, $C_GraphLo );
@@ -2861,15 +2871,9 @@ class pChart {
 			for($j = 0; $j <= count ( $aBotPlots [$Key] ) - 4; $j = $j + 2)
 				$this->drawLine ( $aBotPlots [$Key] [$j], $aBotPlots [$Key] [$j + 1], $aBotPlots [$Key] [$j + 2], $aBotPlots [$Key] [$j + 3], $this->Palette [$Key] ["R"] + $En, $this->Palette [$Key] ["G"] + $En, $this->Palette [$Key] ["B"] + $En );
 		}
-		
-		$this->drawPieGraphLayers($iValues, $TopPlots, $EnhanceColors,
-								  $SpliceHeight);
-		
-		$this->drawPieGraphTopPolygons($iValues, $TopPlots, $EnhanceColors,
-									   $aTopPlots);
 	}
-
-	private function drawPieGraphLayers($iValues, $TopPlots, $EnhanceColors, $SpliceHeight) {
+	
+	private function drawPieGraphLayers($iValues, $TopPlots, $EnhanceColors, $SpliceHeight, $palette) {
 		if ($EnhanceColors) {
 			$ColorRatio = 30 / $SpliceHeight;
 		} else {
@@ -2877,7 +2881,7 @@ class pChart {
 		}
 		for($i = $SpliceHeight - 1; $i >= 1; $i --) {
 			foreach ( $iValues as $Key => $Value ) {
-				$C_GraphLo = $this->AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"], - 10 );
+				$C_GraphLo = $this->AllocateColor ( $this->Picture, $palette [$Key] ["R"], $palette [$Key] ["G"], $palette [$Key] ["B"], - 10 );
 				$Plots = "";
 				$Plot = 0;
 				foreach ( $TopPlots [$Key] as $Key2 => $Value2 ) {
@@ -2896,9 +2900,23 @@ class pChart {
 					$ColorFactor = 0;
 				}
 				
-				$this->drawAntialiasPixel ( $Plots [0], $Plots [1], $this->Palette [$Key] ["R"] + $ColorFactor, $this->Palette [$Key] ["G"] + $ColorFactor, $this->Palette [$Key] ["B"] + $ColorFactor );
-				$this->drawAntialiasPixel ( $Plots [2], $Plots [3], $this->Palette [$Key] ["R"] + $ColorFactor, $this->Palette [$Key] ["G"] + $ColorFactor, $this->Palette [$Key] ["B"] + $ColorFactor );
-				$this->drawAntialiasPixel ( $Plots [$Index - 4], $Plots [$Index - 3], $this->Palette [$Key] ["R"] + $ColorFactor, $this->Palette [$Key] ["G"] + $ColorFactor, $this->Palette [$Key] ["B"] + $ColorFactor );
+				$this->drawAntialiasPixel($Plots[0],
+										  $Plots [1],
+										  $palette[$Key]["R"] + $ColorFactor,
+										  $palette[$Key]["G"] + $ColorFactor,
+										  $palette[$Key]["B"] + $ColorFactor );
+
+				$this->drawAntialiasPixel($Plots[2],
+										  $Plots[3],
+										  $palette[$Key]["R"] + $ColorFactor,
+										  $palette[$Key]["G"] + $ColorFactor,
+										  $palette[$Key]["B"] + $ColorFactor );
+
+				$this->drawAntialiasPixel($Plots[$Index - 4],
+										  $Plots [$Index - 3],
+										  $palette[$Key]["R"] + $ColorFactor,
+										  $palette[$Key]["G"] + $ColorFactor,
+										  $palette[$Key]["B"] + $ColorFactor );
 			}
 		}
 	}
