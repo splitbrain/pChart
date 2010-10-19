@@ -225,7 +225,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
 		$DataSet->AddPoint(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
 		$DataSet->AddAllSeries();
-		$DataSet->SetAbsciseLabelSerie("Serie2");
+		$DataSet->setAbscissaLabelSeries("Serie2");
 		
 		// Initialise the graph
 		$Test = new pChart(300, 200);
@@ -259,13 +259,13 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddPoint(array("Memory","Disk","Network","Slots","CPU"),"Label");
 		$DataSet->AddPoint(array(1,2,3,4,3),"Serie1");
 		$DataSet->AddPoint(array(1,4,2,6,2),"Serie2");
-		$DataSet->AddSerie("Serie1");
-		$DataSet->AddSerie("Serie2");
-		$DataSet->SetAbsciseLabelSerie("Label");
+		$DataSet->AddSeries("Serie1");
+		$DataSet->AddSeries("Serie2");
+		$DataSet->setAbscissaLabelSeries("Label");
 		
 		
-		$DataSet->SetSerieName("Reference","Serie1");
-		$DataSet->SetSerieName("Tested computer","Serie2");
+		$DataSet->setSeriesName("Reference","Serie1");
+		$DataSet->setSeriesName("Tested computer","Serie2");
 		
 		// Initialise the graph
 		$Test = new pChart(400,400);
