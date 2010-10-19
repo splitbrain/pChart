@@ -218,4 +218,79 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($expectedContents, $actualContents);
 	}
+
+	public function testDrawBasicPieGraph() {
+		// Dataset definition 
+		$DataSet = new pData();
+		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
+		$DataSet->AddPoint(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie("Serie2");
+		
+		// Initialise the graph
+		$Test = new pChart(300, 200);
+		$Test->loadColorPalette(dirname(__FILE__)."/../Sample/softtones.txt");
+		$Test->drawFilledRoundedRectangle(7, 7, 293, 193, 5, 240, 240, 240);
+		$Test->drawRoundedRectangle(5, 5, 295, 195, 5, 230, 230, 230);
+		
+		// This will draw a shadow under the pie chart
+		$Test->drawFilledCircle(122, 102, 70, 200, 200, 200);
+		
+		// Draw the pie chart
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
+		$Test->setAntialiasQuality(0);
+		$Test->drawBasicPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 
+								 120, 100, 70, PIE_PERCENTAGE, 255, 255, 218);
+		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
+							 $DataSet->GetDataDescription(), 250, 250, 250);
+		$Test->Render(dirname(__FILE__)."/actual/example14.png");
+
+		$expectedContents = file_get_contents(dirname(__FILE__)
+											  .'/expected/example14.png');
+		$actualContents = file_get_contents(dirname(__FILE__)
+											.'/actual/example14.png');
+
+		$this->assertEquals($expectedContents, $actualContents);
+	}
+
+	public function testDrawFilledRadar() {
+		// Dataset definition 
+		$DataSet = new pData;
+		$DataSet->AddPoint(array("Memory","Disk","Network","Slots","CPU"),"Label");
+		$DataSet->AddPoint(array(1,2,3,4,3),"Serie1");
+		$DataSet->AddPoint(array(1,4,2,6,2),"Serie2");
+		$DataSet->AddSerie("Serie1");
+		$DataSet->AddSerie("Serie2");
+		$DataSet->SetAbsciseLabelSerie("Label");
+		
+		
+		$DataSet->SetSerieName("Reference","Serie1");
+		$DataSet->SetSerieName("Tested computer","Serie2");
+		
+		// Initialise the graph
+		$Test = new pChart(400,400);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawFilledRoundedRectangle(7,7,393,393,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,395,395,5,230,230,230);
+		$Test->setGraphArea(30,30,370,370);
+		$Test->drawFilledRoundedRectangle(30,30,370,370,5,255,255,255);
+		$Test->drawRoundedRectangle(30,30,370,370,5,220,220,220);
+		
+		// Draw the radar graph
+		$Test->drawRadarAxis($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE,20,120,120,120,230,230,230);
+		$Test->drawFilledRadar($DataSet->GetData(),$DataSet->GetDataDescription(),50,20);
+		
+		// Finish the graph
+		$Test->drawLegend(15,15,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(0,22,"Example 8",50,50,50,400);
+		$Test->Render(dirname(__FILE__)."/actual/example8.png");
+
+		$expectedContents = file_get_contents(dirname(__FILE__)
+											  .'/expected/example8.png');
+		$actualContents = file_get_contents(dirname(__FILE__)
+											.'/actual/example8.png');
+
+		$this->assertEquals($expectedContents, $actualContents);
+	}
 }
