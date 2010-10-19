@@ -130,7 +130,7 @@ class pChart {
 		$this->YSize = $YSize;
 		$this->Picture = imagecreatetruecolor ( $XSize, $YSize );
 		
-		$C_White = $this->AllocateColor ( $this->Picture, 255, 255, 255 );
+		$C_White = self::allocateColor ( $this->Picture, 255, 255, 255 );
 		imagefilledrectangle ( $this->Picture, 0, 0, $XSize, $YSize, $C_White );
 		imagecolortransparent ( $this->Picture, $C_White );
 		
@@ -285,7 +285,7 @@ class pChart {
 				$B2 = 0;
 			}
 			
-			$LineColor = $this->AllocateColor ( $this->Picture, $R2, $G2, $B2 );
+			$LineColor = self::AllocateColor ( $this->Picture, $R2, $G2, $B2 );
 			$SkewWidth = $this->GArea_Y2 - $this->GArea_Y1 - 1;
 			
 			for($i = $this->GArea_X1 - $SkewWidth; $i <= $this->GArea_X2; $i = $i + 4) {
@@ -357,7 +357,7 @@ class pChart {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data );
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_TextColor = self::allocateColor ( $this->Picture, $R, $G, $B );
 		
 		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X1, $this->GArea_Y2, $R, $G, $B );
 		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2, $this->GArea_X2, $this->GArea_Y2, $R, $G, $B );
@@ -581,7 +581,7 @@ class pChart {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data );
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_TextColor = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		
 		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X1, $this->GArea_Y2, $R, $G, $B );
 		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2, $this->GArea_X2, $this->GArea_Y2, $R, $G, $B );
@@ -874,11 +874,11 @@ class pChart {
 			$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 			
 			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = $this->AllocateColor ( $this->Layers [0], 255, 255, 255 );
+			$C_White = self::AllocateColor ( $this->Layers [0], 255, 255, 255 );
 			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 			imagecolortransparent ( $this->Layers [0], $C_White );
 			
-			$C_Rectangle = $this->AllocateColor ( $this->Layers [0], 250, 250, 250 );
+			$C_Rectangle = self::AllocateColor ( $this->Layers [0], 250, 250, 250 );
 			
 			$YPos = $LayerHeight; //$this->GArea_Y2-1;
 			$LastY = $YPos;
@@ -958,7 +958,7 @@ class pChart {
 		if (! isset ( $DataDescription ["Description"] ))
 			return (- 1);
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $Rt, $Gt, $Bt );
+		$C_TextColor = self::AllocateColor ( $this->Picture, $Rt, $Gt, $Bt );
 		
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
@@ -1011,7 +1011,7 @@ class pChart {
 		if (! isset ( $DataDescription ["Position"] ))
 			return (- 1);
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, 0, 0, 0 );
+		$C_TextColor = self::AllocateColor ( $this->Picture, 0, 0, 0 );
 		
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
@@ -1051,7 +1051,7 @@ class pChart {
 	 * Draw the graph title 
 	 */
 	function drawTitle($XPos, $YPos, $Value, $R, $G, $B, $XPos2 = -1, $YPos2 = -1, $Shadow = FALSE) {
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_TextColor = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		
 		if ($XPos2 != - 1) {
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
@@ -1066,7 +1066,7 @@ class pChart {
 		}
 		
 		if ($Shadow) {
-			$C_ShadowColor = $this->AllocateColor ( $this->Picture, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor );
+			$C_ShadowColor = self::AllocateColor ( $this->Picture, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor );
 			imagettftext ( $this->Picture, $this->FontSize, 0, $XPos + $this->ShadowXDistance, $YPos + $this->ShadowYDistance, $C_ShadowColor, $this->FontName, $Value );
 		}
 		
@@ -1123,8 +1123,8 @@ class pChart {
 			$Y = $Y2 - 1;
 		}
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $R, $G, $B );
-		$C_ShadowColor = $this->AllocateColor ( $this->Picture, 0, 0, 0 );
+		$C_TextColor = self::AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_ShadowColor = self::AllocateColor ( $this->Picture, 0, 0, 0 );
 		if ($Shadow)
 			imagettftext ( $this->Picture, $this->FontSize, $Angle, $X + 1, $Y + 1, $C_ShadowColor, $this->FontName, $Text );
 		
@@ -1156,7 +1156,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_TextColor = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		$Y = $this->GArea_Y2 - ($Value - $this->VMin) * $this->DivisionRatio;
 		
 		if ($Y <= $this->GArea_Y1 || $Y >= $this->GArea_Y2)
@@ -1189,9 +1189,9 @@ class pChart {
 		$this->validateDataDescription ( "setLabel", $DataDescription );
 		$this->validateData ( "setLabel", $Data );
 		$ShadowFactor = 100;
-		$C_Label = $this->AllocateColor ( $this->Picture, $R, $G, $B );
-		$C_Shadow = $this->AllocateColor ( $this->Picture, $R - $ShadowFactor, $G - $ShadowFactor, $B - $ShadowFactor );
-		$C_TextColor = $this->AllocateColor ( $this->Picture, 0, 0, 0 );
+		$C_Label = self::AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Shadow = self::AllocateColor ( $this->Picture, $R - $ShadowFactor, $G - $ShadowFactor, $B - $ShadowFactor );
+		$C_TextColor = self::AllocateColor ( $this->Picture, 0, 0, 0 );
 		
 		$Cp = 0;
 		$Found = FALSE;
@@ -1413,11 +1413,11 @@ class pChart {
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
 		$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-		$C_White = $this->AllocateColor ( $this->Layers [0], 255, 255, 255 );
+		$C_White = self::AllocateColor ( $this->Layers [0], 255, 255, 255 );
 		imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 		imagecolortransparent ( $this->Layers [0], $C_White );
 		
-		$C_Graph = $this->AllocateColor ( $this->Layers [0], $R, $G, $B );
+		$C_Graph = self::AllocateColor ( $this->Layers [0], $R, $G, $B );
 		
 		$XPos = $this->GAreaXOffset;
 		$LastXPos = - 1;
@@ -1487,7 +1487,7 @@ class pChart {
 					$Height = $Positions [3] - $Positions [7];
 					$YOffset = $YPos - 4;
 					
-					$C_TextColor = $this->AllocateColor ( $this->Picture, $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+					$C_TextColor = self::AllocateColor ( $this->Picture, $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 					imagettftext ( $this->Picture, $this->FontSize, 0, $XOffset, $YOffset, $C_TextColor, $this->FontName, $Value );
 				}
 				$XPos = $XPos + $this->DivisionWidth;
@@ -1742,7 +1742,7 @@ class pChart {
 			$Points [] = $LayerHeight;
 			
 			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = $this->AllocateColor ( $this->Layers [0], 255, 255, 255 );
+			$C_White = self::AllocateColor ( $this->Layers [0], 255, 255, 255 );
 			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 			imagecolortransparent ( $this->Layers [0], $C_White );
 			
@@ -1780,7 +1780,7 @@ class pChart {
 					$aPoints [] = $XLast;
 					$aPoints [] = $YZero;
 					
-					$C_Graph = $this->AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+					$C_Graph = self::AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 					imagefilledpolygon ( $this->Layers [0], $aPoints, 4, $C_Graph );
 				}
 				
@@ -1815,7 +1815,7 @@ class pChart {
 					$aPoints [] = $XLast;
 					$aPoints [] = $YZero;
 					
-					$C_Graph = $this->AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+					$C_Graph = self::AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 					imagefilledpolygon ( $this->Layers [0], $aPoints, 4, $C_Graph );
 				}
 				
@@ -1830,7 +1830,7 @@ class pChart {
 			$Points [] = $LayerHeight;
 			
 			if (! $AroundZero) {
-				$C_Graph = $this->AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+				$C_Graph = self::AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 				imagefilledpolygon ( $this->Layers [0], $Points, $PointsCount, $C_Graph );
 			}
 			
@@ -1872,7 +1872,7 @@ class pChart {
 			$aPoints [] = $LayerHeight;
 			
 			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = $this->AllocateColor ( $this->Layers [0], 255, 255, 255 );
+			$C_White = self::AllocateColor ( $this->Layers [0], 255, 255, 255 );
 			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 			imagecolortransparent ( $this->Layers [0], $C_White );
 			
@@ -1923,7 +1923,7 @@ class pChart {
 						$Points [] = $XLast;
 						$Points [] = $YZero;
 						
-						$C_Graph = $this->AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+						$C_Graph = self::AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 						imagefilledpolygon ( $this->Layers [0], $Points, 4, $C_Graph );
 					}
 					$YLast = $YPos;
@@ -1936,7 +1936,7 @@ class pChart {
 			$aPoints [] = $LayerHeight;
 			
 			if ($AroundZero == FALSE) {
-				$C_Graph = $this->AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+				$C_Graph = self::AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 				imagefilledpolygon ( $this->Layers [0], $aPoints, $PointsCount, $C_Graph );
 			}
 			
@@ -1970,8 +1970,8 @@ class pChart {
 			}
 			
 			$this->Layers [$GraphID] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = $this->AllocateColor ( $this->Layers [$GraphID], 255, 255, 255 );
-			$C_Graph = $this->AllocateColor ( $this->Layers [$GraphID], $this->Palette [$GraphID] ["R"], $this->Palette [$GraphID] ["G"], $this->Palette [$GraphID] ["B"] );
+			$C_White = self::AllocateColor ( $this->Layers [$GraphID], 255, 255, 255 );
+			$C_Graph = self::AllocateColor ( $this->Layers [$GraphID], $this->Palette [$GraphID] ["R"], $this->Palette [$GraphID] ["G"], $this->Palette [$GraphID] ["B"] );
 			imagefilledrectangle ( $this->Layers [$GraphID], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 			imagecolortransparent ( $this->Layers [$GraphID], $C_White );
 			
@@ -2198,7 +2198,7 @@ class pChart {
 		$this->validateDataDescription ( "drawRadarAxis", $DataDescription );
 		$this->validateData ( "drawRadarAxis", $Data );
 		
-		$C_TextColor = $this->AllocateColor ( $this->Picture, $A_R, $A_G, $A_B );
+		$C_TextColor = self::AllocateColor ( $this->Picture, $A_R, $A_G, $A_B );
 		
 		/* Draw radar axis */
 		$Points = count ( $Data );
@@ -2243,7 +2243,7 @@ class pChart {
 						$Plots [] = $LastX1;
 						$Plots [] = $LastY1;
 						
-						$C_Graph = $this->AllocateColor ( $this->Picture, 250, 250, 250 );
+						$C_Graph = self::AllocateColor ( $this->Picture, 250, 250, 250 );
 						imagefilledpolygon ( $this->Picture, $Plots, (count ( $Plots ) + 1) / 2, $C_Graph );
 					}
 					
@@ -2459,11 +2459,11 @@ class pChart {
 				$Plots [] = $Plots [1];
 				
 				$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-				$C_White = $this->AllocateColor ( $this->Layers [0], 255, 255, 255 );
+				$C_White = self::AllocateColor ( $this->Layers [0], 255, 255, 255 );
 				imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 				imagecolortransparent ( $this->Layers [0], $C_White );
 				
-				$C_Graph = $this->AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
+				$C_Graph = self::AllocateColor ( $this->Layers [0], $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"] );
 				imagefilledpolygon ( $this->Layers [0], $Plots, (count ( $Plots ) + 1) / 2, $C_Graph );
 				
 				imagecopymerge ( $this->Picture, $this->Layers [0], $this->GArea_X1, $this->GArea_Y1, 0, 0, $LayerWidth, $LayerHeight, $Alpha );
@@ -2541,7 +2541,7 @@ class pChart {
 				if ($TAngle > 90 && $TAngle < 270)
 					$TX = $TX - $TextWidth;
 				
-				$C_TextColor = $this->AllocateColor ( $this->Picture, 70, 70, 70 );
+				$C_TextColor = self::AllocateColor ( $this->Picture, 70, 70, 70 );
 				imagettftext ( $this->Picture, $this->FontSize, 0, $TX, $TY, $C_TextColor, $this->FontName, $Caption );
 			}
 			
@@ -2570,7 +2570,7 @@ class pChart {
 		
 		/* Draw Top polygons */
 		foreach ( $PolyPlots as $Key => $Value ) {
-			$C_GraphLo = $this->AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"] );
+			$C_GraphLo = self::AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"] );
 			imagefilledpolygon ( $this->Picture, $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
 		}
 		
@@ -2674,15 +2674,15 @@ class pChart {
 				if ($TAngle > 90 && $TAngle < 270)
 					$TX = $TX - $TextWidth;
 				
-				$C_TextColor = $this->AllocateColor ( $this->Picture, 70, 70, 70 );
+				$C_TextColor = self::AllocateColor ( $this->Picture, 70, 70, 70 );
 				imagettftext ( $this->Picture, $this->FontSize, 0, $TX, $TY, $C_TextColor, $this->FontName, $Caption );
 			}
 			
 			/* Process pie slices */
 			if (! $AllBlack)
-				$LineColor = $this->AllocateColor ( $this->Picture, $Rc, $Gc, $Bc );
+				$LineColor = self::AllocateColor ( $this->Picture, $Rc, $Gc, $Bc );
 			else
-				$LineColor = $this->AllocateColor ( $this->Picture, $Rc, $Gc, $Bc );
+				$LineColor = self::AllocateColor ( $this->Picture, $Rc, $Gc, $Bc );
 			
 			$XLineLast = "";
 			$YLineLast = "";
@@ -2713,9 +2713,9 @@ class pChart {
 		/* Draw Top polygons */
 		foreach ( $PolyPlots as $Key => $Value ) {
 			if (! $AllBlack)
-				$C_GraphLo = $this->AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"] );
+				$C_GraphLo = self::AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"] );
 			else
-				$C_GraphLo = $this->AllocateColor ( $this->Picture, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor );
+				$C_GraphLo = self::AllocateColor ( $this->Picture, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor );
 			
 			imagefilledpolygon ( $this->Picture, $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
 		}
@@ -2816,7 +2816,7 @@ class pChart {
 				if ($TAngle > 90 && $TAngle < 270)
 					$TX = $TX - $TextWidth;
 				
-				$C_TextColor = $this->AllocateColor ( $this->Picture, 70, 70, 70 );
+				$C_TextColor = self::AllocateColor ( $this->Picture, 70, 70, 70 );
 				imagettftext ( $this->Picture, $this->FontSize, 0, $TX, $TY, $C_TextColor, $this->FontName, $Caption );
 			}
 			
@@ -2859,7 +2859,7 @@ class pChart {
 
 	private function drawPieGraphBottomPolygons(array $iValues, array $BotPlots, $EnhanceColors, array $aBotPlots) {
 		foreach ( $iValues as $Key => $Value ) {
-			$C_GraphLo = $this->AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"], - 20 );
+			$C_GraphLo = self::AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"], - 20 );
 			imagefilledpolygon ( $this->Picture, $BotPlots [$Key], (count ( $BotPlots [$Key] ) + 1) / 2, $C_GraphLo );
 			
 			if ($EnhanceColors) {
@@ -2881,7 +2881,7 @@ class pChart {
 		}
 		for($i = $SpliceHeight - 1; $i >= 1; $i --) {
 			foreach ( $iValues as $Key => $Value ) {
-				$C_GraphLo = $this->AllocateColor ( $this->Picture, $palette [$Key] ["R"], $palette [$Key] ["G"], $palette [$Key] ["B"], - 10 );
+				$C_GraphLo = self::AllocateColor ( $this->Picture, $palette [$Key] ["R"], $palette [$Key] ["G"], $palette [$Key] ["B"], - 10 );
 				$Plots = "";
 				$Plot = 0;
 				foreach ( $TopPlots [$Key] as $Key2 => $Value2 ) {
@@ -2923,10 +2923,10 @@ class pChart {
 
 	private function drawPieGraphTopPolygons($iValues, $TopPlots, $EnhanceColors, $aTopPlots) {
 		for($Key = count ( $iValues ) - 1; $Key >= 0; $Key --) {
-			$C_GraphLo = $this->AllocateColor ($this->Picture,
-											   $this->Palette [$Key] ["R"],
-											   $this->Palette [$Key] ["G"],
-											   $this->Palette [$Key] ["B"] );
+			$C_GraphLo = self::AllocateColor ($this->Picture,
+											  $this->Palette [$Key] ["R"],
+											  $this->Palette [$Key] ["G"],
+											  $this->Palette [$Key] ["B"] );
 
 			imagefilledpolygon ( $this->Picture, $TopPlots [$Key], (count ( $TopPlots [$Key] ) + 1) / 2, $C_GraphLo );
 			
@@ -2969,7 +2969,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_Background = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Background = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		imagefilledrectangle ( $this->Picture, 0, 0, $this->XSize, $this->YSize, $C_Background );
 	}
 	
@@ -3022,7 +3022,7 @@ class pChart {
 					$Yi2 = $Y2 - 1;
 				}
 				
-				$C_Background = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+				$C_Background = self::AllocateColor ( $this->Picture, $R, $G, $B );
 				imagefilledrectangle ( $this->Picture, $X1, $Yi1, $X2, $Yi2, $C_Background );
 			}
 		}
@@ -3036,7 +3036,7 @@ class pChart {
 				$R += 1;
 				$G += 1;
 				$B += 1;
-				$C_Background = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+				$C_Background = self::AllocateColor ( $this->Picture, $R, $G, $B );
 				imagefilledrectangle ( $this->Picture, $X1, $Yi1, $X2, $Yi2, $C_Background );
 				
 				$Yi1 += $YStep;
@@ -3071,7 +3071,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_Rectangle = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Rectangle = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		
 		$X1 = $X1 - .2;
 		$Y1 = $Y1 - .2;
@@ -3127,18 +3127,18 @@ class pChart {
 				}
 			}
 			
-			$C_Rectangle = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+			$C_Rectangle = self::AllocateColor ( $this->Picture, $R, $G, $B );
 			imagefilledrectangle ( $this->Picture, round ( $X1 ), round ( $Y1 ), round ( $X2 ), round ( $Y2 ), $C_Rectangle );
 		} else {
 			$LayerWidth = abs ( $X2 - $X1 ) + 2;
 			$LayerHeight = abs ( $Y2 - $Y1 ) + 2;
 			
 			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = $this->AllocateColor ( $this->Layers [0], 255, 255, 255 );
+			$C_White = self::AllocateColor ( $this->Layers [0], 255, 255, 255 );
 			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
 			imagecolortransparent ( $this->Layers [0], $C_White );
 			
-			$C_Rectangle = $this->AllocateColor ( $this->Layers [0], $R, $G, $B );
+			$C_Rectangle = self::AllocateColor ( $this->Layers [0], $R, $G, $B );
 			imagefilledrectangle ( $this->Layers [0], round ( 1 ), round ( 1 ), round ( $LayerWidth - 1 ), round ( $LayerHeight - 1 ), $C_Rectangle );
 			
 			imagecopymerge ( $this->Picture, $this->Layers [0], round ( min ( $X1, $X2 ) - 1 ), round ( min ( $Y1, $Y2 ) - 1 ), 0, 0, $LayerWidth, $LayerHeight, $Alpha );
@@ -3177,7 +3177,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_Rectangle = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Rectangle = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		
 		$Step = 90 / ((3.1418 * $Radius) / 2);
 		
@@ -3233,7 +3233,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_Rectangle = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Rectangle = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		
 		$Step = 90 / ((3.1418 * $Radius) / 2);
 		
@@ -3300,7 +3300,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_Circle = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Circle = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		$Step = 360 / (2 * 3.1418 * max ( $Width, $Height ));
 		
 		for($i = 0; $i <= 360; $i = $i + $Step) {
@@ -3336,7 +3336,7 @@ class pChart {
 			$B = 255;
 		}
 		
-		$C_Circle = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+		$C_Circle = self::AllocateColor ( $this->Picture, $R, $G, $B );
 		$Step = 360 / (2 * 3.1418 * max ( $Width, $Height ));
 		
 		for($i = 90; $i <= 270; $i = $i + $Step) {
@@ -3516,7 +3516,7 @@ class pChart {
 	/**
 	 * Draw an alpha pixel 
 	 */
-	function drawAlphaPixel($X, $Y, $Alpha, $R, $G, $B) {
+	private function drawAlphaPixel($X, $Y, $Alpha, $R, $G, $B) {
 		if ($R < 0) {
 			$R = 0;
 		}
@@ -3551,14 +3551,14 @@ class pChart {
 		$Ga = floor ( $G * $Alpha + $G2 * $iAlpha );
 		$Ba = floor ( $B * $Alpha + $B2 * $iAlpha );
 		
-		$C_Aliased = $this->AllocateColor ( $this->Picture, $Ra, $Ga, $Ba );
+		$C_Aliased = self::AllocateColor ( $this->Picture, $Ra, $Ga, $Ba );
 		imagesetpixel ( $this->Picture, $X, $Y, $C_Aliased );
 	}
 	
 	/**
 	 * Color helper 
 	 */
-	function AllocateColor($Picture, $R, $G, $B, $Factor = 0) {
+	static private function AllocateColor($Picture, $R, $G, $B, $Factor = 0) {
 		$R = $R + $Factor;
 		$G = $G + $Factor;
 		$B = $B + $Factor;
@@ -3592,7 +3592,7 @@ class pChart {
 		$Height = $this->YSize + 2 * $Size;
 		
 		$Resampled = imagecreatetruecolor ( $Width, $Height );
-		$C_Background = $this->AllocateColor ( $Resampled, $R, $G, $B );
+		$C_Background = self::AllocateColor ( $Resampled, $R, $G, $B );
 		imagefilledrectangle ( $Resampled, 0, 0, $Width, $Height, $C_Background );
 		
 		imagecopy ( $Resampled, $this->Picture, $Size, $Size, 0, 0, $this->XSize, $this->YSize );
@@ -3602,7 +3602,7 @@ class pChart {
 		$this->YSize = $Height;
 		
 		$this->Picture = imagecreatetruecolor ( $this->XSize, $this->YSize );
-		$C_White = $this->AllocateColor ( $this->Picture, 255, 255, 255 );
+		$C_White = self::AllocateColor ( $this->Picture, 255, 255, 255 );
 		imagefilledrectangle ( $this->Picture, 0, 0, $this->XSize, $this->YSize, $C_White );
 		imagecolortransparent ( $this->Picture, $C_White );
 		imagecopy ( $this->Picture, $Resampled, 0, 0, 0, 0, $this->XSize, $this->YSize );
@@ -3679,7 +3679,7 @@ class pChart {
 		
 		if ($Xi == $X && $Yi == $Y) {
 			if ($Alpha == 100) {
-				$C_Aliased = $this->AllocateColor ( $this->Picture, $R, $G, $B );
+				$C_Aliased = self::AllocateColor ( $this->Picture, $R, $G, $B );
 				imagesetpixel ( $this->Picture, $X, $Y, $C_Aliased );
 			} else
 				$this->drawAlphaPixel ( $X, $Y, $Alpha, $R, $G, $B );
@@ -3781,7 +3781,7 @@ class pChart {
 			$this->drawFilledRoundedRectangle ( $this->XSize - ($MaxWidth + 20), $this->YSize - (20 + (($this->ErrorFontSize + 4) * count ( $this->Errors ))), $this->XSize - 10, $this->YSize - 10, 6, 233, 185, 185 );
 			$this->drawRoundedRectangle ( $this->XSize - ($MaxWidth + 20), $this->YSize - (20 + (($this->ErrorFontSize + 4) * count ( $this->Errors ))), $this->XSize - 10, $this->YSize - 10, 6, 193, 145, 145 );
 			
-			$C_TextColor = $this->AllocateColor ( $this->Picture, 133, 85, 85 );
+			$C_TextColor = self::AllocateColor ( $this->Picture, 133, 85, 85 );
 			$YPos = $this->YSize - (18 + (count ( $this->Errors ) - 1) * ($this->ErrorFontSize + 4));
 			foreach ( $this->Errors as $key => $Value ) {
 				imagettftext ( $this->Picture, $this->ErrorFontSize, 0, $this->XSize - ($MaxWidth + 15), $YPos, $C_TextColor, $this->ErrorFontName, $Value );
