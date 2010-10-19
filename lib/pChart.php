@@ -2553,7 +2553,7 @@ class pChart {
 	/**
 	 * This function draw a flat pie chart 
 	 */
-	function drawBasicPieGraph($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $R = 255, $G = 255, $B = 255, $Decimals = 0) {
+	public function drawBasicPieGraph($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $R = 255, $G = 255, $B = 255, $Decimals = 0) {
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription ( "drawBasicPieGraph", $DataDescription, FALSE );
 		$this->validateData ( "drawBasicPieGraph", $Data );
