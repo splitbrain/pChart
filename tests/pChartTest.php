@@ -56,7 +56,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example1.png');
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example1.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example10.png');
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example10.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	public function testFlatPieGraph() {
@@ -121,7 +121,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example13.png');
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example13.png');
 		
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	/**
@@ -174,7 +174,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example24.png');
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example24.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	public function testDrawFilledCubicCurve() {
@@ -216,7 +216,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$actualContents = file_get_contents(dirname(__FILE__)
 											.'/actual/example7.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	public function testDrawBasicPieGraph() {
@@ -250,7 +250,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$actualContents = file_get_contents(dirname(__FILE__)
 											.'/actual/example14.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	public function testDrawFilledRadar() {
@@ -291,7 +291,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$actualContents = file_get_contents(dirname(__FILE__)
 											.'/actual/example8.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 
 	public function testDrawXYPlotGraph() {
@@ -324,6 +324,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 				$expectedContents = file_get_contents(dirname(__FILE__).'/expected/xyplot.png');
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/xyplot.png');
 
-		$this->assertEquals($expectedContents, $actualContents);
+		$this->assertTrue($expectedContents == $actualContents);
 	}
 }
