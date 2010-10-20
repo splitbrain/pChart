@@ -45,6 +45,10 @@ class ShadowProperties {
 		return $properties;
 	}
 
+	static public function NoShadow() {
+		return self::FromDefaults();
+	}
+
 	public $active;
 	public $xDistance;
 	public $yDistance;

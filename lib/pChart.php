@@ -343,7 +343,7 @@ class pChart {
 	 * Prepare the graph area 
 	 */
 	function drawGraphArea($R, $G, $B, $Stripe = FALSE) {
-		$this->drawFilledRectangle ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X2, $this->GArea_Y2, $R, $G, $B, FALSE );
+		$this->drawFilledRectangle ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X2, $this->GArea_Y2, $R, $G, $B, $this->shadowProperties, FALSE );
 		$this->drawRectangle ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X2, $this->GArea_Y2, $R - 40, $G - 40, $B - 40 );
 		
 		if ($Stripe) {
@@ -1114,7 +1114,14 @@ class pChart {
 			$Value2 = $Value [$DataDescription ["Position"]];
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value2 );
 			$TextHeight = $Position [1] - $Position [7];
-			$this->drawFilledRectangle ( $XPos + 10, $YPos + $YOffset - 6, $XPos + 14, $YPos + $YOffset - 2, $this->Palette [$ID] ["R"], $this->Palette [$ID] ["G"], $this->Palette [$ID] ["B"] );
+			$this->drawFilledRectangle($XPos + 10,
+									   $YPos + $YOffset - 6,
+									   $XPos + 14,
+									   $YPos + $YOffset - 2,
+									   $this->Palette [$ID] ["R"],
+									   $this->Palette [$ID] ["G"],
+									   $this->Palette [$ID] ["B"],
+									   $this->shadowProperties);
 			
 			imagettftext ( $this->Picture, $this->FontSize, 0, $XPos + 22, $YPos + $YOffset, $C_TextColor, $this->FontName, $Value2 );
 			$YOffset = $YOffset + $TextHeight + 4;
@@ -1170,7 +1177,7 @@ class pChart {
 		$AreaHeight = $Y2 - $Y1;
 		
 		if ($BgR != - 1 && $BgG != - 1 && $BgB != - 1)
-			$this->drawFilledRectangle ( $X1, $Y1, $X2, $Y2, $BgR, $BgG, $BgB, FALSE, $Alpha );
+			$this->drawFilledRectangle($X1, $Y1, $X2, $Y2, $BgR, $BgG, $BgB, $this->shadowProperties, FALSE, $Alpha );
 		
 		if ($Align == ALIGN_TOP_LEFT) {
 			$X = $X1 + 1;
@@ -1303,14 +1310,14 @@ class pChart {
 		imagefilledpolygon ( $this->Picture, $Poly, 3, $C_Shadow );
 		$this->drawLine ( $XPos, $YPos + 1, $XPos + 9, $YPos - $TextOffset - .2, $R - $ShadowFactor, $G - $ShadowFactor, $B - $ShadowFactor );
 		$this->drawLine ( $XPos, $YPos + 1, $XPos + 9, $YPos + $TextOffset + 2.2, $R - $ShadowFactor, $G - $ShadowFactor, $B - $ShadowFactor );
-		$this->drawFilledRectangle ( $XPos + 9, $YPos - $TextOffset - .2, $XPos + 13 + $TextWidth, $YPos + $TextOffset + 2.2, $R - $ShadowFactor, $G - $ShadowFactor, $B - $ShadowFactor );
+		$this->drawFilledRectangle ( $XPos + 9, $YPos - $TextOffset - .2, $XPos + 13 + $TextWidth, $YPos + $TextOffset + 2.2, $R - $ShadowFactor, $G - $ShadowFactor, $B - $ShadowFactor, $this->shadowProperties);
 		
 		// Label background
 		$Poly = array ($XPos, $YPos, $XPos + 8, $YPos - $TextOffset - 1, $XPos + 8, $YPos + $TextOffset + 1 );
 		imagefilledpolygon ( $this->Picture, $Poly, 3, $C_Label );
 		$this->drawLine ( $XPos - 1, $YPos, $XPos + 8, $YPos - $TextOffset - 1.2, $R, $G, $B );
 		$this->drawLine ( $XPos - 1, $YPos, $XPos + 8, $YPos + $TextOffset + 1.2, $R, $G, $B );
-		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $R, $G, $B );
+		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $R, $G, $B, $this->shadowProperties);
 		
 		imagettftext ( $this->Picture, $this->FontSize, 0, $XPos + 10, $YPos + $TextOffset, $C_TextColor, $this->FontName, $Caption );
 	}
@@ -2149,7 +2156,7 @@ class pChart {
 						if ($Shadow && $Alpha == 100)
 							$this->drawRectangle ( $XPos + 1, $YZero, $XPos + $SeriesWidth - 1, $YPos, 25, 25, 25, TRUE, $Alpha );
 						
-						$this->drawFilledRectangle ( $XPos + 1, $YZero, $XPos + $SeriesWidth - 1, $YPos, $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"], TRUE, $Alpha );
+						$this->drawFilledRectangle ( $XPos + 1, $YZero, $XPos + $SeriesWidth - 1, $YPos, $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"], $this->shadowProperties, TRUE, $Alpha );
 					}
 				}
 				$XPos = $XPos + $this->DivisionWidth;
@@ -2211,7 +2218,7 @@ class pChart {
 						if ($this->BuildMap)
 							$this->addToImageMap ( $XPos + 1, min ( $YBottom, $YPos ), $XPos + $SeriesWidth - 1, max ( $YBottom, $YPos ), $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "sBar" );
 						
-						$this->drawFilledRectangle ( $XPos + 1, $YBottom, $XPos + $SeriesWidth - 1, $YPos, $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"], TRUE, $Alpha );
+						$this->drawFilledRectangle ( $XPos + 1, $YBottom, $XPos + $SeriesWidth - 1, $YPos, $this->Palette [$ColorID] ["R"], $this->Palette [$ColorID] ["G"], $this->Palette [$ColorID] ["B"], $this->shadowProperties, TRUE, $Alpha );
 					}
 				}
 				$XPos = $XPos + $this->DivisionWidth;
@@ -3189,7 +3196,7 @@ class pChart {
 	/**
 	 * This function create a filled rectangle with antialias 
 	 */
-	function drawFilledRectangle($X1, $Y1, $X2, $Y2, $R, $G, $B, $DrawBorder = TRUE, $Alpha = 100, $NoFallBack = FALSE) {
+	function drawFilledRectangle($X1, $Y1, $X2, $Y2, $R, $G, $B, ShadowProperties $shadowProperties, $DrawBorder = TRUE, $Alpha = 100) {
 		if ($X2 < $X1) {
 			list ( $X1, $X2 ) = array ($X2, $X1 );
 		}
@@ -3218,42 +3225,42 @@ class pChart {
 		
 		if ($Alpha == 100) {
 			/* Process shadows */
-			if ($this->shadowProperties->active && ! $NoFallBack) {
-				$this->drawFilledRectangle($X1 + $this->shadowProperties->xDistance,
-										   $Y1 + $this->shadowProperties->yDistance,
-										   $X2 + $this->shadowProperties->xDistance,
-										   $Y2 + $this->shadowProperties->yDistance,
-										   $this->shadowProperties->r,
-										   $this->shadowProperties->g,
-										   $this->shadowProperties->b, 
+			if ($shadowProperties->active && ! $NoFallBack) {
+				$this->drawFilledRectangle($X1 + $shadowProperties->xDistance,
+										   $Y1 + $shadowProperties->yDistance,
+										   $X2 + $shadowProperties->xDistance,
+										   $Y2 + $shadowProperties->yDistance,
+										   $shadowProperties->r,
+										   $shadowProperties->g,
+										   $shadowProperties->b,
+										   ShadowProperties::NoShadow(),
 										   FALSE,
-										   $this->shadowProperties->alpha, 
-										   TRUE );
-				if ($this->shadowProperties->blur != 0) {
-					$AlphaDecay = ($this->shadowProperties->alpha / $this->shadowProperties->blur);
+										   $shadowProperties->alpha);
+				if ($shadowProperties->blur != 0) {
+					$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
 					
-					for($i = 1; $i <= $this->shadowProperties->blur; $i ++)
-						$this->drawFilledRectangle($X1 + $this->shadowProperties->xDistance - $i / 2,
-												   $Y1 + $this->shadowProperties->yDistance - $i / 2,
-												   $X2 + $this->shadowProperties->xDistance - $i / 2,
-												   $Y2 + $this->shadowProperties->yDistance - $i / 2,
-												   $this->shadowProperties->r,
-												   $this->shadowProperties->g,
-												   $this->shadowProperties->b,
+					for($i = 1; $i <= $shadowProperties->blur; $i ++)
+						$this->drawFilledRectangle($X1 + $shadowProperties->xDistance - $i / 2,
+												   $Y1 + $shadowProperties->yDistance - $i / 2,
+												   $X2 + $shadowProperties->xDistance - $i / 2,
+												   $Y2 + $shadowProperties->yDistance - $i / 2,
+												   $shadowProperties->r,
+												   $shadowProperties->g,
+												   $shadowProperties->b,
+												   ShadowProperties::NoShadow(),
 												   FALSE,
-												   $this->shadowProperties->alpha - $AlphaDecay * $i,
-												   TRUE );
-					for($i = 1; $i <= $this->shadowProperties->blur; $i ++)
-						$this->drawFilledRectangle ( $X1 + $this->shadowProperties->xDistance + $i / 2,
-													 $Y1 + $this->shadowProperties->yDistance + $i / 2,
-													 $X2 + $this->shadowProperties->xDistance + $i / 2,
-													 $Y2 + $this->shadowProperties->xDistance + $i / 2,
-													 $this->shadowProperties->r,
-													 $this->shadowProperties->g, 
-													 $this->shadowProperties->b,
+												   $shadowProperties->alpha - $AlphaDecay * $i);
+					for($i = 1; $i <= $shadowProperties->blur; $i ++)
+						$this->drawFilledRectangle ( $X1 + $shadowProperties->xDistance + $i / 2,
+													 $Y1 + $shadowProperties->yDistance + $i / 2,
+													 $X2 + $shadowProperties->xDistance + $i / 2,
+													 $Y2 + $shadowProperties->xDistance + $i / 2,
+													 $shadowProperties->r,
+													 $shadowProperties->g, 
+													 $shadowProperties->b,
+													 ShadowProperties::NoShadow(),
 													 FALSE, 
-													 $this->shadowProperties->alpha - $AlphaDecay * $i,
-													 TRUE );
+													 $shadowProperties->alpha - $AlphaDecay * $i);
 				}
 			}
 			
@@ -3770,20 +3777,16 @@ class pChart {
 	/**
 	 * Private functions for internal processing 
 	 */
-	private function drawAntialiasPixel($X, $Y, $R, $G, $B, ShadowProperties $shadowProperties, $Alpha = 100, $NoFallBack = FALSE) {
+	private function drawAntialiasPixel($X, $Y, $R, $G, $B, ShadowProperties $shadowProperties, $Alpha = 100) {
 		/* Process shadows */
-		if ($shadowProperties->active && ! $NoFallBack) {
-			/** @todo From the way we're passing $shadowProperties in,
-			 * it appears that even shadows have shadows! Maybe that's
-			 * what the $NoFallBack parameter is about? */
+		if ($shadowProperties->active) {
 			$this->drawAntialiasPixel($X + $shadowProperties->xDistance,
 									  $Y + $shadowProperties->yDistance,
 									  $shadowProperties->r,
 									  $shadowProperties->g,
 									  $shadowProperties->b,
-									  $shadowProperties,
-									  $shadowProperties->alpha,
-									  TRUE);
+									  ShadowProperties::NoShadow(),
+									  $shadowProperties->alpha);
 			if ($shadowProperties->blur != 0) {
 				$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
 				
@@ -3793,18 +3796,16 @@ class pChart {
 											  $shadowProperties->r,
 											  $shadowProperties->g,
 											  $shadowProperties->b,
-											  $shadowProperties,
-											  $shadowProperties->alpha - $AlphaDecay * $i,
-											  TRUE );
+											  ShadowProperties::NoShadow(),
+											  $shadowProperties->alpha - $AlphaDecay * $i);
 				for($i = 1; $i <= $shadowProperties->blur; $i ++)
 					$this->drawAntialiasPixel($X + $shadowProperties->xDistance + $i / 2,
 											  $Y + $shadowProperties->yDistance + $i / 2,
 											  $shadowProperties->r, 
 											  $shadowProperties->g,
 											  $shadowProperties->b,
-											  $shadowProperties,
-											  $shadowProperties->alpha - $AlphaDecay * $i,
-											  TRUE );
+											  ShadowProperties::NoShadow(),
+											  $shadowProperties->alpha - $AlphaDecay * $i);
 			}
 		}
 		
