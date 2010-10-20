@@ -229,7 +229,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Initialise the graph
 		$Test = new pChart(300, 200);
-		$Test->loadColorPalette(dirname(__FILE__)."/../Sample/softtones.txt");
+		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
 		$Test->drawFilledRoundedRectangle(7, 7, 293, 193, 5, 240, 240, 240);
 		$Test->drawRoundedRectangle(5, 5, 295, 195, 5, 230, 230, 230);
 		
