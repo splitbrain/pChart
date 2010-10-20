@@ -297,6 +297,11 @@ class pChart {
 	 */
 	function loadColorPalette($FileName, $Delimiter = ",") {
 		$handle = @fopen ( $FileName, "r" );
+
+		if ($handle == null) {
+			throw new Exception("Failed to open file in loadColorPalette");
+		}
+		
 		$ColorID = 0;
 		if ($handle) {
 			while ( ! feof ( $handle ) ) {
