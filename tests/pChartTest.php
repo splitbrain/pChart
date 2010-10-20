@@ -293,4 +293,37 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($expectedContents, $actualContents);
 	}
+
+	public function testDrawXYPlotGraph() {
+		$dataSet = new pData;
+
+		$dataSet->addPoint(array(1, 3, 2, 6, 3, 1), 'X');
+		$dataSet->addPoint(array(5, 2, 4, 12, 7, 3), 'Y');
+
+		$dataSet->addSeries('X');
+		$dataSet->addSeries('Y');
+
+		$chart = new pChart(300, 300);
+		$chart->setFontProperties(dirname(__FILE__).'/../Fonts/tahoma.ttf', 8);
+		$chart->setGraphArea(55, 30, 270, 230);
+		$chart->drawXYScale($dataSet->getData(),
+							$dataSet->getDataDescription(),
+							'Y',
+							'X',
+							213, 217, 221, TRUE, 45);
+		$chart->drawGraphArea(213, 217, 221, FALSE);
+		$chart->drawGrid(4, TRUE, 230, 230, 230, 20);
+
+		$chart->drawXYPlotGraph($dataSet->getData(),
+								$dataSet->getDataDescription(),
+								'Y',
+								'X');
+
+		$chart->render(dirname(__FILE__).'/actual/xyplot.png');
+
+				$expectedContents = file_get_contents(dirname(__FILE__).'/expected/xyplot.png');
+		$actualContents = file_get_contents(dirname(__FILE__).'/actual/xyplot.png');
+
+		$this->assertEquals($expectedContents, $actualContents);
+	}
 }
