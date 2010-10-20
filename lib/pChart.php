@@ -93,6 +93,8 @@
  *     Stroke()
  */
 
+require_once(dirname(__FILE__).'/ConversionHelpers.php');
+
 /* Declare some script wide constants */
 define ( "SCALE_NORMAL", 1 );
 define ( "SCALE_ADDALL", 2 );
@@ -558,13 +560,13 @@ class pChart {
 			if ($DataDescription ["Format"] ["Y"] == "number")
 				$Value = $Value . $DataDescription ["Unit"] ["Y"];
 			if ($DataDescription ["Format"] ["Y"] == "time")
-				$Value = $this->ToTime ( $Value );
+				$Value = ConversionHelpers::ToTime ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "date")
 				$Value = $this->ToDate ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "metric")
-				$Value = $this->ToMetric ( $Value );
+				$Value = ConversionHelpers::ToMetric ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "currency")
-				$Value = $this->ToCurrency ( $Value );
+				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
@@ -607,13 +609,13 @@ class pChart {
 				if ($DataDescription ["Format"] ["X"] == "number")
 					$Value = $Value . $DataDescription ["Unit"] ["X"];
 				if ($DataDescription ["Format"] ["X"] == "time")
-					$Value = $this->ToTime ( $Value );
+					$Value = ConversionHelpers::ToTime ( $Value );
 				if ($DataDescription ["Format"] ["X"] == "date")
 					$Value = $this->ToDate ( $Value );
 				if ($DataDescription ["Format"] ["X"] == "metric")
-					$Value = $this->ToMetric ( $Value );
+					$Value = ConversionHelpers::ToMetric ( $Value );
 				if ($DataDescription ["Format"] ["X"] == "currency")
-					$Value = $this->ToCurrency ( $Value );
+					$Value = ConversionHelpers::ToCurrency ( $Value );
 				
 				$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
 				$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
@@ -764,13 +766,13 @@ class pChart {
 			if ($DataDescription ["Format"] ["Y"] == "number")
 				$Value = $Value . $DataDescription ["Unit"] ["Y"];
 			if ($DataDescription ["Format"] ["Y"] == "time")
-				$Value = $this->ToTime ( $Value );
+				$Value = ConversionHelpers::ToTime ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "date")
 				$Value = $this->ToDate ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "metric")
-				$Value = $this->ToMetric ( $Value );
+				$Value = ConversionHelpers::ToMetric ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "currency")
-				$Value = $this->ToCurrency ( $Value );
+				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
@@ -890,13 +892,13 @@ class pChart {
 			if ($DataDescription ["Format"] ["Y"] == "number")
 				$Value = $Value . $DataDescription ["Unit"] ["Y"];
 			if ($DataDescription ["Format"] ["Y"] == "time")
-				$Value = $this->ToTime ( $Value );
+				$Value = ConversionHelpers::ToTime ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "date")
 				$Value = $this->ToDate ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "metric")
-				$Value = $this->ToMetric ( $Value );
+				$Value = ConversionHelpers::ToMetric ( $Value );
 			if ($DataDescription ["Format"] ["Y"] == "currency")
-				$Value = $this->ToCurrency ( $Value );
+				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
@@ -3929,80 +3931,7 @@ class pChart {
 		}
 		fclose ( $Handle );
 	}
-	
-	/**
-	 * Convert seconds to a time format string 
-	 */
-	function ToTime($Value) {
-		$Hour = floor ( $Value / 3600 );
-		$Minute = floor ( ($Value - $Hour * 3600) / 60 );
-		$Second = floor ( $Value - $Hour * 3600 - $Minute * 60 );
-		
-		if (strlen ( $Hour ) == 1) {
-			$Hour = "0" . $Hour;
-		}
-		if (strlen ( $Minute ) == 1) {
-			$Minute = "0" . $Minute;
-		}
-		if (strlen ( $Second ) == 1) {
-			$Second = "0" . $Second;
-		}
-		
-		return ($Hour . ":" . $Minute . ":" . $Second);
-	}
-	
-	/**
-	 * Convert to metric system 
-	 */
-	function ToMetric($Value) {
-		$Go = floor ( $Value / 1000000000 );
-		$Mo = floor ( ($Value - $Go * 1000000000) / 1000000 );
-		$Ko = floor ( ($Value - $Go * 1000000000 - $Mo * 1000000) / 1000 );
-		$o = floor ( $Value - $Go * 1000000000 - $Mo * 1000000 - $Ko * 1000 );
-		
-		if ($Go != 0) {
-			return ($Go . "." . $Mo . "g");
-		}
-		if ($Mo != 0) {
-			return ($Mo . "." . $ko . "m");
-		}
-		if ($Ko != 0) {
-			return ($Ko . "." . $o) . "k";
-		}
-		return ($o);
-	}
-	
-	/**
-	 * Convert to curency 
-	 */
-	function ToCurrency($Value) {
-		$Go = floor ( $Value / 1000000000 );
-		$Mo = floor ( ($Value - $Go * 1000000000) / 1000000 );
-		$Ko = floor ( ($Value - $Go * 1000000000 - $Mo * 1000000) / 1000 );
-		$o = floor ( $Value - $Go * 1000000000 - $Mo * 1000000 - $Ko * 1000 );
-		
-		if (strlen ( $o ) == 1) {
-			$o = "00" . $o;
-		}
-		if (strlen ( $o ) == 2) {
-			$o = "0" . $o;
-		}
-		
-		$ResultString = $o;
-		if ($Ko != 0) {
-			$ResultString = $Ko . "." . $ResultString;
-		}
-		if ($Mo != 0) {
-			$ResultString = $Mo . "." . $ResultString;
-		}
-		if ($Go != 0) {
-			$ResultString = $Go . "." . $ResultString;
-		}
-		
-		$ResultString = $this->Currency . $ResultString;
-		return ($ResultString);
-	}
-	
+			
 	/**
 	 * Set date format for axis labels 
 	 */
