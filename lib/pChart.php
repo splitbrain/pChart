@@ -94,6 +94,7 @@
  */
 
 require_once(dirname(__FILE__).'/ConversionHelpers.php');
+require_once(dirname(__FILE__).'/ShadowProperties.php');
 
 /* Declare some script wide constants */
 define ( "SCALE_NORMAL", 1 );
@@ -182,14 +183,7 @@ class pChart {
 	protected $AntialiasQuality = 0;
 	
 	/* Shadow settings */
-	protected $ShadowActive = FALSE;
-	protected $ShadowXDistance = 1;
-	protected $ShadowYDistance = 1;
-	protected $ShadowRColor = 60;
-	protected $ShadowGColor = 60;
-	protected $ShadowBColor = 60;
-	protected $ShadowAlpha = 50;
-	protected $ShadowBlur = 0;
+	private $shadowProperties;
 	
 	/* Image Map settings */
 	protected $BuildMap = FALSE;
@@ -210,6 +204,8 @@ class pChart {
 		imagecolortransparent ( $this->Picture, $C_White );
 		
 		$this->setFontProperties ( "tahoma.ttf", 8 );
+
+		$this->shadowProperties = ShadowProperties::FromDefaults();
 	}
 	
 	/**
@@ -232,21 +228,20 @@ class pChart {
 	 * Set the shadow properties 
 	 */
 	function setShadowProperties($XDistance = 1, $YDistance = 1, $R = 60, $G = 60, $B = 60, $Alpha = 50, $Blur = 0) {
-		$this->ShadowActive = TRUE;
-		$this->ShadowXDistance = $XDistance;
-		$this->ShadowYDistance = $YDistance;
-		$this->ShadowRColor = $R;
-		$this->ShadowGColor = $G;
-		$this->ShadowBColor = $B;
-		$this->ShadowAlpha = $Alpha;
-		$this->ShadowBlur = $Blur;
+		$this->shadowProperties = ShadowProperties::FromSettings($XDistance,
+																 $YDistance,
+																 $R,
+																 $G,
+																 $B,
+																 $Alpha,
+																 $Blur);
 	}
 	
 	/**
 	 * Remove shadow option 
 	 */
 	function clearShadow() {
-		$this->ShadowActive = FALSE;
+		$this->shadowProperties = ShadowProperties::FromDefaults();
 	}
 	
 	/**
@@ -1129,6 +1124,9 @@ class pChart {
 	
 	/**
 	 * Draw the graph title 
+	 *
+	 * @todo Should we pass in a ShadowProperties object here? Or is
+	 * this a public function?
 	 */
 	function drawTitle($XPos, $YPos, $Value, $R, $G, $B, $XPos2 = -1, $YPos2 = -1, $Shadow = FALSE) {
 		$C_TextColor = self::AllocateColor ( $this->Picture, $R, $G, $B );
@@ -1146,8 +1144,16 @@ class pChart {
 		}
 		
 		if ($Shadow) {
-			$C_ShadowColor = self::AllocateColor ( $this->Picture, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor );
-			imagettftext ( $this->Picture, $this->FontSize, 0, $XPos + $this->ShadowXDistance, $YPos + $this->ShadowYDistance, $C_ShadowColor, $this->FontName, $Value );
+			$C_ShadowColor = self::AllocateColor($this->Picture,
+												 $this->shadowProperties->r,
+												 $this->shadowProperties->g,
+												 $this->shadowProperties->b);
+			imagettftext($this->Picture,
+						 $this->FontSize,
+						 0,
+						 $XPos + $this->shadowProperties->xDistance,
+						 $YPos + $this->shadowProperties->yDistance,
+						 $C_ShadowColor, $this->FontName, $Value );
 		}
 		
 		imagettftext ( $this->Picture, $this->FontSize, 0, $XPos, $YPos, $C_TextColor, $this->FontName, $Value );
@@ -2665,7 +2671,13 @@ class pChart {
 	}
 	
 	function drawFlatPieGraphWithShadow($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $SpliceDistance = 0, $Decimals = 0) {
-		$this->drawFlatPieGraph ( $Data, $DataDescription, $XPos + $this->ShadowXDistance, $YPos + $this->ShadowYDistance, $Radius, PIE_NOLABEL, $SpliceDistance, $Decimals, TRUE );
+		$this->drawFlatPieGraph($Data,
+								$DataDescription,
+								$XPos + $this->shadowProperties->xDistance,
+								$YPos + $this->shadowProperties->yDistance,
+								$Radius,
+								PIE_NOLABEL, 
+								$SpliceDistance, $Decimals, TRUE );
 		$this->drawFlatPieGraph ( $Data, $DataDescription, $XPos, $YPos, $Radius, $DrawLabels, $SpliceDistance, $Decimals, FALSE );
 	}
 	
@@ -2677,8 +2689,13 @@ class pChart {
 		$this->validateDataDescription ( "drawFlatPieGraph", $DataDescription, FALSE );
 		$this->validateData ( "drawFlatPieGraph", $Data );
 		
-		$ShadowStatus = $this->ShadowActive;
-		$this->ShadowActive = FALSE;
+		/**
+		 * @todo Temporarily overriding the shadow properties could be
+		 * done better by instantiating a new locally-scoped
+		 * ShadowProperties instance.
+		 */
+		$ShadowStatus = $this->shadowProperties->active;
+		$this->shadowProperties->active = FALSE;
 		
 		/* Determine pie sum */
 		$Series = 0;
@@ -2715,9 +2732,9 @@ class pChart {
 			$TopPlots [$Key] [] = round ( $YPos + $YOffset );
 			
 			if ($AllBlack) {
-				$Rc = $this->ShadowRColor;
-				$Gc = $this->ShadowGColor;
-				$Bc = $this->ShadowBColor;
+				$Rc = $this->shadowProperties->r;
+				$Gc = $this->shadowProperties->g;
+				$Bc = $this->shadowProperties->b;
 			} else {
 				$Rc = $this->Palette [$Key] ["R"];
 				$Gc = $this->Palette [$Key] ["G"];
@@ -2795,11 +2812,14 @@ class pChart {
 			if (! $AllBlack)
 				$C_GraphLo = self::AllocateColor ( $this->Picture, $this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"] );
 			else
-				$C_GraphLo = self::AllocateColor ( $this->Picture, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor );
+				$C_GraphLo = self::AllocateColor($this->Picture,
+												 $this->shadowProperties->r,
+												 $this->shadowProperties->g,
+												 $this->shadowProperties->b);
 			
 			imagefilledpolygon ( $this->Picture, $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
 		}
-		$this->ShadowActive = $ShadowStatus;
+		$this->shadowProperties->active = $ShadowStatus;
 	}
 	
 	/**
@@ -3195,15 +3215,42 @@ class pChart {
 		
 		if ($Alpha == 100) {
 			/* Process shadows */
-			if ($this->ShadowActive && ! $NoFallBack) {
-				$this->drawFilledRectangle ( $X1 + $this->ShadowXDistance, $Y1 + $this->ShadowYDistance, $X2 + $this->ShadowXDistance, $Y2 + $this->ShadowYDistance, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor, FALSE, $this->ShadowAlpha, TRUE );
-				if ($this->ShadowBlur != 0) {
-					$AlphaDecay = ($this->ShadowAlpha / $this->ShadowBlur);
+			if ($this->shadowProperties->active && ! $NoFallBack) {
+				$this->drawFilledRectangle($X1 + $this->shadowProperties->xDistance,
+										   $Y1 + $this->shadowProperties->yDistance,
+										   $X2 + $this->shadowProperties->xDistance,
+										   $Y2 + $this->shadowProperties->yDistance,
+										   $this->shadowProperties->r,
+										   $this->shadowProperties->g,
+										   $this->shadowProperties->b, 
+										   FALSE,
+										   $this->shadowProperties->alpha, 
+										   TRUE );
+				if ($this->shadowProperties->blur != 0) {
+					$AlphaDecay = ($this->shadowProperties->alpha / $this->shadowProperties->blur);
 					
-					for($i = 1; $i <= $this->ShadowBlur; $i ++)
-						$this->drawFilledRectangle ( $X1 + $this->ShadowXDistance - $i / 2, $Y1 + $this->ShadowYDistance - $i / 2, $X2 + $this->ShadowXDistance - $i / 2, $Y2 + $this->ShadowYDistance - $i / 2, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor, FALSE, $this->ShadowAlpha - $AlphaDecay * $i, TRUE );
-					for($i = 1; $i <= $this->ShadowBlur; $i ++)
-						$this->drawFilledRectangle ( $X1 + $this->ShadowXDistance + $i / 2, $Y1 + $this->ShadowYDistance + $i / 2, $X2 + $this->ShadowXDistance + $i / 2, $Y2 + $this->ShadowYDistance + $i / 2, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor, FALSE, $this->ShadowAlpha - $AlphaDecay * $i, TRUE );
+					for($i = 1; $i <= $this->shadowProperties->blur; $i ++)
+						$this->drawFilledRectangle($X1 + $this->shadowProperties->xDistance - $i / 2,
+												   $Y1 + $this->shadowProperties->yDistance - $i / 2,
+												   $X2 + $this->shadowProperties->xDistance - $i / 2,
+												   $Y2 + $this->shadowProperties->yDistance - $i / 2,
+												   $this->shadowProperties->r,
+												   $this->shadowProperties->g,
+												   $this->shadowProperties->b,
+												   FALSE,
+												   $this->shadowProperties->alpha - $AlphaDecay * $i,
+												   TRUE );
+					for($i = 1; $i <= $this->shadowProperties->blur; $i ++)
+						$this->drawFilledRectangle ( $X1 + $this->shadowProperties->xDistance + $i / 2,
+													 $Y1 + $this->shadowProperties->yDistance + $i / 2,
+													 $X2 + $this->shadowProperties->xDistance + $i / 2,
+													 $Y2 + $this->shadowProperties->xDistance + $i / 2,
+													 $this->shadowProperties->r,
+													 $this->shadowProperties->g, 
+													 $this->shadowProperties->b,
+													 FALSE, 
+													 $this->shadowProperties->alpha - $AlphaDecay * $i,
+													 TRUE );
 				}
 			}
 			
@@ -3226,10 +3273,10 @@ class pChart {
 		}
 		
 		if ($DrawBorder) {
-			$ShadowSettings = $this->ShadowActive;
-			$this->ShadowActive = FALSE;
+			$ShadowSettings = $this->shadowProperties->active;
+			$this->shadowProperties->active = FALSE;
 			$this->drawRectangle ( $X1, $Y1, $X2, $Y2, $R, $G, $B );
-			$this->ShadowActive = $ShadowSettings;
+			$this->shadowProperties->active = $ShadowSettings;
 		}
 	}
 	
@@ -3722,15 +3769,33 @@ class pChart {
 	 */
 	private function drawAntialiasPixel($X, $Y, $R, $G, $B, $Alpha = 100, $NoFallBack = FALSE) {
 		/* Process shadows */
-		if ($this->ShadowActive && ! $NoFallBack) {
-			$this->drawAntialiasPixel ( $X + $this->ShadowXDistance, $Y + $this->ShadowYDistance, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor, $this->ShadowAlpha, TRUE );
-			if ($this->ShadowBlur != 0) {
-				$AlphaDecay = ($this->ShadowAlpha / $this->ShadowBlur);
+		if ($this->shadowProperties->active && ! $NoFallBack) {
+			$this->drawAntialiasPixel($X + $this->shadowProperties->xDistance,
+									  $Y + $this->shadowProperties->yDistance,
+									  $this->shadowProperties->r,
+									  $this->shadowProperties->g,
+									  $this->shadowProperties->b,
+									  $this->shadowProperties->alpha,
+									  TRUE);
+			if ($this->shadowProperties->blur != 0) {
+				$AlphaDecay = ($this->shadowProperties->alpha / $this->shadowProperties->blur);
 				
-				for($i = 1; $i <= $this->ShadowBlur; $i ++)
-					$this->drawAntialiasPixel ( $X + $this->ShadowXDistance - $i / 2, $Y + $this->ShadowYDistance - $i / 2, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor, $this->ShadowAlpha - $AlphaDecay * $i, TRUE );
-				for($i = 1; $i <= $this->ShadowBlur; $i ++)
-					$this->drawAntialiasPixel ( $X + $this->ShadowXDistance + $i / 2, $Y + $this->ShadowYDistance + $i / 2, $this->ShadowRColor, $this->ShadowGColor, $this->ShadowBColor, $this->ShadowAlpha - $AlphaDecay * $i, TRUE );
+				for($i = 1; $i <= $this->shadowProperties->blur; $i ++)
+					$this->drawAntialiasPixel($X + $this->shadowProperties->xDistance - $i / 2,
+											  $Y + $this->shadowProperties->yDistance - $i / 2,
+											  $this->shadowProperties->r,
+											  $this->shadowProperties->g,
+											  $this->shadowProperties->b,
+											  $this->shadowProperties->alpha - $AlphaDecay * $i,
+											  TRUE );
+				for($i = 1; $i <= $this->shadowProperties->blur; $i ++)
+					$this->drawAntialiasPixel($X + $this->shadowProperties->xDistance + $i / 2,
+											  $Y + $this->shadowProperties->yDistance + $i / 2,
+											  $this->shadowProperties->r, 
+											  $this->shadowProperties->g,
+											  $this->shadowProperties->b,
+											  $this->shadowProperties->alpha - $AlphaDecay * $i,
+											  TRUE );
 			}
 		}
 		
