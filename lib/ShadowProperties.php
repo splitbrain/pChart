@@ -30,15 +30,13 @@ class ShadowProperties {
 		return $properties;
 	}
 
-	static public function FromSettings($xDistance, $yDistance, $r, $g, $b, $alpha, $blur) {
+	static public function FromSettings($xDistance, $yDistance, Color $color, $alpha, $blur) {
 		$properties = new ShadowProperties;
 
 		$properties->active = true;
 		$properties->xDistance = $xDistance;
 		$properties->yDistance = $yDistance;
-		$properties->r = $r;
-		$properties->g = $g;
-		$properties->b = $b;
+		$properties->color = $color;
 		$properties->alpha = $alpha;
 		$properties->blur = $blur;
 
@@ -52,9 +50,7 @@ class ShadowProperties {
 	public $active;
 	public $xDistance;
 	public $yDistance;
-	public $r;
-	public $g;
-	public $b;
+	public $color;
 	public $alpha;
 	public $blur;
 }

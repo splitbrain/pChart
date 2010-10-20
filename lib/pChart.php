@@ -158,9 +158,9 @@ class pChart {
 	function setShadowProperties($XDistance = 1, $YDistance = 1, $R = 60, $G = 60, $B = 60, $Alpha = 50, $Blur = 0) {
 		$this->shadowProperties = ShadowProperties::FromSettings($XDistance,
 																 $YDistance,
-																 $R,
-																 $G,
-																 $B,
+																 new Color($R,
+																		   $G,
+																		   $B),
 																 $Alpha,
 																 $Blur);
 	}
@@ -1080,9 +1080,8 @@ class pChart {
 		
 		if ($Shadow) {
 			$C_ShadowColor = self::AllocateColor($this->Picture,
-												 new Color($this->shadowProperties->r,
-														   $this->shadowProperties->g,
-														   $this->shadowProperties->b));
+												 $this->shadowProperties->color);
+
 			imagettftext($this->Picture,
 						 $this->FontSize,
 						 0,
@@ -1908,7 +1907,7 @@ class pChart {
 			$YLast = $Empty;
 			foreach ( $Data as $Key => $Values ) {
 				$Value = $Data [$Key] [$ColName];
-				$YPos = $LayerHeight - (($Value - $this->VMin) * $this->DivisionRatio);
+				$YPos = $LayerHeight - (($Value - $this->VMin) * $this->DivisionRatio);
 				
 				/* Save point into the image map if option activated */
 				if ($this->BuildMap)
@@ -2667,9 +2666,9 @@ class pChart {
 			$TopPlots [$Key] [] = round ( $YPos + $YOffset );
 			
 			if ($AllBlack) {
-				$Rc = $this->shadowProperties->r;
-				$Gc = $this->shadowProperties->g;
-				$Bc = $this->shadowProperties->b;
+				$Rc = $this->shadowProperties->color->r;
+				$Gc = $this->shadowProperties->color->g;
+				$Bc = $this->shadowProperties->color->b;
 			} else {
 				$Rc = $this->Palette [$Key] ["R"];
 				$Gc = $this->Palette [$Key] ["G"];
@@ -2748,9 +2747,7 @@ class pChart {
 				$C_GraphLo = self::AllocateColor ( $this->Picture, new Color($this->Palette [$Key] ["R"], $this->Palette [$Key] ["G"], $this->Palette [$Key] ["B"]));
 			else
 				$C_GraphLo = self::AllocateColor($this->Picture,
-												 new Color($this->shadowProperties->r,
-														   $this->shadowProperties->g,
-														   $this->shadowProperties->b));
+												 $this->shadowProperties->color);
 			
 			imagefilledpolygon ( $this->Picture, $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
 		}
@@ -3158,9 +3155,9 @@ class pChart {
 										   $Y1 + $shadowProperties->yDistance,
 										   $X2 + $shadowProperties->xDistance,
 										   $Y2 + $shadowProperties->yDistance,
-										   $shadowProperties->r,
-										   $shadowProperties->g,
-										   $shadowProperties->b,
+										   $shadowProperties->color->r,
+										   $shadowProperties->color->g,
+										   $shadowProperties->color->b,
 										   ShadowProperties::NoShadow(),
 										   FALSE,
 										   $shadowProperties->alpha);
@@ -3172,9 +3169,9 @@ class pChart {
 												   $Y1 + $shadowProperties->yDistance - $i / 2,
 												   $X2 + $shadowProperties->xDistance - $i / 2,
 												   $Y2 + $shadowProperties->yDistance - $i / 2,
-												   $shadowProperties->r,
-												   $shadowProperties->g,
-												   $shadowProperties->b,
+												   $shadowProperties->color->r,
+												   $shadowProperties->color->g,
+												   $shadowProperties->color->b,
 												   ShadowProperties::NoShadow(),
 												   FALSE,
 												   $shadowProperties->alpha - $AlphaDecay * $i);
@@ -3183,9 +3180,9 @@ class pChart {
 													 $Y1 + $shadowProperties->yDistance + $i / 2,
 													 $X2 + $shadowProperties->xDistance + $i / 2,
 													 $Y2 + $shadowProperties->xDistance + $i / 2,
-													 $shadowProperties->r,
-													 $shadowProperties->g, 
-													 $shadowProperties->b,
+													 $shadowProperties->color->r,
+													 $shadowProperties->color->g, 
+													 $shadowProperties->color->b,
 													 ShadowProperties::NoShadow(),
 													 FALSE, 
 													 $shadowProperties->alpha - $AlphaDecay * $i);
@@ -3710,9 +3707,9 @@ class pChart {
 		if ($shadowProperties->active) {
 			$this->drawAntialiasPixel($X + $shadowProperties->xDistance,
 									  $Y + $shadowProperties->yDistance,
-									  $shadowProperties->r,
-									  $shadowProperties->g,
-									  $shadowProperties->b,
+									  $shadowProperties->color->r,
+									  $shadowProperties->color->g,
+									  $shadowProperties->color->b,
 									  ShadowProperties::NoShadow(),
 									  $shadowProperties->alpha);
 			if ($shadowProperties->blur != 0) {
@@ -3721,17 +3718,17 @@ class pChart {
 				for($i = 1; $i <= $shadowProperties->blur; $i ++)
 					$this->drawAntialiasPixel($X + $shadowProperties->xDistance - $i / 2,
 											  $Y + $shadowProperties->yDistance - $i / 2,
-											  $shadowProperties->r,
-											  $shadowProperties->g,
-											  $shadowProperties->b,
+											  $shadowProperties->color->r,
+											  $shadowProperties->color->g,
+											  $shadowProperties->color->b,
 											  ShadowProperties::NoShadow(),
 											  $shadowProperties->alpha - $AlphaDecay * $i);
 				for($i = 1; $i <= $shadowProperties->blur; $i ++)
 					$this->drawAntialiasPixel($X + $shadowProperties->xDistance + $i / 2,
 											  $Y + $shadowProperties->yDistance + $i / 2,
-											  $shadowProperties->r, 
-											  $shadowProperties->g,
-											  $shadowProperties->b,
+											  $shadowProperties->color->r, 
+											  $shadowProperties->color->g,
+											  $shadowProperties->color->b,
 											  ShadowProperties::NoShadow(),
 											  $shadowProperties->alpha - $AlphaDecay * $i);
 			}
