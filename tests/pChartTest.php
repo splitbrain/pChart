@@ -74,7 +74,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test = new pChart(420, 250);
 		$Test->drawFilledRoundedRectangle(7, 7, 413, 243, 5, 240, 240, 240);
 		$Test->drawRoundedRectangle(5, 5, 415, 245, 5, 230, 230, 230);
-		$Test->createColorGradientPalette(195, 204, 56, 223, 110, 41, 5);
+		$Test->setPalette(Palette::colorGradientPalette(new Color(195, 204, 56),
+														new Color(223, 110, 41),
+														5));
 		
 		// Draw the pie chart
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
