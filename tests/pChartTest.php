@@ -110,7 +110,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Draw the pie chart
 		$Test->setAntialiasQuality(0);
-		$Test->setShadowProperties(2, 2, 200, 200, 200);
+		$Test->setShadowProperties(2, 2, new Color(200, 200, 200));
 		$Test->drawFlatPieGraphWithShadow($DataSet->GetData(), 
 										  $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8);
 		$Test->clearShadow();
@@ -156,7 +156,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(4,TRUE,230,230,230,20);
 		
 		// Draw the chart
-		$Test->setShadowProperties(2,2,0,0,0,60,4);
+		$Test->setShadowProperties(2,2,
+								   new Color(0,0,0),
+								   60,4);
 		$Test->drawXYGraph($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie1","Serie2",0);
 		$Test->clearShadow();
 		

@@ -155,12 +155,14 @@ class pChart {
 	/**
 	 * Set the shadow properties 
 	 */
-	function setShadowProperties($XDistance = 1, $YDistance = 1, $R = 60, $G = 60, $B = 60, $Alpha = 50, $Blur = 0) {
+	function setShadowProperties($XDistance = 1, $YDistance = 1, Color $color = null, $Alpha = 50, $Blur = 0) {
+		if ($color == null) {
+			$color = new Color(60, 60, 60);
+		}
+
 		$this->shadowProperties = ShadowProperties::FromSettings($XDistance,
 																 $YDistance,
-																 new Color($R,
-																		   $G,
-																		   $B),
+																 $color,
 																 $Alpha,
 																 $Blur);
 	}
