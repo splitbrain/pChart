@@ -19,6 +19,14 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Color is an immutable class, so all mutator methods return a new
+ * Color instance rather than modifying this instance.
+ *
+ * The immutability is in practice undermined by the fact that the RGB
+ * components are public. This is a transitional detail that should
+ * eventually be done away with.
+ */
 class Color {
 	public function __construct($red, $green, $blue) {
 		if ($red < 0 || $red > 255) {
@@ -36,6 +44,32 @@ class Color {
 		$this->r = $red;
 		$this->g = $green;
 		$this->b = $blue;
+	}
+
+	/**
+	 * Return a new color formed by adding the specified increment to
+	 * the R, G and B values
+	 */
+	public function addRGBIncrement($increment) {
+		$incremented = new Color($this->r, $this->g, $this->b);
+
+		$incremented->r = $this->truncateColorComponentRange($incremented->r + $increment);
+		$incremented->g = $this->truncateColorComponentRange($incremented->g + $increment);
+		$incremented->b = $this->truncateColorComponentRange($incremented->b + $increment);
+
+		return $incremented;
+	}
+
+	private function truncateColorComponentRange($input) {
+		if ($input > 255) {
+			return 255;
+		}
+		elseif ($input < 0) {
+			return 0;
+		}
+		else {
+			return $input;
+		}
 	}
 
 	public $r;

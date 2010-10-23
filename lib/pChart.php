@@ -3003,23 +3003,17 @@ class pChart {
 				
 				$this->drawAntialiasPixel($Plots[0],
 										  $Plots [1],
-										  $palette->colors[$Key]->r + $ColorFactor,
-										  $palette->colors[$Key]->g + $ColorFactor,
-										  $palette->colors[$Key]->b + $ColorFactor,
+										  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
 										  $this->shadowProperties);
 
 				$this->drawAntialiasPixel($Plots[2],
 										  $Plots[3],
-										  $palette->colors[$Key]->r + $ColorFactor,
-										  $palette->colors[$Key]->g + $ColorFactor,
-										  $palette->colors[$Key]->b + $ColorFactor,
+										  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
 										  $this->shadowProperties);
 
 				$this->drawAntialiasPixel($Plots[$Index - 4],
 										  $Plots [$Index - 3],
-										  $palette->colors[$Key]->r + $ColorFactor,
-										  $palette->colors[$Key]->g + $ColorFactor,
-										  $palette->colors[$Key]->b + $ColorFactor,
+										  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
 										  $this->shadowProperties);
 			}
 		}
@@ -3313,19 +3307,19 @@ class pChart {
 		for($i = 0; $i <= 90; $i = $i + $Step) {
 			$X = cos ( ($i + 180) * 3.1418 / 180 ) * $Radius + $X1 + $Radius;
 			$Y = sin ( ($i + 180) * 3.1418 / 180 ) * $Radius + $Y1 + $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 			
 			$X = cos ( ($i - 90) * 3.1418 / 180 ) * $Radius + $X2 - $Radius;
 			$Y = sin ( ($i - 90) * 3.1418 / 180 ) * $Radius + $Y1 + $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 			
 			$X = cos ( ($i) * 3.1418 / 180 ) * $Radius + $X2 - $Radius;
 			$Y = sin ( ($i) * 3.1418 / 180 ) * $Radius + $Y2 - $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 			
 			$X = cos ( ($i + 90) * 3.1418 / 180 ) * $Radius + $X1 + $Radius;
 			$Y = sin ( ($i + 90) * 3.1418 / 180 ) * $Radius + $Y2 - $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 		}
 		
 		$X1 = $X1 - .2;
@@ -3384,10 +3378,14 @@ class pChart {
 			imageline ( $this->Picture, $X2 - $Radius, $Yi3, $Xi3, $Yi3, $C_Rectangle );
 			imageline ( $this->Picture, $Xi4, $Yi4, $X1 + $Radius, $Yi4, $C_Rectangle );
 			
-			$this->drawAntialiasPixel ( $Xi1, $Yi1, $R, $G, $B, $this->shadowProperties);
-			$this->drawAntialiasPixel ( $Xi2, $Yi2, $R, $G, $B, $this->shadowProperties);
-			$this->drawAntialiasPixel ( $Xi3, $Yi3, $R, $G, $B, $this->shadowProperties);
-			$this->drawAntialiasPixel ( $Xi4, $Yi4, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $Xi1, $Yi1, new Color($R, $G, $B),
+										$this->shadowProperties);
+			$this->drawAntialiasPixel ( $Xi2, $Yi2, new Color($R, $G, $B),
+										$this->shadowProperties);
+			$this->drawAntialiasPixel ( $Xi3, $Yi3, new Color($R, $G, $B),
+										$this->shadowProperties);
+			$this->drawAntialiasPixel ( $Xi4, $Yi4, new Color($R, $G, $B),
+										$this->shadowProperties);
 		}
 		
 		imagefilledrectangle ( $this->Picture, $X1, $Y1 + $Radius, $X2, $Y2 - $Radius, $C_Rectangle );
@@ -3435,7 +3433,7 @@ class pChart {
 		for($i = 0; $i <= 360; $i = $i + $Step) {
 			$X = cos ( $i * 3.1418 / 180 ) * $Height + $Xc;
 			$Y = sin ( $i * 3.1418 / 180 ) * $Width + $Yc;
-			$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 		}
 	}
 	
@@ -3474,8 +3472,8 @@ class pChart {
 			$X2 = cos ( (180 - $i) * 3.1418 / 180 ) * $Height + $Xc;
 			$Y2 = sin ( (180 - $i) * 3.1418 / 180 ) * $Width + $Yc;
 			
-			$this->drawAntialiasPixel ( $X1 - 1, $Y1 - 1, $R, $G, $B, $this->shadowProperties);
-			$this->drawAntialiasPixel ( $X2 - 1, $Y2 - 1, $R, $G, $B, $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X1 - 1, $Y1 - 1, new Color($R, $G, $B), $this->shadowProperties);
+			$this->drawAntialiasPixel ( $X2 - 1, $Y2 - 1, new Color($R, $G, $B), $this->shadowProperties);
 			
 			if (($Y1 - 1) > $Yc - max ( $Width, $Height ))
 				imageline ( $this->Picture, $X1, $Y1 - 1, $X2 - 1, $Y2 - 1, $C_Circle );
@@ -3535,12 +3533,12 @@ class pChart {
 			
 			if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
 				if ($this->LineWidth == 1)
-					$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+					$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 				else {
 					$StartOffset = - ($this->LineWidth / 2);
 					$EndOffset = ($this->LineWidth / 2);
 					for($j = $StartOffset; $j <= $EndOffset; $j ++)
-						$this->drawAntialiasPixel ( $X + $j, $Y + $j, $R, $G, $B , $this->shadowProperties);
+						$this->drawAntialiasPixel ( $X + $j, $Y + $j, new Color($R, $G, $B) , $this->shadowProperties);
 				}
 			}
 		}
@@ -3582,12 +3580,12 @@ class pChart {
 			if ($DotIndex <= $DotSize) {
 				if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
 					if ($this->LineWidth == 1)
-						$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
+						$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
 					else {
 						$StartOffset = - ($this->LineWidth / 2);
 						$EndOffset = ($this->LineWidth / 2);
 						for($j = $StartOffset; $j <= $EndOffset; $j ++)
-							$this->drawAntialiasPixel ( $X + $j, $Y + $j, $R, $G, $B, $this->shadowProperties);
+							$this->drawAntialiasPixel ( $X + $j, $Y + $j, new Color($R, $G, $B), $this->shadowProperties);
 					}
 				}
 			}
@@ -3645,26 +3643,7 @@ class pChart {
 	/**
 	 * Draw an alpha pixel 
 	 */
-	private function drawAlphaPixel($X, $Y, $Alpha, $R, $G, $B) {
-		if ($R < 0) {
-			$R = 0;
-		}
-		if ($R > 255) {
-			$R = 255;
-		}
-		if ($G < 0) {
-			$G = 0;
-		}
-		if ($G > 255) {
-			$G = 255;
-		}
-		if ($B < 0) {
-			$B = 0;
-		}
-		if ($B > 255) {
-			$B = 255;
-		}
-		
+	private function drawAlphaPixel($X, $Y, $Alpha, Color $color) {
 		if ($X < 0 || $Y < 0 || $X >= $this->XSize || $Y >= $this->YSize)
 			return (- 1);
 		
@@ -3676,9 +3655,9 @@ class pChart {
 		$iAlpha = (100 - $Alpha) / 100;
 		$Alpha = $Alpha / 100;
 		
-		$Ra = floor ( $R * $Alpha + $R2 * $iAlpha );
-		$Ga = floor ( $G * $Alpha + $G2 * $iAlpha );
-		$Ba = floor ( $B * $Alpha + $B2 * $iAlpha );
+		$Ra = floor ( $color->r * $Alpha + $R2 * $iAlpha );
+		$Ga = floor ( $color->g * $Alpha + $G2 * $iAlpha );
+		$Ba = floor ( $color->b * $Alpha + $B2 * $iAlpha );
 		
 		$C_Aliased = self::AllocateColor ( $this->Picture, new Color($Ra, $Ga, $Ba));
 		imagesetpixel ( $this->Picture, $X, $Y, $C_Aliased );
@@ -3769,14 +3748,12 @@ class pChart {
 	/**
 	 * Private functions for internal processing 
 	 */
-	private function drawAntialiasPixel($X, $Y, $R, $G, $B, ShadowProperties $shadowProperties, $Alpha = 100) {
+	private function drawAntialiasPixel($X, $Y, Color $color, ShadowProperties $shadowProperties, $Alpha = 100) {
 		/* Process shadows */
 		if ($shadowProperties->active) {
 			$this->drawAntialiasPixel($X + $shadowProperties->xDistance,
 									  $Y + $shadowProperties->yDistance,
-									  $shadowProperties->color->r,
-									  $shadowProperties->color->g,
-									  $shadowProperties->color->b,
+									  $shadowProperties->color,
 									  ShadowProperties::NoShadow(),
 									  $shadowProperties->alpha);
 			if ($shadowProperties->blur != 0) {
@@ -3785,39 +3762,16 @@ class pChart {
 				for($i = 1; $i <= $shadowProperties->blur; $i ++)
 					$this->drawAntialiasPixel($X + $shadowProperties->xDistance - $i / 2,
 											  $Y + $shadowProperties->yDistance - $i / 2,
-											  $shadowProperties->color->r,
-											  $shadowProperties->color->g,
-											  $shadowProperties->color->b,
+											  $shadowProperties->color,
 											  ShadowProperties::NoShadow(),
 											  $shadowProperties->alpha - $AlphaDecay * $i);
 				for($i = 1; $i <= $shadowProperties->blur; $i ++)
 					$this->drawAntialiasPixel($X + $shadowProperties->xDistance + $i / 2,
 											  $Y + $shadowProperties->yDistance + $i / 2,
-											  $shadowProperties->color->r, 
-											  $shadowProperties->color->g,
-											  $shadowProperties->color->b,
+											  $shadowProperties->color, 
 											  ShadowProperties::NoShadow(),
 											  $shadowProperties->alpha - $AlphaDecay * $i);
 			}
-		}
-		
-		if ($R < 0) {
-			$R = 0;
-		}
-		if ($R > 255) {
-			$R = 255;
-		}
-		if ($G < 0) {
-			$G = 0;
-		}
-		if ($G > 255) {
-			$G = 255;
-		}
-		if ($B < 0) {
-			$B = 0;
-		}
-		if ($B > 255) {
-			$B = 255;
 		}
 		
 		$Plot = "";
@@ -3826,29 +3780,29 @@ class pChart {
 		
 		if ($Xi == $X && $Yi == $Y) {
 			if ($Alpha == 100) {
-				$C_Aliased = self::AllocateColor ( $this->Picture, new Color($R, $G, $B));
+				$C_Aliased = self::AllocateColor($this->Picture, $color);
 				imagesetpixel ( $this->Picture, $X, $Y, $C_Aliased );
 			} else
-				$this->drawAlphaPixel ( $X, $Y, $Alpha, $R, $G, $B );
+				$this->drawAlphaPixel ( $X, $Y, $Alpha, $color);
 		} else {
 			$Alpha1 = (((1 - ($X - floor ( $X ))) * (1 - ($Y - floor ( $Y ))) * 100) / 100) * $Alpha;
 			if ($Alpha1 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi, $Yi, $Alpha1, $R, $G, $B );
+				$this->drawAlphaPixel ( $Xi, $Yi, $Alpha1, $color);
 			}
 			
 			$Alpha2 = ((($X - floor ( $X )) * (1 - ($Y - floor ( $Y ))) * 100) / 100) * $Alpha;
 			if ($Alpha2 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi + 1, $Yi, $Alpha2, $R, $G, $B );
+				$this->drawAlphaPixel ( $Xi + 1, $Yi, $Alpha2, $color);
 			}
 			
 			$Alpha3 = (((1 - ($X - floor ( $X ))) * ($Y - floor ( $Y )) * 100) / 100) * $Alpha;
 			if ($Alpha3 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi, $Yi + 1, $Alpha3, $R, $G, $B );
+				$this->drawAlphaPixel ( $Xi, $Yi + 1, $Alpha3, $color);
 			}
 			
 			$Alpha4 = ((($X - floor ( $X )) * ($Y - floor ( $Y )) * 100) / 100) * $Alpha;
 			if ($Alpha4 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi + 1, $Yi + 1, $Alpha4, $R, $G, $B );
+				$this->drawAlphaPixel ( $Xi + 1, $Yi + 1, $Alpha4, $color);
 			}
 		}
 	}
