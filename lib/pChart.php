@@ -862,7 +862,7 @@ class pChart {
 		$YPos = $this->GArea_Y2 - $this->DivisionHeight;
 		for($i = 1; $i <= $this->DivisionCount; $i ++) {
 			if ($YPos > $this->GArea_Y1 && $YPos < $this->GArea_Y2)
-				$this->drawDottedLine ( $this->GArea_X1, $YPos, $this->GArea_X2, $YPos, $LineWidth, $R, $G, $B );
+				$this->drawDottedLine ( $this->GArea_X1, $YPos, $this->GArea_X2, $YPos, $LineWidth, new Color($R, $G, $B) );
 			
 			$YPos = $YPos - $this->DivisionHeight;
 		}
@@ -878,7 +878,7 @@ class pChart {
 		
 		for($i = 1; $i <= $ColCount; $i ++) {
 			if ($XPos > $this->GArea_X1 && $XPos < $this->GArea_X2)
-				$this->drawDottedLine ( floor ( $XPos ), $this->GArea_Y1, floor ( $XPos ), $this->GArea_Y2, $LineWidth, $R, $G, $B );
+				$this->drawDottedLine ( floor ( $XPos ), $this->GArea_Y1, floor ( $XPos ), $this->GArea_Y2, $LineWidth, new Color($R, $G, $B));
 			$XPos = $XPos + $this->DivisionWidth;
 		}
 	}
@@ -1149,7 +1149,8 @@ class pChart {
 		if ($TickWidth == 0)
 			$this->drawLine ( $this->GArea_X1, $Y, $this->GArea_X2, $Y, $R, $G, $B );
 		else
-			$this->drawDottedLine ( $this->GArea_X1, $Y, $this->GArea_X2, $Y, $TickWidth, $R, $G, $B );
+			$this->drawDottedLine ( $this->GArea_X1, $Y, $this->GArea_X2, $Y, $TickWidth, 
+									new Color($R, $G, $B));
 		
 		if ($ShowLabel) {
 			if ($FreeText == NULL) {
@@ -2321,7 +2322,7 @@ class pChart {
 				$Y = sin ( $Angle * 3.1418 / 180 ) * $TRadius + $YCenter;
 				
 				if ($LastX != - 1)
-					$this->drawDottedLine ( $LastX, $LastY, $X, $Y, 4, $S_R, $S_G, $S_B );
+					$this->drawDottedLine ( $LastX, $LastY, $X, $Y, 4, new Color($S_R, $S_G, $S_B));
 				
 				$LastX = $X;
 				$LastY = $Y;
@@ -3499,7 +3500,7 @@ class pChart {
 	 */
 	function drawLine($X1, $Y1, $X2, $Y2, $R, $G, $B, $GraphFunction = FALSE) {
 		if ($this->LineDotSize > 1) {
-			$this->drawDottedLine ( $X1, $Y1, $X2, $Y2, $this->LineDotSize, $R, $G, $B, $GraphFunction );
+			$this->drawDottedLine ( $X1, $Y1, $X2, $Y2, $this->LineDotSize, new Color($R, $G, $B), $GraphFunction );
 			return (0);
 		}
 		if ($R < 0) {
@@ -3547,26 +3548,7 @@ class pChart {
 	/**
 	 * This function create a line with antialias 
 	 */
-	function drawDottedLine($X1, $Y1, $X2, $Y2, $DotSize, $R, $G, $B, $GraphFunction = FALSE) {
-		if ($R < 0) {
-			$R = 0;
-		}
-		if ($R > 255) {
-			$R = 255;
-		}
-		if ($G < 0) {
-			$G = 0;
-		}
-		if ($G > 255) {
-			$G = 255;
-		}
-		if ($B < 0) {
-			$B = 0;
-		}
-		if ($B > 255) {
-			$B = 255;
-		}
-		
+	function drawDottedLine($X1, $Y1, $X2, $Y2, $DotSize, Color $color, $GraphFunction = FALSE) {
 		$Distance = sqrt ( ($X2 - $X1) * ($X2 - $X1) + ($Y2 - $Y1) * ($Y2 - $Y1) );
 		
 		$XStep = ($X2 - $X1) / $Distance;
@@ -3580,12 +3562,12 @@ class pChart {
 			if ($DotIndex <= $DotSize) {
 				if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
 					if ($this->LineWidth == 1)
-						$this->drawAntialiasPixel ( $X, $Y, new Color($R, $G, $B), $this->shadowProperties);
+						$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
 					else {
 						$StartOffset = - ($this->LineWidth / 2);
 						$EndOffset = ($this->LineWidth / 2);
 						for($j = $StartOffset; $j <= $EndOffset; $j ++)
-							$this->drawAntialiasPixel ( $X + $j, $Y + $j, new Color($R, $G, $B), $this->shadowProperties);
+							$this->drawAntialiasPixel ( $X + $j, $Y + $j, $color, $this->shadowProperties);
 					}
 				}
 			}
