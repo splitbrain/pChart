@@ -3667,29 +3667,11 @@ class pChart {
 	 * Color helper 
 	 */
 	static private function AllocateColor($Picture, Color $color, $Factor = 0) {
-		$R = $color->r + $Factor;
-		$G = $color->g + $Factor;
-		$B = $color->b + $Factor;
-		if ($R < 0) {
-			$R = 0;
-		}
-		if ($R > 255) {
-			$R = 255;
-		}
-		if ($G < 0) {
-			$G = 0;
-		}
-		if ($G > 255) {
-			$G = 255;
-		}
-		if ($B < 0) {
-			$B = 0;
-		}
-		if ($B > 255) {
-			$B = 255;
+		if ($Factor != 0) {
+			$color = $color->addRGBIncrement($Factor);
 		}
 		
-		return (imagecolorallocate ( $Picture, $R, $G, $B ));
+		return (imagecolorallocate ( $Picture, $color->r, $color->g, $color->b ));
 	}
 	
 	/**
