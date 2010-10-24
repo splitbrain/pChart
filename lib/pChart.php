@@ -1225,7 +1225,7 @@ class pChart {
 		$this->drawLine ( $XPos - 1, $YPos, 
 						  $XPos + 8, $YPos + $TextOffset + 1.2,
 						  $color );
-		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $R, $G, $B, $this->shadowProperties);
+		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $color, $this->shadowProperties);
 		
 		imagettftext ( $this->Picture, $this->FontSize, 0, $XPos + 10, $YPos + $TextOffset, $C_TextColor, $this->FontName, $Caption );
 	}
@@ -2137,7 +2137,11 @@ class pChart {
 	/**
 	 * This function draw a limits bar graphs 
 	 */
-	function drawLimitsGraph($Data, $DataDescription, $R = 0, $G = 0, $B = 0) {
+	function drawLimitsGraph($Data, $DataDescription, Color $color = null) {
+		if ($color == null) {
+			$color = new Color(0, 0, 0);
+		}
+
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription ( "drawLimitsGraph", $DataDescription );
 		$this->validateData ( "drawLimitsGraph", $Data );
@@ -2181,23 +2185,25 @@ class pChart {
 			$YPos = $this->GArea_Y2 - (($Min - $this->VMin) * $this->DivisionRatio);
 			$Y2 = floor ( $YPos ) + .2;
 			
-			$this->drawLine ( floor ( $XPos ) - .2, $Y1 + 1, floor ( $XPos ) - .2, $Y2 - 1, $R, $G, $B, TRUE );
-			$this->drawLine ( floor ( $XPos ) + .2, $Y1 + 1, floor ( $XPos ) + .2, $Y2 - 1, $R, $G, $B, TRUE );
+			$this->drawLine ( floor ( $XPos ) - .2, $Y1 + 1,
+							  floor ( $XPos ) - .2, $Y2 - 1,
+							  $color,
+							  TRUE );
+			$this->drawLine ( floor ( $XPos ) + .2, $Y1 + 1,
+							  floor ( $XPos ) + .2, $Y2 - 1,
+							  $color,
+							  TRUE );
 			$this->drawLine($X1,
 							$Y1,
 							$X2,
 							$Y1,
-							$this->palette->colors[$MaxID]->r,
-							$this->palette->colors[$MaxID]->g,
-							$this->palette->colors[$MaxID]->b,
+							$this->palette->colors[$MaxID],
 							FALSE );
 			$this->drawLine($X1,
 							$Y2,
 							$X2,
 							$Y2,
-							$this->palette->colors[$MinID]->r,
-							$this->palette->colors[$MinID]->g,
-							$this->palette->colors[$MinID]->b,
+							$this->palette->colors[$MinID],
 							FALSE );
 			
 			$XPos = $XPos + $this->DivisionWidth;
@@ -3014,27 +3020,8 @@ class pChart {
 	/**
 	 * This function can be used to set the background color 
 	 */
-	function drawBackground($R, $G, $B) {
-		if ($R < 0) {
-			$R = 0;
-		}
-		if ($R > 255) {
-			$R = 255;
-		}
-		if ($G < 0) {
-			$G = 0;
-		}
-		if ($G > 255) {
-			$G = 255;
-		}
-		if ($B < 0) {
-			$B = 0;
-		}
-		if ($B > 255) {
-			$B = 255;
-		}
-		
-		$C_Background = self::AllocateColor ( $this->Picture, new Color($R, $G, $B));
+	function drawBackground(Color $color) {
+		$C_Background = self::AllocateColor ( $this->Picture, $color);
 		imagefilledrectangle ( $this->Picture, 0, 0, $this->XSize, $this->YSize, $C_Background );
 	}
 	
