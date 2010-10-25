@@ -373,4 +373,43 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($expectedContents == $actualContents);
 	}
+
+	public function testDrawFilledLineGraph() {
+		// Dataset definition 
+		$DataSet = new pData;
+		$DataSet->ImportFromCSV(dirname(__FILE__)
+								."/../sample/datawithtitle.csv",",",array(1,2,3),TRUE,0);
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie();
+
+		// Initialise the graph
+		$Test = new pChart(700,230);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setGraphArea(60,30,680,200);
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+
+		// Draw the filled line graph
+		$Test->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),50,TRUE);
+
+		// Finish the graph
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawLegend(65,35,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(60,22,"Example 6",50,50,50,585);
+		$Test->render(dirname(__FILE__).'/actual/example6.png');
+
+		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example6.png');
+		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example6.png');
+
+		/** @todo This appears to be non-deterministic for some reason */
+		//$this->assertTrue($expectedContents == $actualContents);
+	}
 }
