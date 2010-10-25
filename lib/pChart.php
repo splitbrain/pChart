@@ -1983,9 +1983,7 @@ class pChart {
 										$Y1,
 										$X2,
 										$Y1,
-										$this->palette->colors[$ColorID]->r,
-										$this->palette->colors[$ColorID]->g,
-										$this->palette->colors[$ColorID]->b,
+										$this->palette->colors[$ColorID],
 										TRUE );
 					}
 				}

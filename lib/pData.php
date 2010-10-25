@@ -51,14 +51,14 @@ class pData {
 					if ($DataColumns == - 1) {
 						$ID = 1;
 						foreach ( $Values as $key => $Value ) {
-							$this->SetSerieName ( $Value, "Serie" . $ID );
+							$this->SetSeriesName ( $Value, "Serie" . $ID );
 							$ID ++;
 						}
 					} else {
 						$SerieName = "";
 						
 						foreach ( $DataColumns as $key => $Value )
-							$this->SetSerieName ( $Values [$Value], "Serie" . $Value );
+							$this->SetSeriesName ( $Values [$Value], "Serie" . $Value );
 					}
 					$HeaderParsed = TRUE;
 				} else {
