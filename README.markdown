@@ -19,7 +19,7 @@ The goal of this project is:
  
 ## Status
 
-The main body of the code now has around 50% unit test coverage, and
+The main body of the code now has around 66% unit test coverage, and
 all the examples appear to be working. If you're starting a new
 project, it's probably reasonable to use this distribution in
 preference to the Sourceforge distribution, since any bugs in this
