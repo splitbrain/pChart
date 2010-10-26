@@ -2048,9 +2048,7 @@ class pChart {
 												   $YZero,
 												   $XPos + $SeriesWidth - 1,
 												   $YPos,
-												   $this->palette->colors[$ColorID]->r,
-												   $this->palette->colors[$ColorID]->g,
-												   $this->palette->colors[$ColorID]->b,
+												   $this->palette->colors[$ColorID],
 												   $this->shadowProperties,
 												   TRUE, $Alpha );
 					}
