@@ -3523,28 +3523,10 @@ class pChart {
 		if ($B > 255) {
 			$B = 255;
 		}
-		
-		$Distance = sqrt ( ($X2 - $X1) * ($X2 - $X1) + ($Y2 - $Y1) * ($Y2 - $Y1) );
-		if ($Distance == 0)
-			return (- 1);
-		$XStep = ($X2 - $X1) / $Distance;
-		$YStep = ($Y2 - $Y1) / $Distance;
-		
-		for($i = 0; $i <= $Distance; $i ++) {
-			$X = $i * $XStep + $X1;
-			$Y = $i * $YStep + $Y1;
-			
-			if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
-				if ($this->LineWidth == 1)
-					$this->drawAntialiasPixel ( $X, $Y, $R, $G, $B, $this->shadowProperties);
-				else {
-					$StartOffset = - ($this->LineWidth / 2);
-					$EndOffset = ($this->LineWidth / 2);
-					for($j = $StartOffset; $j <= $EndOffset; $j ++)
-						$this->drawAntialiasPixel ( $X + $j, $Y + $j, $R, $G, $B , $this->shadowProperties);
-				}
-			}
-		}
+
+		$gdColor = self::AllocateColor($this->Picture, $R, $G, $B);
+
+		imageline($this->Picture, $X1, $Y1, $X2, $Y2, $gdColor);
 	}
 	
 	/**
