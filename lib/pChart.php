@@ -2116,9 +2116,7 @@ class pChart {
 												   $YBottom,
 												   $XPos + $SeriesWidth - 1,
 												   $YPos,
-												   $this->palette->colors[$ColorID]->r,
-												   $this->palette->colors[$ColorID]->g,
-												   $this->palette->colors[$ColorID]->b,
+												   $this->palette->colors[$ColorID],
 												   $this->shadowProperties, 
 												   TRUE,
 												   $Alpha );
@@ -3110,9 +3108,10 @@ class pChart {
 										   $shadowProperties->color,
 										   ShadowProperties::NoShadow(),
 										   FALSE,
-										   $shadowProperties->alpha);
-				if ($shadowProperties->blur != 0) {
-					$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
+										   $this->shadowProperties->alpha, 
+										   TRUE );
+				if ($this->shadowProperties->blur != 0) {
+					$AlphaDecay = ($this->shadowProperties->alpha / $this->shadowProperties->blur);
 					
 					for($i = 1; $i <= $shadowProperties->blur; $i ++)
 						$this->drawFilledRectangle($X1 + $shadowProperties->xDistance - $i / 2,
@@ -3131,7 +3130,8 @@ class pChart {
 													 $shadowProperties->color,
 													 ShadowProperties::NoShadow(),
 													 FALSE, 
-													 $shadowProperties->alpha - $AlphaDecay * $i);
+													 $this->shadowProperties->alpha - $AlphaDecay * $i,
+													 TRUE );
 				}
 			}
 			
@@ -3506,7 +3506,10 @@ class pChart {
 	 */
 	private function drawAntialiasPixel($X, $Y, Color $color, ShadowProperties $shadowProperties, $Alpha = 100) {
 		/* Process shadows */
-		if ($shadowProperties->active) {
+		if ($shadowProperties->active && ! $NoFallBack) {
+			/** @todo From the way we're passing $shadowProperties in,
+			 * it appears that even shadows have shadows! Maybe that's
+			 * what the $NoFallBack parameter is about? */
 			$this->drawAntialiasPixel($X + $shadowProperties->xDistance,
 									  $Y + $shadowProperties->yDistance,
 									  $shadowProperties->color,

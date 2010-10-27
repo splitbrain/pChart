@@ -332,10 +332,16 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							$dataSet->getDataDescription(),
 							'Y',
 							'X',
+<<<<<<< HEAD
 							new Color(213, 217, 221),
 							TRUE, 45);
 		$chart->drawGraphArea(new Color(213, 217, 221), FALSE);
 		$chart->drawGrid(4, TRUE, new Color(230, 230, 230), 20);
+=======
+							213, 217, 221, TRUE, 45);
+		$chart->drawGraphArea(213, 217, 221, FALSE);
+		$chart->drawGrid(4, TRUE, 230, 230, 230, 20);
+>>>>>>> master
 
 		$chart->drawXYPlotGraph($dataSet->getData(),
 								$dataSet->getDataDescription(),
@@ -357,14 +363,21 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddPoint(array(0.5,2,4.5,8,12.5,18,24.5,32,40.5,50),"Serie2");
 
 		$DataSet->AddAllSeries();
+<<<<<<< HEAD
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->SetSeriesName("January","Serie1");
 		$DataSet->SetSeriesName("February","Serie2");
+=======
+		$DataSet->SetAbsciseLabelSerie();
+		$DataSet->SetSerieName("January","Serie1");
+		$DataSet->SetSerieName("February","Serie2");
+>>>>>>> master
 
 		// Initialise the graph
 		$Test = new pChart(700,230);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
+<<<<<<< HEAD
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
 		$Test->drawRoundedRectangle(5,5,695,225,5, new Color(230,230,230));
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
@@ -393,6 +406,32 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 9",new Color(50,50,50),585);
+=======
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+
+		// Draw the line graph
+		$Test->drawLineGraph($DataSet->GetData(),$DataSet->GetDataDescription());
+		$Test->drawPlotGraph($DataSet->GetData(),$DataSet->GetDataDescription(),3,2,255,255,255);
+
+		// Set labels
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie1","2","Daily incomes",221,230,174);
+		$Test->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie2","6","Production break",239,233,195);
+
+		// Finish the graph
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(50,22,"Example 9",50,50,50,585);
+>>>>>>> master
 		$Test->Render(dirname(__FILE__)."/actual/example9.png");
 
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example9.png');
@@ -407,12 +446,17 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->ImportFromCSV(dirname(__FILE__)
 								."/../sample/datawithtitle.csv",",",array(1,2,3),TRUE,0);
 		$DataSet->AddAllSeries();
+<<<<<<< HEAD
 		$DataSet->SetAbscissaLabelSeries();
+=======
+		$DataSet->SetAbsciseLabelSerie();
+>>>>>>> master
 
 		// Initialise the graph
 		$Test = new pChart(700,230);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(60,30,680,200);
+<<<<<<< HEAD
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5,new Color(240,240,240));
 		$Test->drawRoundedRectangle(5,5,695,225,5,new Color(230,230,230));
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
@@ -423,15 +467,32 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
+=======
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+>>>>>>> master
 
 		// Draw the filled line graph
 		$Test->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),50,TRUE);
 
 		// Finish the graph
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+<<<<<<< HEAD
 		$Test->drawLegend(65,35,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(60,22,"Example 6",new Color(50,50,50),585);
+=======
+		$Test->drawLegend(65,35,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(60,22,"Example 6",50,50,50,585);
+>>>>>>> master
 		$Test->render(dirname(__FILE__).'/actual/example6.png');
 
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example6.png');
@@ -447,14 +508,21 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4,-3,2,-3,3,5,1,0,7),"Serie1");
 		$DataSet->AddPoint(array(0,3,-4,1,-2,2,1,0,-1,6,3,-4,1,-4,2,4,0,-1,6),"Serie2");
 		$DataSet->AddAllSeries();
+<<<<<<< HEAD
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->SetSeriesName("January","Serie1");
 		$DataSet->SetSeriesName("February","Serie2");
+=======
+		$DataSet->SetAbsciseLabelSerie();
+		$DataSet->SetSerieName("January","Serie1");
+		$DataSet->SetSerieName("February","Serie2");
+>>>>>>> master
 
 		// Initialise the graph
 		$Test = new pChart(700,230);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
+<<<<<<< HEAD
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5,new Color(240,240,240));
 		$Test->drawRoundedRectangle(5,5,695,225,5,new Color(230,230,230));
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
@@ -465,15 +533,32 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
+=======
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+>>>>>>> master
 
 		// Draw the bar graph
 		$Test->drawOverlayBarGraph($DataSet->GetData(),$DataSet->GetDataDescription());
 
 		// Finish the graph
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+<<<<<<< HEAD
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 3",new Color(50,50,50),585);
+=======
+		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(50,22,"Example 3",50,50,50,585);
+>>>>>>> master
 		$Test->render(dirname(__FILE__).'/actual/example3.png');
 
 		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example3.png');
@@ -490,14 +575,21 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddPoint(array(4,1,2,-1,-4,-2,3,2,1,2,2),"Serie3");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
+<<<<<<< HEAD
 		$DataSet->setSeriesName("January","Serie1");
 		$DataSet->setSeriesName("February","Serie2");
 		$DataSet->setSeriesName("March","Serie3");
+=======
+		$DataSet->SetSerieName("January","Serie1");
+		$DataSet->SetSerieName("February","Serie2");
+		$DataSet->SetSerieName("March","Serie3");
+>>>>>>> master
 
 		// Initialise the graph
 		$Test = new pChart(700,230);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
+<<<<<<< HEAD
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
 		$Test->drawRoundedRectangle(5,5,695,225,5, new Color(230,230,230));
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
@@ -508,15 +600,32 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
+=======
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+>>>>>>> master
 
 		// Draw the bar graph
 		$Test->drawBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE,80);
 
 		// Finish the graph
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+<<<<<<< HEAD
 		$Test->drawLegend(596,150,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 12",new Color(50,50,50),585);
+=======
+		$Test->drawLegend(596,150,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(50,22,"Example 12",50,50,50,585);
+>>>>>>> master
 
 		$Test->render(dirname(__FILE__).'/actual/example12.png');
 
@@ -524,5 +633,92 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example12.png');
 
 		$this->assertTrue($expectedContents == $actualContents);
+<<<<<<< HEAD
+=======
+	}
+
+	public function testDrawStackedBarGraph() {
+		// Dataset definition 
+		$DataSet = new pData;
+		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4),"Serie1");
+		$DataSet->AddPoint(array(3,3,-4,1,-2,2,1,0,-1,6,3),"Serie2");
+		$DataSet->AddPoint(array(4,1,2,-1,-4,-2,3,2,1,2,2),"Serie3");
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie();
+		$DataSet->SetSerieName("January","Serie1");
+		$DataSet->SetSerieName("February","Serie2");
+		$DataSet->SetSerieName("March","Serie3");
+
+		// Initialise the graph
+		$Test = new pChart(700,230);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setGraphArea(50,30,680,200);
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_ADDALL,150,150,150,TRUE,0,2,TRUE);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+
+		// Draw the bar graph
+		$Test->drawStackedBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),100);
+
+		// Finish the graph
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawLegend(596,150,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(50,22,"Example 20",50,50,50,585);
+
+		$Test->render(dirname(__FILE__).'/actual/example20.png');
+
+		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example20.png');
+		$actualContents = @file_get_contents(dirname(__FILE__).'/actual/example20.png');
+
+		$this->assertTrue($expectedContents == $actualContents);
+	}
+
+	public function testDrawLimitsGraph() {
+		// Dataset definition 
+		$DataSet = new pData;
+		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4,-3,2,-3,3,5,1,0,7),"Serie1");
+		$DataSet->AddPoint(array(2,5,7,5,1,5,6,4,8,4,0,2,5,6,4,5,6,7,6),"Serie2");
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie();
+		$DataSet->SetSerieName("January","Serie1");
+		$DataSet->SetSerieName("February","Serie2");
+
+		// Initialise the graph
+		$Test = new pChart(700,230);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setGraphArea(50,30,585,200);
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
+		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
+		$Test->drawGraphArea(255,255,255,TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+		$Test->drawGrid(4,TRUE,230,230,230,50);
+
+		// Draw the 0 line
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+
+		// Draw the limit graph
+		$Test->drawLimitsGraph($DataSet->GetData(),$DataSet->GetDataDescription(),180,180,180);
+
+		// Finish the graph
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),255,255,255);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(50,22,"Example 5",50,50,50,585);
+		
+		$Test->render(dirname(__FILE__).'/actual/example5.png');
+
+		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example5.png');
+		$actualContents = @file_get_contents(dirname(__FILE__).'/actual/example5.png');
+
+		$this->assertTrue($expectedContents == $actualContents);		
+>>>>>>> master
 	}
 }
