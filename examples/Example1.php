@@ -4,8 +4,8 @@
  */
 
  // Standard inclusions      
- include("../lib/pData.php");   
- include("../lib/pChart.php");   
+ require_once("../lib/pData.php");   
+ require_once("../lib/pChart.php");   
   
  // Dataset definition    
  $DataSet = new pData;   
