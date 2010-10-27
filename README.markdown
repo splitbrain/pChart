@@ -27,9 +27,29 @@ project, it's probably reasonable to use this distribution in
 preference to the Sourceforge distribution, since any bugs in this
 distribution should hopefully be fixed on a reasonable timescale.
 
-## Issues
+## Code cleanup
 
-The biggest issue to overcome is there does not seem to be a consistent use of camel casing.  Some functions start in caps
-while others do not.  The project would like to maintain complete backwards compatibility, but that may be sacrificed for
-consistency in the API.
+The code has some questionable style issues, most noticeably
+inconsistent use of camel casing for method names. This isn't a
+particularly big deal in itself, since method names are
+case-insensitive, but we aim to clean it up as part of this project.
+
+## Development versions
+
+There are currently two development branches, both of which are usable
+but may not be relied upon not to change in the future:
+
+* **v2** is an attempt to rewrite the API to a more modern,
+  Object-Oriented style. This API is currently still unstable, though
+  the code is unit-tested and should be pretty functional, so if
+  you're happy fixing your own bugs or updating the API as it changes,
+  this could be usable. I intend soon to do a release branch that will
+  be kept up to date with bug fixes
+* **gdline** is an experimental optimisation that uses the native GD
+  line drawing rather than drawing pixel-by-pixel. It is substantially
+  faster (400% in some cases) but doesn't have antialiasing or
+  drop-shadows working. It's based off the v1 API. Eventually I intend
+  to incorporate these improvements in as optional speedups to the
+  main branch, but for now if you need speed and don't care too much
+  about prettiness, this is a viable option.
  
