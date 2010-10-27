@@ -51,3 +51,9 @@ but may not be relied upon not to change in the future:
   main branch, but for now if you need speed and don't care too much
   about prettiness, this is a viable option.
  
+## Future development
+
+I've been pondering switching to Cairo over GD as the rendering
+engine, since the support for antialiasing doesn't seem to be reliably
+present on PHP. This probably won't happen until after a release of
+the v2 API branch has gone out, at the very least.
