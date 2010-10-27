@@ -19,7 +19,7 @@ The goal of this project is:
  
 ## Status
 
-The main body of the code now has around 66% unit test coverage, and
+The main body of the code now has over 70% unit test coverage, and
 all the examples appear to be working. If you're starting a new
 project, it's probably reasonable to use this distribution in
 preference to the Sourceforge distribution, since any bugs in this
@@ -51,3 +51,9 @@ but may not be relied upon not to change in the future:
   main branch, but for now if you need speed and don't care too much
   about prettiness, this is a viable option.
  
+## Future development
+
+I've been pondering switching to Cairo over GD as the rendering
+engine, since the support for antialiasing doesn't seem to be reliably
+present on PHP. This probably won't happen until after a release of
+the v2 API branch has gone out, at the very least.
