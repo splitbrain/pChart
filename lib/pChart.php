@@ -3108,10 +3108,9 @@ class pChart {
 										   $shadowProperties->color,
 										   ShadowProperties::NoShadow(),
 										   FALSE,
-										   $this->shadowProperties->alpha, 
-										   TRUE );
-				if ($this->shadowProperties->blur != 0) {
-					$AlphaDecay = ($this->shadowProperties->alpha / $this->shadowProperties->blur);
+										   $shadowProperties->alpha);
+				if ($shadowProperties->blur != 0) {
+					$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
 					
 					for($i = 1; $i <= $shadowProperties->blur; $i ++)
 						$this->drawFilledRectangle($X1 + $shadowProperties->xDistance - $i / 2,
@@ -3130,8 +3129,7 @@ class pChart {
 													 $shadowProperties->color,
 													 ShadowProperties::NoShadow(),
 													 FALSE, 
-													 $this->shadowProperties->alpha - $AlphaDecay * $i,
-													 TRUE );
+													 $shadowProperties->alpha - $AlphaDecay * $i);
 				}
 			}
 			
@@ -3506,10 +3504,7 @@ class pChart {
 	 */
 	private function drawAntialiasPixel($X, $Y, Color $color, ShadowProperties $shadowProperties, $Alpha = 100) {
 		/* Process shadows */
-		if ($shadowProperties->active && ! $NoFallBack) {
-			/** @todo From the way we're passing $shadowProperties in,
-			 * it appears that even shadows have shadows! Maybe that's
-			 * what the $NoFallBack parameter is about? */
+		if ($shadowProperties->active) {
 			$this->drawAntialiasPixel($X + $shadowProperties->xDistance,
 									  $Y + $shadowProperties->yDistance,
 									  $shadowProperties->color,
