@@ -801,9 +801,8 @@ class pChart {
 					}
 				}
 			}
-			
-			if ($this->VXMax > preg_replace ( '/\.[0-9]+/', '', $this->VXMax ))
-				$this->VXMax = preg_replace ( '/\.[0-9]+/', '', $this->VXMax ) + 1;
+
+			$this->VXMax = ceil($this->VXMax);
 			
 			$DataRange = $this->VMax - $this->VMin;
 			if ($DataRange == 0) {
