@@ -2415,9 +2415,7 @@ class pChart {
 										$YLast,
 										$XPos,
 										$YPos,
-										$this->palette->colors[$ColorID]->r,
-										$this->palette->colors[$ColorID]->g,
-										$this->palette->colors[$ColorID]->b);
+										$this->palette->colors[$ColorID]);
 					
 					if ($XLast == - 1) {
 						$FirstX = $XPos;
@@ -2433,9 +2431,7 @@ class pChart {
 							$YPos,
 							$FirstX,
 							$FirstY,
-							$this->palette->colors[$ColorID]->r,
-							$this->palette->colors[$ColorID]->g,
-							$this->palette->colors[$ColorID]->b);
+							$this->palette->colors[$ColorID]);
 			$GraphID ++;
 		}
 	}
