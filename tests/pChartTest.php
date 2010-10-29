@@ -316,6 +316,46 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($expectedContents == $actualContents);
 	}
 
+	public function testDrawRadar() {
+		// Dataset definition 
+		$DataSet = new pData;
+		$DataSet->AddPoint(array("Memory","Disk","Network","Slots","CPU"),"Label");
+		$DataSet->AddPoint(array(1,2,3,4,3),"Serie1");
+		$DataSet->AddPoint(array(1,4,2,6,2),"Serie2");
+		$DataSet->AddSeries("Serie1");
+		$DataSet->AddSeries("Serie2");
+		$DataSet->SetAbscissaLabelSeries("Label");
+		
+		$DataSet->SetSeriesName("Reference","Serie1");
+		$DataSet->SetSeriesName("Tested computer","Serie2");
+		
+		// Initialise the graph
+		$Test = new pChart(400,400);
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->drawFilledRoundedRectangle(7,7,393,393,5, new Color(240,240,240));
+		$Test->drawRoundedRectangle(5,5,395,395,5, new Color(230,230,230));
+		$Test->setGraphArea(30,30,370,370);
+		$Test->drawFilledRoundedRectangle(30,30,370,370,5, new Color(255,255,255));
+		$Test->drawRoundedRectangle(30,30,370,370,5,new Color(220,220,220));
+		
+		// Draw the radar graph
+		$Test->drawRadarAxis($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE,20,new Color(120,120,120),new Color(230,230,230));
+		$Test->drawRadar($DataSet->GetData(),$DataSet->GetDataDescription(),50);
+		
+		// Finish the graph
+		$Test->drawLegend(15,15,$DataSet->GetDataDescription(),new Color(255,255,255));
+		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->drawTitle(0,22,"Example 8",new Color(50,50,50),400);
+		$Test->Render(dirname(__FILE__)."/actual/example8_line.png");
+
+		$expectedContents = file_get_contents(dirname(__FILE__)
+											  .'/expected/example8_line.png');
+		$actualContents = file_get_contents(dirname(__FILE__)
+											.'/actual/example8_line.png');
+
+		$this->assertTrue($expectedContents == $actualContents);
+	}
+
 	public function testDrawXYPlotGraph() {
 		$dataSet = new pData;
 
