@@ -734,63 +734,9 @@ class pChart {
 			}
 			
 			/* Compute automatic scaling */
-			$ScaleOk = FALSE;
-			$Factor = 1;
-			$MinDivWidth = 25;
-			$MaxDivs = ($this->GArea_X2 - $this->GArea_X1) / $MinDivWidth;
-			
-			if ($this->VXMin == 0 && $this->VXMax == 0) {
-				$this->VXMin = 0;
-				$this->VXMax = 2;
-				$Scale = 1;
-				$XDivisions = 2;
-			} elseif ($MaxDivs > 1) {
-				while ( ! $ScaleOk ) {
-					$Scale1 = ($this->VXMax - $this->VXMin) / $Factor;
-					$Scale2 = ($this->VXMax - $this->VXMin) / $Factor / 2;
-					$Scale4 = ($this->VXMax - $this->VXMin) / $Factor / 4;
-					
-					if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
-						$ScaleOk = TRUE;
-						$XDivisions = floor ( $Scale1 );
-						$Scale = 1;
-					}
-					if ($Scale2 > 1 && $Scale2 <= $MaxDivs && ! $ScaleOk) {
-						$ScaleOk = TRUE;
-						$XDivisions = floor ( $Scale2 );
-						$Scale = 2;
-					}
-					if (! $ScaleOk) {
-						if ($Scale2 > 1) {
-							$Factor = $Factor * 10;
-						}
-						if ($Scale2 < 1) {
-							$Factor = $Factor / 10;
-						}
-					}
-				}
-				
-				if (floor ( $this->VXMax / $Scale / $Factor ) != $this->VXMax / $Scale / $Factor) {
-					$GridID = floor ( $this->VXMax / $Scale / $Factor ) + 1;
-					$this->VXMax = $GridID * $Scale * $Factor;
-					$XDivisions ++;
-				}
-				
-				if (floor ( $this->VXMin / $Scale / $Factor ) != $this->VXMin / $Scale / $Factor) {
-					$GridID = floor ( $this->VXMin / $Scale / $Factor );
-					$this->VXMin = $GridID * $Scale * $Factor;
-					$XDivisions ++;
-				}
-			} else /* Can occurs for small graphs */
-				$Scale = 1;
-			
-			if (! isset ( $XDivisions ))
-				$XDivisions = 2;
-			
-			if (self::isRealInt ( ($this->VXMax - $this->VXMin) / ($XDivisions - 1) ))
-				$XDivisions --;
-			elseif (self::isRealInt ( ($this->VXMax - $this->VXMin) / ($XDivisions + 1) ))
-				$XDivisions ++;
+			self::computeAutomaticScaling($this->GArea_X1, $this->GArea_X2,
+										  $this->VXMin, $this->VXMax,
+										  $XDivisions);
 		} else
 			$XDivisions = $this->XDivisions;
 		
