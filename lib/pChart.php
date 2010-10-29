@@ -2433,7 +2433,7 @@ class pChart {
 			foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
 				foreach ( $Data as $Key => $Values ) {
 					if (isset ( $Data [$Key] [$ColName] ))
-						if ($Data [$Key] [$ColName] > $MaxValue) {
+						if ($Data [$Key] [$ColName] > $MaxValue && is_numeric($Data[$Key][$ColName])) {
 							$MaxValue = $Data [$Key] [$ColName];
 						}
 				}
