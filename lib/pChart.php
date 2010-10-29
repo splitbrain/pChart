@@ -2415,6 +2415,19 @@ class pChart {
 		}
 	}
 	
+	private function calculateMaxValue($Data, $DataDescription) {
+		$MaxValue = -1;
+		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+			foreach ( $Data as $Key => $Values ) {
+				if (isset ( $Data [$Key] [$ColName] ))
+					if ($Data [$Key] [$ColName] > $MaxValue && is_numeric($Data[$Key][$ColName])) {
+						$MaxValue = $Data [$Key] [$ColName];
+					}
+			}
+		}
+		return $MaxValue;
+	}
+
 	/**
 	 * This function draw a radar graph centered on the graph area
 	 */
@@ -2430,14 +2443,7 @@ class pChart {
 		
 		/* Search for the max value */
 		if ($MaxValue == - 1) {
-			foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
-				foreach ( $Data as $Key => $Values ) {
-					if (isset ( $Data [$Key] [$ColName] ))
-						if ($Data [$Key] [$ColName] > $MaxValue) {
-							$MaxValue = $Data [$Key] [$ColName];
-						}
-				}
-			}
+			$MaxValue = $this->calculateMaxValue($Data, $DataDescription);
 		}
 		
 		$GraphID = 0;
@@ -2496,14 +2502,7 @@ class pChart {
 		
 		/* Search for the max value */
 		if ($MaxValue == - 1) {
-			foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
-				foreach ( $Data as $Key => $Values ) {
-					if (isset ( $Data [$Key] [$ColName] ))
-						if ($Data [$Key] [$ColName] > $MaxValue && is_numeric ( $Data [$Key] [$ColName] )) {
-							$MaxValue = $Data [$Key] [$ColName];
-						}
-				}
-			}
+			$MaxValue = $this->calculateMaxValue($Data, $DataDescription);
 		}
 		
 		$GraphID = 0;
