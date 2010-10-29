@@ -663,23 +663,12 @@ class pChart {
 		
 		/* Process Y scale */
 		if ($this->VMin == NULL && $this->VMax == NULL) {
-			$this->VMin = $Data [0] [$YSerieName];
-			$this->VMax = $Data [0] [$YSerieName];
-			
-			foreach ( $Data as $Key => $Values ) {
-				if (isset ( $Data [$Key] [$YSerieName] )) {
-					$Value = $Data [$Key] [$YSerieName];
-					if ($this->VMax < $Value) {
-						$this->VMax = $Value;
-					}
-					if ($this->VMin > $Value) {
-						$this->VMin = $Value;
-					}
-				}
-			}
-			
-			if ($this->VMax > preg_replace ( '/\.[0-9]+/', '', $this->VMax ))
-				$this->VMax = preg_replace ( '/\.[0-9]+/', '', $this->VMax ) + 1;
+			self::calculateSeriesMinMax($Data, $YSerieName,
+										$this->VMin, $this->VMax);
+
+			/** @todo The use of ceil() here is questionable if all
+			 * the values are much less than 1, AIUI */
+			$this->VMax = ceil($this->VMax);
 			
 			$DataRange = $this->VMax - $this->VMin;
 			if ($DataRange == 0) {
@@ -787,20 +776,8 @@ class pChart {
 		
 		/* Process X scale */
 		if ($this->VXMin == NULL && $this->VXMax == NULL) {
-			$this->VXMin = $Data [0] [$XSerieName];
-			$this->VXMax = $Data [0] [$XSerieName];
-			
-			foreach ( $Data as $Key => $Values ) {
-				if (isset ( $Data [$Key] [$XSerieName] )) {
-					$Value = $Data [$Key] [$XSerieName];
-					if ($this->VXMax < $Value) {
-						$this->VXMax = $Value;
-					}
-					if ($this->VXMin > $Value) {
-						$this->VXMin = $Value;
-					}
-				}
-			}
+			self::calculateSeriesMinMax($Data, $XSerieName,
+										$this->VXMin, $this->VXMax);
 
 			$this->VXMax = ceil($this->VXMax);
 			
@@ -4104,6 +4081,25 @@ class pChart {
 			}
 		} else /* Can occur for small graphs */
 			  $Scale = 1;
+	}
+
+	static private function calculateSeriesMinMax($data, $seriesName, &$min, &$max) {
+		$min = $data[0][$seriesName];
+		$max = $data[0][$seriesName];
+
+		foreach ($data as $key => $values) {
+			if (isset($data[$key][$seriesName])) {
+				$value = $data[$key][$seriesName];
+
+				if ($value > $max) {
+					$max = $value;
+				}
+
+				if ($value < $min) {
+					$min = $value;
+				}
+			}
+		}
 	}
 }
 
