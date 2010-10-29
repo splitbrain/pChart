@@ -675,64 +675,11 @@ class pChart {
 				$DataRange = .1;
 			}
 			
-			/* Compute automatic scaling */
-			$ScaleOk = FALSE;
-			$Factor = 1;
-			$MinDivHeight = 25;
-			$MaxDivs = ($this->GArea_Y2 - $this->GArea_Y1) / $MinDivHeight;
-			
-			if ($this->VMin == 0 && $this->VMax == 0) {
-				$this->VMin = 0;
-				$this->VMax = 2;
-				$Scale = 1;
-				$Divisions = 2;
-			} elseif ($MaxDivs > 1) {
-				while ( ! $ScaleOk ) {
-					$Scale1 = ($this->VMax - $this->VMin) / $Factor;
-					$Scale2 = ($this->VMax - $this->VMin) / $Factor / 2;
-					$Scale4 = ($this->VMax - $this->VMin) / $Factor / 4;
-					
-					if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
-						$ScaleOk = TRUE;
-						$Divisions = floor ( $Scale1 );
-						$Scale = 1;
-					}
-					if ($Scale2 > 1 && $Scale2 <= $MaxDivs && ! $ScaleOk) {
-						$ScaleOk = TRUE;
-						$Divisions = floor ( $Scale2 );
-						$Scale = 2;
-					}
-					if (! $ScaleOk) {
-						if ($Scale2 > 1) {
-							$Factor = $Factor * 10;
-						}
-						if ($Scale2 < 1) {
-							$Factor = $Factor / 10;
-						}
-					}
-				}
-				
-				if (floor ( $this->VMax / $Scale / $Factor ) != $this->VMax / $Scale / $Factor) {
-					$GridID = floor ( $this->VMax / $Scale / $Factor ) + 1;
-					$this->VMax = $GridID * $Scale * $Factor;
-					$Divisions ++;
-				}
-				
-				if (floor ( $this->VMin / $Scale / $Factor ) != $this->VMin / $Scale / $Factor) {
-					$GridID = floor ( $this->VMin / $Scale / $Factor );
-					$this->VMin = $GridID * $Scale * $Factor;
-					$Divisions ++;
-				}
-			} else /* Can occurs for small graphs */
-				$Scale = 1;
-			
-			if (! isset ( $Divisions ))
-				$Divisions = 2;
-			
-			if ($this->isRealInt ( ($this->VMax - $this->VMin) / ($Divisions - 1) ))
-				$Divisions --;
-			elseif ($this->isRealInt ( ($this->VMax - $this->VMin) / ($Divisions + 1) ))
-				$Divisions ++;
+			self::computeAutomaticScaling($this->GArea_Y1,
+										  $this->GArea_Y2,
+										  $this->VMin,
+										  $this->VMax,
+										  $Divisions);
 		} else
 			$Divisions = $this->Divisions;
 		
@@ -787,63 +734,9 @@ class pChart {
 			}
 			
 			/* Compute automatic scaling */
-			$ScaleOk = FALSE;
-			$Factor = 1;
-			$MinDivWidth = 25;
-			$MaxDivs = ($this->GArea_X2 - $this->GArea_X1) / $MinDivWidth;
-			
-			if ($this->VXMin == 0 && $this->VXMax == 0) {
-				$this->VXMin = 0;
-				$this->VXMax = 2;
-				$Scale = 1;
-				$XDivisions = 2;
-			} elseif ($MaxDivs > 1) {
-				while ( ! $ScaleOk ) {
-					$Scale1 = ($this->VXMax - $this->VXMin) / $Factor;
-					$Scale2 = ($this->VXMax - $this->VXMin) / $Factor / 2;
-					$Scale4 = ($this->VXMax - $this->VXMin) / $Factor / 4;
-					
-					if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
-						$ScaleOk = TRUE;
-						$XDivisions = floor ( $Scale1 );
-						$Scale = 1;
-					}
-					if ($Scale2 > 1 && $Scale2 <= $MaxDivs && ! $ScaleOk) {
-						$ScaleOk = TRUE;
-						$XDivisions = floor ( $Scale2 );
-						$Scale = 2;
-					}
-					if (! $ScaleOk) {
-						if ($Scale2 > 1) {
-							$Factor = $Factor * 10;
-						}
-						if ($Scale2 < 1) {
-							$Factor = $Factor / 10;
-						}
-					}
-				}
-				
-				if (floor ( $this->VXMax / $Scale / $Factor ) != $this->VXMax / $Scale / $Factor) {
-					$GridID = floor ( $this->VXMax / $Scale / $Factor ) + 1;
-					$this->VXMax = $GridID * $Scale * $Factor;
-					$XDivisions ++;
-				}
-				
-				if (floor ( $this->VXMin / $Scale / $Factor ) != $this->VXMin / $Scale / $Factor) {
-					$GridID = floor ( $this->VXMin / $Scale / $Factor );
-					$this->VXMin = $GridID * $Scale * $Factor;
-					$XDivisions ++;
-				}
-			} else /* Can occurs for small graphs */
-				$Scale = 1;
-			
-			if (! isset ( $XDivisions ))
-				$XDivisions = 2;
-			
-			if ($this->isRealInt ( ($this->VXMax - $this->VXMin) / ($XDivisions - 1) ))
-				$XDivisions --;
-			elseif ($this->isRealInt ( ($this->VXMax - $this->VXMin) / ($XDivisions + 1) ))
-				$XDivisions ++;
+			self::computeAutomaticScaling($this->GArea_X1, $this->GArea_X2,
+										  $this->VXMin, $this->VXMax,
+										  $XDivisions);
 		} else
 			$XDivisions = $this->XDivisions;
 		
@@ -3985,7 +3878,7 @@ class pChart {
 	/**
 	 * Check if a number is a full integer (for scaling) 
 	 */
-	function isRealInt($Value) {
+	static private function isRealInt($Value) {
 		if ($Value == floor ( $Value ))
 			return (TRUE);
 		return (FALSE);
@@ -4082,6 +3975,66 @@ class pChart {
 				}
 			}
 		}
+	}
+
+	static private function computeAutomaticScaling($minCoord, $maxCoord, &$minVal, &$maxVal, &$Divisions) {
+		$ScaleOk = FALSE;
+		$Factor = 1;
+		$MinDivHeight = 25;
+		$MaxDivs = ($maxCoord - $minCoord) / $MinDivHeight;
+			
+		if ($minVal == 0 && $maxVal == 0) {
+			$minVal = 0;
+			$maxVal = 2;
+			$Scale = 1;
+			$Divisions = 2;
+		} elseif ($MaxDivs > 1) {
+			while ( ! $ScaleOk ) {
+				$Scale1 = ($maxVal - $minVal) / $Factor;
+				$Scale2 = ($maxVal - $minVal) / $Factor / 2;
+				$Scale4 = ($maxVal - $minVal) / $Factor / 4;
+					
+				if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
+					$ScaleOk = TRUE;
+					$Divisions = floor ( $Scale1 );
+					$Scale = 1;
+				}
+				if ($Scale2 > 1 && $Scale2 <= $MaxDivs && ! $ScaleOk) {
+					$ScaleOk = TRUE;
+					$Divisions = floor ( $Scale2 );
+					$Scale = 2;
+				}
+				if (! $ScaleOk) {
+					if ($Scale2 > 1) {
+						$Factor = $Factor * 10;
+					}
+					if ($Scale2 < 1) {
+						$Factor = $Factor / 10;
+					}
+				}
+			}
+				
+			if (floor ( $maxVal / $Scale / $Factor ) != $maxVal / $Scale / $Factor) {
+				$GridID = floor ( $maxVal / $Scale / $Factor ) + 1;
+				$maxVal = $GridID * $Scale * $Factor;
+				$Divisions ++;
+			}
+				
+			if (floor ( $minVal / $Scale / $Factor ) != $minVal / $Scale / $Factor) {
+				$GridID = floor ( $minVal / $Scale / $Factor );
+				$minVal = $GridID * $Scale * $Factor;
+				$Divisions ++;
+			}
+		} else /* Can occurs for small graphs */
+			  $Scale = 1;
+			
+		if (! isset ( $Divisions ))
+			$Divisions = 2;
+			
+		if (self::isRealInt ( ($maxVal - $minVal) / ($Divisions - 1) ))
+			$Divisions --;
+		elseif (self::isRealInt ( ($maxVal - $minVal) / ($Divisions + 1) ))
+			$Divisions ++;
 	}
 }
 
