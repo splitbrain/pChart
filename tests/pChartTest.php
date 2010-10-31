@@ -674,28 +674,34 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFixedScale(-12,12,5);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
 		$Test->setGraphArea(65,30,570,185);   
-		$Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);   
-		$Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);   
-		$Test->drawGraphArea(255,255,255,TRUE);
-		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE,3);   
-		$Test->drawGrid(4,TRUE,230,230,230,50);
+		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
+		$Test->drawRoundedRectangle(5,5,695,225,5, new Color(230,230,230));
+		$Test->drawGraphArea(new Color(255,255,255), TRUE);
+		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),
+						 SCALE_NORMAL, new Color(150,150,150),
+						 TRUE,0,2,TRUE,3);   
+		$Test->drawGrid(4,TRUE, new Color(230,230,230), 50);
 
 		// Draw the 0 line   
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);   
-		$Test->drawTreshold(0,143,55,72,TRUE,TRUE);   
+		$Test->drawTreshold(0, new Color(143,55,72),TRUE,TRUE);   
   
 		// Draw the area
-		$DataSet->RemoveSerie("Serie4");
-		$Test->drawArea($DataSet->GetData(),"Serie1","Serie2",239,238,227,50);
-		$DataSet->RemoveSerie("Serie3");
+		$DataSet->RemoveSeries("Serie4");
+		$Test->drawArea($DataSet->GetData(),"Serie1","Serie2", 
+						new Color(239,238,227),
+						50);
+		$DataSet->RemoveSeries("Serie3");
 		$Test->drawLineGraph($DataSet->GetData(),$DataSet->GetDataDescription());   
 
 		// Draw the line graph
 		$Test->setLineStyle(1,6);
 		$DataSet->RemoveAllSeries();
-		$DataSet->AddSerie("Serie3");
+		$DataSet->AddSeries("Serie3");
 		$Test->drawLineGraph($DataSet->GetData(),$DataSet->GetDataDescription());   
-		$Test->drawPlotGraph($DataSet->GetData(),$DataSet->GetDataDescription(),3,2,255,255,255);   
+		$Test->drawPlotGraph($DataSet->GetData(),$DataSet->GetDataDescription(),3,
+							 2,
+							 new Color(255,255,255));
 
 		// Write values on Serie3
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
@@ -703,9 +709,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
   
 		// Finish the graph   
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
-		$Test->drawLegend(590,90,$DataSet->GetDataDescription(),255,255,255);   
+		$Test->drawLegend(590,90,$DataSet->GetDataDescription(), 
+						  new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
-		$Test->drawTitle(60,22,"example 15",50,50,50,585);
+		$Test->drawTitle(60,22,"example 15", new Color(50,50,50),585);
 
 		// Add an image
 		$Test->drawFromPNG(dirname(__FILE__)."/../Sample/logo.png",584,35);
