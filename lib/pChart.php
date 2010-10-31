@@ -492,8 +492,7 @@ class pChart {
 				}
 			}
 			
-			if ($this->VMax > preg_replace ( '/\.[0-9]+/', '', $this->VMax ))
-				$this->VMax = preg_replace ( '/\.[0-9]+/', '', $this->VMax ) + 1;
+			$this->VMax = ceil($this->VMax);
 				
 			/* If all values are the same */
 			if ($this->VMax == $this->VMin) {
