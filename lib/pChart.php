@@ -3172,7 +3172,9 @@ class pChart {
 	 */
 	function drawLine($X1, $Y1, $X2, $Y2, Color $color, $GraphFunction = FALSE) {
 		if ($this->LineDotSize > 1) {
-			$this->drawDottedLine ( $X1, $Y1, $X2, $Y2, $this->LineDotSize, new Color($R, $G, $B), $GraphFunction );
+			$this->drawDottedLine($X1, $Y1,
+								  $X2, $Y2,
+								  $this->LineDotSize, $color, $GraphFunction );
 			return (0);
 		}
 		
