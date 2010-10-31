@@ -49,7 +49,11 @@ class pChartTest extends PHPUnit_Framework_TestCase {
   
 		// Finish the graph   
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
-		$Test->drawLegend(75,35,$DataSet->GetDataDescription(),255,255,255);   
+		$Test->drawLegend(75,35,$DataSet->GetDataDescription(),255,255,255);
+
+		$this->assertEquals(array(73, 51),
+							$Test->getLegendBoxSize($DataSet->getDataDescription()));
+
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
 		$Test->drawTitle(60,22,"example 1",50,50,50,585);   
 		$Test->Render(dirname(__FILE__)."/actual/example1.png");
