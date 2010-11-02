@@ -434,8 +434,12 @@ class pChart {
 		
 		$C_TextColor = self::allocateColor ( $this->Picture, $R, $G, $B );
 		
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X1, $this->GArea_Y2, $R, $G, $B );
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2, $this->GArea_X2, $this->GArea_Y2, $R, $G, $B );
+		$this->drawLine($this->GArea_X1, $this->GArea_Y1,
+						$this->GArea_X1, $this->GArea_Y2,
+						$R, $G, $B );
+		$this->drawLine($this->GArea_X1, $this->GArea_Y2,
+						$this->GArea_X2, $this->GArea_Y2,
+						$R, $G, $B );
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
 			if (isset ( $DataDescription ["Values"] [0] )) {
