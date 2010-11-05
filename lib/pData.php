@@ -180,14 +180,6 @@ class pData {
 		$this->dataDescription->setYFormat($Format);
 	}
 	
-	public function setXAxisUnit($Unit = "") {
-		$this->dataDescription->setXUnit($Unit);
-	}
-	
-	public function setYAxisUnit($Unit = "") {
-		$this->dataDescription->setYUnit($Unit);
-	}
-	
 	public function setSeriesSymbol($Name, $Symbol) {
 		$this->dataDescription->seriesSymbols[$Name] = $Symbol;
 	}
@@ -200,9 +192,6 @@ class pData {
 			unset ( $this->dataDescription->description[$SerieName] );
 	}
 	
-	/**
-	 * @todo another camel case issue
-	 */
 	public function removeAllSeries() {
 		foreach ( $this->dataDescription->values as $Key => $Value )
 			unset ( $this->dataDescription->values [$Key] );

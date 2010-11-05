@@ -26,8 +26,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setSeriesName("January","Serie1");   
 		$DataSet->setSeriesName("February","Serie2");   
 		$DataSet->setSeriesName("March","Serie3");   
-		$DataSet->setYAxisName("Average age");
-		$DataSet->setYAxisUnit("µs");
+		$DataSet->getDataDescription()->setYAxisName("Average age");
+		$DataSet->getDataDescription()->setYUnit("µs");
   
 		// Initialise the graph   
 		$Test = new pChart(700,230);
