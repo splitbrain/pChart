@@ -7,13 +7,6 @@ require_once 'lib/pData.php';
 
 class pChartTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * Trivial test: can we construct a pChart?
-	 */
-	public function testConstruct() {
-		$chart = new pChart(320, 240);
-	}
-
-	/**
 	 * Test generating a chart based on Example1.php in the examples
 	 * directory, doing a binary compare of the file against a known
 	 * good value.
