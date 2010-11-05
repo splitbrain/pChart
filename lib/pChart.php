@@ -24,6 +24,7 @@ require_once(dirname(__FILE__).'/ConversionHelpers.php');
 require_once(dirname(__FILE__).'/ShadowProperties.php');
 require_once(dirname(__FILE__).'/Color.php');
 require_once(dirname(__FILE__).'/Palette.php');
+require_once(dirname(__FILE__).'/ICanvas.php');
 
 /* Declare some script wide constants */
 define ( "SCALE_NORMAL", 1 );
@@ -110,11 +111,13 @@ class pChart {
 	protected $MapFunction = NULL;
 	protected $tmpFolder = "tmp/";
 	protected $MapID = NULL;
+
+	private $canvas = null;
 	
 	/**
 	 * This function create the background picture 
 	 */
-	function __construct($XSize, $YSize) {
+	function __construct($XSize, $YSize, ICanvas $canvas) {
 		$this->palette = Palette::defaultPalette();
 
 		$this->XSize = $XSize;
@@ -128,6 +131,8 @@ class pChart {
 		$this->setFontProperties ( "tahoma.ttf", 8 );
 
 		$this->shadowProperties = ShadowProperties::FromDefaults();
+
+		$this->canvas = $canvas;
 	}
 	
 	/**
