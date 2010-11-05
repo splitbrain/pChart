@@ -250,6 +250,27 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->AddAllSeries();
 		$DataSet->setAbscissaLabelSeries("Serie2");
 		
+		$this->assertEquals(array(0 => array('Serie1' => 10,
+											 'Name' => 0,
+											 'Serie2' => 'Jan'),
+								  1 => array('Serie1' => 2,
+											 'Name' => 1,
+											 'Serie2' => 'Feb'),
+								  2 => array('Serie1' => 3,
+											 'Name' => 2,
+											 'Serie2' => 'Mar'),
+								  3 => array('Serie1' => 5,
+											 'Name' => 3,
+											 'Serie2' => 'Apr'),
+								  4 => array('Serie1' => 3,
+											 'Name' => 4,
+											 'Serie2' => 'May')),
+							$DataSet->getData());
+
+        $this->assertEquals(array(0 => 'Serie1',
+								  1 => 'Serie2'),
+							$DataSet->getDataDescription()->values);
+
 		// Initialise the graph
 		$Test = new pChart(300, 200);
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");

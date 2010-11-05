@@ -92,23 +92,16 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 		$data->addSeries('testseries1');
 		$data->addSeries('testseries2');
 
-		$this->assertEquals(array('Position' => 'Name',
-								  'Format' => array('X' => 'number',
-													'Y' => 'number'),
-								  'Unit' => array('X' => null,
-												  'Y' => null),
-								  'Values' => array('testseries1', 
-													'testseries2')),
-							$data->getDataDescription());
+		$this->assertEquals(array('testseries1', 
+								  'testseries2'),
+							$data->getDataDescription()->values);
 
+		$this->assertEquals(null,
+							$data->getDataDescription()->description);
+		
 		$data->removeSeries('testseries1');
 
-		$this->assertEquals(array('Position' => 'Name',
-								  'Format' => array('X' => 'number',
-													'Y' => 'number'),
-								  'Unit' => array('X' => null,
-												  'Y' => null),
-								  'Values' => array(1 => 'testseries2')),
-							$data->getDataDescription());
+		$this->assertEquals(array(1 => 'testseries2'),
+							$data->getDataDescription()->values);
 	}
 }

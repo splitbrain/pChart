@@ -20,16 +20,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once dirname(__FILE__).'/DataDescription.php';
+
 class pData {
-	protected $Data = array();
-	protected $DataDescription = array();
+	private $Data = array();
+	private $dataDescription = array();
 	
 	public function __construct() {
-		$this->DataDescription ["Position"] = "Name";
-		$this->DataDescription ["Format"] ["X"] = "number";
-		$this->DataDescription ["Format"] ["Y"] = "number";
-		$this->DataDescription ["Unit"] ["X"] = NULL;
-		$this->DataDescription ["Unit"] ["Y"] = NULL;
+		$this->dataDescription = new DataDescription('Name', 
+													 'number', 'number', 
+													 null, null);
 	}
 	
 	public function importFromCSV($FileName, $Delimiter = ",", $DataColumns = -1, $HasHeader = FALSE, $DataName = -1) {
@@ -119,99 +119,100 @@ class pData {
 	}
 	
 	public function addSeries($SerieName = "Series1") {
-		if (! isset ( $this->DataDescription ["Values"] )) {
-			$this->DataDescription ["Values"] [] = $SerieName;
+		if (!isset($this->dataDescription->values)) {
+			$this->dataDescription->values[] = $SerieName;
 		} else {
 			$Found = FALSE;
-			foreach ( $this->DataDescription ["Values"] as $key => $Value )
+			foreach ( $this->dataDescription->values as $key => $Value )
 				if ($Value == $SerieName) {
 					$Found = TRUE;
 				}
 			
 			if (! $Found)
-				$this->DataDescription ["Values"] [] = $SerieName;
+				$this->dataDescription->values[] = $SerieName;
 		}
 	}
 	
 	public function addAllSeries() {
-		unset ( $this->DataDescription ["Values"] );
+		unset($this->dataDescription->values);
 		
 		if (isset ( $this->Data [0] )) {
 			foreach ( $this->Data [0] as $Key => $Value ) {
-				if ($Key != "Name")
-					$this->DataDescription ["Values"] [] = $Key;
+				if ($Key != "Name") {
+					$this->dataDescription->values[] = $Key;
+				}
 			}
 		}
 	}
 	
 	public function removeSeries($SerieName = "Series1") {
-		if (! isset ( $this->DataDescription ["Values"] ))
-			return (0);
+		if (! isset($this->dataDescription->values))
+			return;
 		
 		$Found = FALSE;
-		foreach ( $this->DataDescription ["Values"] as $key => $Value ) {
+		foreach ( $this->dataDescription->values as $key => $Value ) {
 			if ($Value == $SerieName)
-				unset ( $this->DataDescription ["Values"] [$key] );
+				unset ( $this->dataDescription->values[$key] );
 		}
 	}
 	
-	public function setAbscissaLabelSeries($SerieName = "Name") {
-		$this->DataDescription ["Position"] = $SerieName;
+	public function setAbscissaLabelSeries($seriesName = "Name") {
+		$this->dataDescription->setPosition($seriesName);
 	}
 	
 	public function setSeriesName($Name, $SeriesName = "Series1") {
-		$this->DataDescription ["Description"] [$SeriesName] = $Name;
+		$this->dataDescription->description[$SeriesName] = $Name;
 	}
 	
-	public function setXAxisName($Name = "X Axis") {
-		$this->DataDescription ["Axis"] ["X"] = $Name;
+	public function setXAxisName($Name) {
+		$this->dataDescription->setXAxisName($Name);
 	}
 	
-	public function setYAxisName($Name = "Y Axis") {
-		$this->DataDescription ["Axis"] ["Y"] = $Name;
+	public function setYAxisName($Name) {
+		$this->dataDescription->setYAxisName($Name);
 	}
 	
-	public function setXAxisFormat($Format = "number") {
-		$this->DataDescription ["Format"] ["X"] = $Format;
+	public function setXAxisFormat($Format) {
+		$this->dataDescription->setXFormat($Format);
 	}
 	
-	public function setYAxisFormat($Format = "number") {
-		$this->DataDescription ["Format"] ["Y"] = $Format;
+	public function setYAxisFormat($Format) {
+		$this->dataDescription->setYFormat($Format);
 	}
 	
 	public function setXAxisUnit($Unit = "") {
-		$this->DataDescription ["Unit"] ["X"] = $Unit;
+		$this->dataDescription->setXUnit($Unit);
 	}
 	
 	public function setYAxisUnit($Unit = "") {
-		$this->DataDescription ["Unit"] ["Y"] = $Unit;
+		$this->dataDescription->setYUnit($Unit);
 	}
 	
 	public function setSeriesSymbol($Name, $Symbol) {
-		$this->DataDescription ["Symbol"] [$Name] = $Symbol;
+		$this->dataDescription->seriesSymbols[$Name] = $Symbol;
 	}
 	
 	/**
 	 * @param unknown_type $SerieName
 	 */
 	public function removeSeriesName($SerieName) {
-		if (isset ( $this->DataDescription ["Description"] [$SerieName] ))
-			unset ( $this->DataDescription ["Description"] [$SerieName] );
+		if (isset ( $this->dataDescription->description[$SerieName] ))
+			unset ( $this->dataDescription->description[$SerieName] );
 	}
 	
 	/**
 	 * @todo another camel case issue
 	 */
 	public function removeAllSeries() {
-		foreach ( $this->DataDescription ["Values"] as $Key => $Value )
-			unset ( $this->DataDescription ["Values"] [$Key] );
+		foreach ( $this->dataDescription->values as $Key => $Value )
+			unset ( $this->dataDescription->values [$Key] );
 	}
 	
 	public function getData() {
-		return ($this->Data);
+		return $this->Data;
 	}
 	
 	public function getDataDescription() {
-		return ($this->DataDescription);
+		return $this->dataDescription;
 	}
 }

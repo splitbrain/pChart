@@ -296,14 +296,14 @@ class pChart {
 	 * Wrapper to the drawScale() function allowing a second scale to
 	 * be drawn
 	 */
-	function drawRightScale($Data, $DataDescription, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
+	function drawRightScale($Data, DataDescription $DataDescription, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
 		$this->drawScale ( $Data, $DataDescription, $ScaleMode, $color, $DrawTicks, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
 	}
 	
 	/**
 	 * Compute and draw the scale 
 	 */
-	function drawScale($Data, $DataDescription, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
+	function drawScale($Data, DataDescription $DataDescription, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
 		if (empty($Data)) {
 			throw new InvalidArgumentException("Empty data passed to drawScale()");
 		}
@@ -321,9 +321,9 @@ class pChart {
 						  $color );
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
-			if (isset ( $DataDescription ["Values"] [0] )) {
-				$this->VMin = $Data [0] [$DataDescription ["Values"] [0]];
-				$this->VMax = $Data [0] [$DataDescription ["Values"] [0]];
+			if (isset ( $DataDescription->values[0] )) {
+				$this->VMin = $Data [0] [$DataDescription->values[0]];
+				$this->VMax = $Data [0] [$DataDescription->values[0]];
 			} else {
 				$this->VMin = 2147483647;
 				$this->VMax = - 2147483647;
@@ -336,7 +336,7 @@ class pChart {
 				}
 				
 				foreach ( $Data as $Key => $Values ) {
-					foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+					foreach ( $DataDescription->values as $Key2 => $ColName ) {
 						if (isset ( $Data [$Key] [$ColName] )) {
 							$Value = $Data [$Key] [$ColName];
 							
@@ -359,7 +359,7 @@ class pChart {
 				
 				foreach ( $Data as $Key => $Values ) {
 					$Sum = 0;
-					foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+					foreach ( $DataDescription->values as $Key2 => $ColName ) {
 						if (isset ( $Data [$Key] [$ColName] )) {
 							$Value = $Data [$Key] [$ColName];
 							if (is_numeric ( $Value ))
@@ -439,15 +439,15 @@ class pChart {
 			
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($DataDescription ["Format"] ["Y"] == "number")
-				$Value = $Value . $DataDescription ["Unit"] ["Y"];
-			if ($DataDescription ["Format"] ["Y"] == "time")
+			if ($DataDescription->getYFormat() == "number")
+				$Value = $Value . $DataDescription->getYUnit();
+			if ($DataDescription->getYFormat() == "time")
 				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "date")
+			if ($DataDescription->getYFormat() == "date")
 				$Value = $this->ToDate ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "metric")
+			if ($DataDescription->getYFormat() == "metric")
 				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "currency")
+			if ($DataDescription->getYFormat() == "currency")
 				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
@@ -469,15 +469,21 @@ class pChart {
 		}
 		
 		/* Write the Y Axis caption if set */
-		if (isset ( $DataDescription ["Axis"] ["Y"] )) {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription ["Axis"] ["Y"] );
+		if ($DataDescription->getYAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription->getYAxisName() );
 			$TextHeight = abs ( $Position [1] ) + abs ( $Position [3] );
 			$TextTop = (($this->GArea_Y2 - $this->GArea_Y1) / 2) + $this->GArea_Y1 + ($TextHeight / 2);
 			
 			if ($RightScale)
-				imagettftext ( $this->Picture, $this->FontSize, 90, $XMin + $this->FontSize, $TextTop, $C_TextColor, $this->FontName, $DataDescription ["Axis"] ["Y"] );
+				imagettftext ( $this->Picture, $this->FontSize, 90,
+							   $XMin + $this->FontSize, $TextTop, 
+							   $C_TextColor, $this->FontName,
+							   $DataDescription->getYAxisName());
 			else
-				imagettftext ( $this->Picture, $this->FontSize, 90, $XMin - $this->FontSize, $TextTop, $C_TextColor, $this->FontName, $DataDescription ["Axis"] ["Y"] );
+				imagettftext ( $this->Picture, $this->FontSize, 90,
+							   $XMin - $this->FontSize, $TextTop,
+							   $C_TextColor, $this->FontName,
+							   $DataDescription->getYAxisName());
 		}
 		
 		/* Horizontal Axis */
@@ -489,16 +495,16 @@ class pChart {
 				$this->drawLine ( floor ( $XPos ), $this->GArea_Y2,
 								  floor ( $XPos ), $this->GArea_Y2 + 5,
 								  $color );
-				$Value = $Data [$Key] [$DataDescription ["Position"]];
-				if ($DataDescription ["Format"] ["X"] == "number")
-					$Value = $Value . $DataDescription ["Unit"] ["X"];
-				if ($DataDescription ["Format"] ["X"] == "time")
+				$Value = $Data [$Key] [$DataDescription->getPosition()];
+				if ($DataDescription->getXFormat() == "number")
+					$Value = $Value . $DataDescription->getXUnit();
+				if ($DataDescription->getXFormat() == "time")
 					$Value = ConversionHelpers::ToTime ( $Value );
-				if ($DataDescription ["Format"] ["X"] == "date")
+				if ($DataDescription->getXFormat() == "date")
 					$Value = $this->ToDate ( $Value );
-				if ($DataDescription ["Format"] ["X"] == "metric")
+				if ($DataDescription->getXFormat() == "metric")
 					$Value = ConversionHelpers::ToMetric ( $Value );
-				if ($DataDescription ["Format"] ["X"] == "currency")
+				if ($DataDescription->getXFormat() == "currency")
 					$Value = ConversionHelpers::ToCurrency ( $Value );
 				
 				$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
@@ -525,25 +531,34 @@ class pChart {
 		}
 		
 		/* Write the X Axis caption if set */
-		if (isset ( $DataDescription ["Axis"] ["X"] )) {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription ["Axis"] ["X"] );
+		if ($DataDescription->getXAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90,
+									  $this->FontName,
+									  $DataDescription->getXAxisName());
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
 			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
-			imagettftext ( $this->Picture, $this->FontSize, 0, $TextLeft, $YMax + $this->FontSize + 5, $C_TextColor, $this->FontName, $DataDescription ["Axis"] ["X"] );
+			imagettftext ( $this->Picture, $this->FontSize, 0,
+						   $TextLeft, $YMax + $this->FontSize + 5,
+						   $C_TextColor, $this->FontName, 
+						   $DataDescription->getXAxisName());
 		}
 	}
 	
 	/**
 	 * Compute and draw the scale for X/Y charts 
 	 */
-	function drawXYScale($Data, $DataDescription, $YSerieName, $XSerieName, Color $color, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
+	function drawXYScale($Data, DataDescription $DataDescription, $YSerieName, $XSerieName, Color $color, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data );
 		
 		$C_TextColor = self::AllocateColor ( $this->Picture, $color);
 		
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1, $this->GArea_X1, $this->GArea_Y2, $color );
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2, $this->GArea_X2, $this->GArea_Y2, $color);
+		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1,
+						  $this->GArea_X1, $this->GArea_Y2,
+						  $color );
+		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2,
+						  $this->GArea_X2, $this->GArea_Y2,
+						  $color);
 		
 		/* Process Y scale */
 		if ($this->VMin == NULL && $this->VMax == NULL) {
@@ -583,15 +598,15 @@ class pChart {
 			$this->drawLine ( $this->GArea_X1, $YPos, $this->GArea_X1 - 5, $YPos, $color );
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($DataDescription ["Format"] ["Y"] == "number")
-				$Value = $Value . $DataDescription ["Unit"] ["Y"];
-			if ($DataDescription ["Format"] ["Y"] == "time")
+			if ($DataDescription->getYFormat() == "number")
+				$Value = $Value . $DataDescription->getYUnit();
+			if ($DataDescription->getYFormat() == "time")
 				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "date")
+			if ($DataDescription->getYFormat() == "date")
 				$Value = $this->ToDate ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "metric")
+			if ($DataDescription->getYFormat() == "metric")
 				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "currency")
+			if ($DataDescription->getYFormat() == "currency")
 				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
@@ -642,15 +657,15 @@ class pChart {
 			
 			$Value = $this->VXMin + ($i - 1) * (($this->VXMax - $this->VXMin) / $XDivisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($DataDescription ["Format"] ["Y"] == "number")
-				$Value = $Value . $DataDescription ["Unit"] ["Y"];
-			if ($DataDescription ["Format"] ["Y"] == "time")
+			if ($DataDescription->getYFormat() == "number")
+				$Value = $Value . $DataDescription->getYUnit();
+			if ($DataDescription->getYFormat() == "time")
 				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "date")
+			if ($DataDescription->getYFormat() == "date")
 				$Value = $this->ToDate ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "metric")
+			if ($DataDescription->getYFormat() == "metric")
 				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($DataDescription ["Format"] ["Y"] == "currency")
+			if ($DataDescription->getYformat() == "currency")
 				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
@@ -676,19 +691,20 @@ class pChart {
 		}
 		
 		/* Write the Y Axis caption if set */
-		if (isset ( $DataDescription ["Axis"] ["Y"] )) {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription ["Axis"] ["Y"] );
+		if ($DataDescription->getYAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName,
+									  $DataDescription->getYAxisName());
 			$TextHeight = abs ( $Position [1] ) + abs ( $Position [3] );
 			$TextTop = (($this->GArea_Y2 - $this->GArea_Y1) / 2) + $this->GArea_Y1 + ($TextHeight / 2);
-			imagettftext ( $this->Picture, $this->FontSize, 90, $XMin - $this->FontSize, $TextTop, $C_TextColor, $this->FontName, $DataDescription ["Axis"] ["Y"] );
+			imagettftext ( $this->Picture, $this->FontSize, 90, $XMin - $this->FontSize, $TextTop, $C_TextColor, $this->FontName, $DataDescription->getYAxisName());
 		}
 		
 		/* Write the X Axis caption if set */
-		if (isset ( $DataDescription ["Axis"] ["X"] )) {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription ["Axis"] ["X"] );
+		if ($DataDescription->getXAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription->getXAxisName());
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
 			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
-			imagettftext ( $this->Picture, $this->FontSize, 0, $TextLeft, $YMax + $this->FontSize + 5, $C_TextColor, $this->FontName, $DataDescription ["Axis"] ["X"] );
+			imagettftext ( $this->Picture, $this->FontSize, 0, $TextLeft, $YMax + $this->FontSize + 5, $C_TextColor, $this->FontName, $DataDescription->getXAxisName());
 		}
 	}
 	
@@ -759,13 +775,13 @@ class pChart {
 	 * retrieve the legends size 
 	 */
 	function getLegendBoxSize($DataDescription) {
-		if (! isset ( $DataDescription ["Description"] ))
+		if (! isset ( $DataDescription->description))
 			return (- 1);
 			
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
 		$MaxHeight = 8;
-		foreach ( $DataDescription ["Description"] as $Key => $Value ) {
+		foreach ( $DataDescription->description as $Key => $Value ) {
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
 			$TextHeight = $Position [1] - $Position [7];
@@ -795,7 +811,7 @@ class pChart {
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription ( "drawLegend", $DataDescription );
 		
-		if (! isset ( $DataDescription ["Description"] ))
+		if (! isset ( $DataDescription->description))
 			return (- 1);
 		
 		$C_TextColor = self::AllocateColor ( $this->Picture, $color3);
@@ -803,7 +819,7 @@ class pChart {
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
 		$MaxHeight = 8;
-		foreach ( $DataDescription ["Description"] as $Key => $Value ) {
+		foreach ( $DataDescription->description as $Key => $Value ) {
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
 			$TextHeight = $Position [1] - $Position [7];
@@ -826,7 +842,7 @@ class pChart {
 		
 		$YOffset = 4 + $this->FontSize;
 		$ID = 0;
-		foreach ( $DataDescription ["Description"] as $Key => $Value ) {
+		foreach ( $DataDescription->description as $Key => $Value ) {
 			$this->drawFilledRoundedRectangle($XPos + 10,
 											  $YPos + $YOffset - 4,
 											  $XPos + 14,
@@ -851,7 +867,7 @@ class pChart {
 		$this->validateDataDescription ( "drawPieLegend", $DataDescription, FALSE );
 		$this->validateData ( "drawPieLegend", $Data );
 		
-		if (! isset ( $DataDescription ["Position"] ))
+		if ($DataDescription->getPosition() == '')
 			return (- 1);
 		
 		$C_TextColor = self::AllocateColor ( $this->Picture, new Color(0, 0, 0));
@@ -860,7 +876,7 @@ class pChart {
 		$MaxWidth = 0;
 		$MaxHeight = 8;
 		foreach ( $Data as $Key => $Value ) {
-			$Value2 = $Value [$DataDescription ["Position"]];
+			$Value2 = $Value [$DataDescription->getPosition()];
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value2 );
 			$TextWidth = $Position [2] - $Position [0];
 			$TextHeight = $Position [1] - $Position [7];
@@ -884,7 +900,7 @@ class pChart {
 		$YOffset = 4 + $this->FontSize;
 		$ID = 0;
 		foreach ( $Data as $Key => $Value ) {
-			$Value2 = $Value [$DataDescription ["Position"]];
+			$Value2 = $Value [$DataDescription->getPosition()];
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value2 );
 			$TextHeight = $Position [1] - $Position [7];
 			$this->drawFilledRectangle($XPos + 10,
@@ -1049,7 +1065,7 @@ class pChart {
 		$Cp = 0;
 		$Found = FALSE;
 		foreach ( $Data as $Key => $Value ) {
-			if ($Data [$Key] [$DataDescription ["Position"]] == $ValueName) {
+			if ($Data [$Key] [$DataDescription->getPosition()] == $ValueName) {
 				$NumericalValue = $Data [$Key] [$SerieName];
 				$Found = TRUE;
 			}
@@ -1109,9 +1125,9 @@ class pChart {
 		$GraphID = 0;
 		$colorO = $color2;
 		
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1122,13 +1138,13 @@ class pChart {
 			$color = $this->palette->colors[$ColorID];
 			$color2 = $colorO;
 			
-			if (isset ( $DataDescription ["Symbol"] [$ColName] )) {
-				$Is_Alpha = ((ord ( file_get_contents ( $DataDescription ["Symbol"] [$ColName], false, null, 25, 1 ) ) & 6) & 4) == 4;
+			if (isset ( $DataDescription->seriesSymbols[$ColName] )) {
+				$Is_Alpha = ((ord ( file_get_contents ( $DataDescription->seriesSymbols[$ColName], false, null, 25, 1 ) ) & 6) & 4) == 4;
 				
-				$Infos = getimagesize ( $DataDescription ["Symbol"] [$ColName] );
+				$Infos = getimagesize ( $DataDescription->seriesSymbols[$ColName] );
 				$ImageWidth = $Infos [0];
 				$ImageHeight = $Infos [1];
-				$Symbol = imagecreatefromgif ( $DataDescription ["Symbol"] [$ColName] );
+				$Symbol = imagecreatefromgif ( $DataDescription->seriesSymbols[$ColName] );
 			}
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset;
@@ -1141,10 +1157,10 @@ class pChart {
 				
 				/* Save point into the image map if option activated */
 				if ($this->BuildMap)
-					$this->addToImageMap ( $XPos - $Hsize, $YPos - $Hsize, $XPos + 1 + $Hsize, $YPos + $Hsize + 1, $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "Plot" );
+					$this->addToImageMap ( $XPos - $Hsize, $YPos - $Hsize, $XPos + 1 + $Hsize, $YPos + $Hsize + 1, $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "Plot" );
 				
 				if (is_numeric ( $Value )) {
-					if (! isset ( $DataDescription ["Symbol"] [$ColName] )) {
+					if (! isset ( $DataDescription->seriesSymbols[$ColName] )) {
 						
 						if ($Shadow) {
 							if ($color3 != null)
@@ -1285,7 +1301,7 @@ class pChart {
 		
 		foreach ( $Series as $Key => $Serie ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $Serie) {
 					$ColorID = $ID;
 				}
@@ -1325,9 +1341,9 @@ class pChart {
 		$this->validateData ( "drawLineGraph", $Data );
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1345,7 +1361,7 @@ class pChart {
 						
 						/* Save point into the image map if option activated */
 						if ($this->BuildMap)
-							$this->addToImageMap ( $XPos - 3, $YPos - 3, $XPos + 3, $YPos + 3, $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "Line" );
+							$this->addToImageMap ( $XPos - 3, $YPos - 3, $XPos + 3, $YPos + 3, $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "Line" );
 						
 						if (! is_numeric ( $Value )) {
 							$XLast = - 1;
@@ -1406,7 +1422,7 @@ class pChart {
 		$this->validateData ( "drawCubicCurve", $Data );
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			if ($SerieName == "" || $SerieName == $ColName) {
 				$XIn = "";
 				$Yin = "";
@@ -1416,7 +1432,7 @@ class pChart {
 				$YIn [0] = 0;
 				
 				$ID = 0;
-				foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+				foreach ( $DataDescription->description as $keyI => $ValueI ) {
 					if ($keyI == $ColName) {
 						$ColorID = $ID;
 					}
@@ -1525,7 +1541,7 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$XIn = "";
 			$Yin = "";
 			$Yt = "";
@@ -1534,7 +1550,7 @@ class pChart {
 			$YIn [0] = 0;
 			
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1697,9 +1713,9 @@ class pChart {
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1731,7 +1747,7 @@ class pChart {
 				
 				/* Save point into the image map if option activated */
 				if ($this->BuildMap)
-					$this->addToImageMap ( $XPos - 3, $YPos - 3, $XPos + 3, $YPos + 3, $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "FLine" );
+					$this->addToImageMap ( $XPos - 3, $YPos - 3, $XPos + 3, $YPos + 3, $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "FLine" );
 				
 				if (! is_numeric ( $Value )) {
 					$PointsCount ++;
@@ -1802,9 +1818,9 @@ class pChart {
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1845,7 +1861,7 @@ class pChart {
 						
 						/* Save point into the image map if option activated */
 						if ($this->BuildMap)
-							$this->addToImageMap ( $X1, min ( $Y1, $Y2 ), $X2, max ( $Y1, $Y2 ), $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "oBar" );
+							$this->addToImageMap ( $X1, min ( $Y1, $Y2 ), $X2, max ( $Y1, $Y2 ), $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "oBar" );
 						
 						$this->drawLine($X1,
 										$Y1,
@@ -1876,7 +1892,7 @@ class pChart {
 		$this->validateData ( "drawBarGraph", $Data );
 		
 		$GraphID = 0;
-		$Series = count ( $DataDescription ["Values"] );
+		$Series = count ( $DataDescription->values);
 		$SeriesWidth = $this->DivisionWidth / ($Series + 1);
 		$SerieXOffset = $this->DivisionWidth / 2 - $SeriesWidth / 2;
 		
@@ -1886,9 +1902,9 @@ class pChart {
 		}
 		
 		$SerieID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1906,7 +1922,7 @@ class pChart {
 						
 						/* Save point into the image map if option activated */
 						if ($this->BuildMap) {
-							$this->addToImageMap ( $XPos + 1, min ( $YZero, $YPos ), $XPos + $SeriesWidth - 1, max ( $YZero, $YPos ), $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "Bar" );
+							$this->addToImageMap ( $XPos + 1, min ( $YZero, $YPos ), $XPos + $SeriesWidth - 1, max ( $YZero, $YPos ), $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "Bar" );
 						}
 						
 						if ($Shadow && $Alpha == 100)
@@ -1936,7 +1952,7 @@ class pChart {
 		$this->validateData ( "drawBarGraph", $Data );
 		
 		$GraphID = 0;
-		$Series = count ( $DataDescription ["Values"] );
+		$Series = count ( $DataDescription->values);
 		if ($Contiguous)
 			$SeriesWidth = $this->DivisionWidth;
 		else
@@ -1949,9 +1965,9 @@ class pChart {
 		
 		$SerieID = 0;
 		$LastValue = "";
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -1978,7 +1994,7 @@ class pChart {
 						
 						/* Save point into the image map if option activated */
 						if ($this->BuildMap)
-							$this->addToImageMap ( $XPos + 1, min ( $YBottom, $YPos ), $XPos + $SeriesWidth - 1, max ( $YBottom, $YPos ), $DataDescription ["Description"] [$ColName], $Data [$Key] [$ColName] . $DataDescription ["Unit"] ["Y"], "sBar" );
+							$this->addToImageMap ( $XPos + 1, min ( $YBottom, $YPos ), $XPos + $SeriesWidth - 1, max ( $YBottom, $YPos ), $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "sBar" );
 						
 						$this->drawFilledRectangle($XPos + 1,
 												   $YBottom,
@@ -2012,12 +2028,12 @@ class pChart {
 		$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 		
 		foreach ( $Data as $Key => $Values ) {
-			$Min = $Data [$Key] [$DataDescription ["Values"] [0]];
-			$Max = $Data [$Key] [$DataDescription ["Values"] [0]];
+			$Min = $Data [$Key] [$DataDescription->values[0]];
+			$Max = $Data [$Key] [$DataDescription->values[0]];
 			$GraphID = 0;
 			$MaxID = 0;
 			$MinID = 0;
-			foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+			foreach ( $DataDescription->values as $Key2 => $ColName ) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					if ($Data [$Key] [$ColName] > $Max && is_numeric ( $Data [$Key] [$ColName] )) {
 						$Max = $Data [$Key] [$ColName];
@@ -2098,7 +2114,7 @@ class pChart {
 		
 		/* Search for the max value */
 		if ($MaxValue == - 1) {
-			foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+			foreach ( $DataDescription->values as $Key2 => $ColName ) {
 				foreach ( $Data as $Key => $Values ) {
 					if (isset ( $Data [$Key] [$ColName] ))
 						if ($Data [$Key] [$ColName] > $MaxValue) {
@@ -2173,8 +2189,8 @@ class pChart {
 			
 			$XOffset = 0;
 			$YOffset = 0;
-			if (isset ( $Data [$i] [$DataDescription ["Position"]] )) {
-				$Label = $Data [$i] [$DataDescription ["Position"]];
+			if (isset ( $Data [$i] [$DataDescription->getPosition()] )) {
+				$Label = $Data [$i] [$DataDescription->getPosition()];
 				
 				$Positions = imagettfbbox ( $this->FontSize, 0, $this->FontName, $Label );
 				$Width = $Positions [2] - $Positions [6];
@@ -2228,7 +2244,7 @@ class pChart {
 	
 	private function calculateMaxValue($Data, $DataDescription) {
 		$MaxValue = -1;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			foreach ( $Data as $Key => $Values ) {
 				if (isset ( $Data [$Key] [$ColName] ))
 					if ($Data [$Key] [$ColName] > $MaxValue && is_numeric($Data[$Key][$ColName])) {
@@ -2258,9 +2274,9 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -2325,9 +2341,9 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription ["Description"] as $keyI => $ValueI ) {
+			foreach ( $DataDescription->description as $keyI => $ValueI ) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -2391,6 +2407,10 @@ class pChart {
 	 * This function draw a flat pie chart 
 	 */
 	public function drawBasicPieGraph($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, Color $color = null, $Decimals = 0) {
+		if (empty($DataDescription->values)) {
+			throw new Exception("No values available in data description in drawBasicPieGraph()");
+		}
+
 		if ($color == null) {
 			$color = new Color(255, 255, 255);
 		}
@@ -2402,21 +2422,22 @@ class pChart {
 		/* Determine pie sum */
 		$Series = 0;
 		$PieSum = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
-			if ($ColName != $DataDescription ["Position"]) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+			if ($ColName != $DataDescription->getPosition()) {
 				$Series ++;
 				foreach ( $Data as $Key => $Values ) {
 					if (isset ( $Data [$Key] [$ColName] ))
 						$PieSum = $PieSum + $Data [$Key] [$ColName];
 					$iValues [] = $Data [$Key] [$ColName];
-					$iLabels [] = $Data [$Key] [$DataDescription ["Position"]];
+					$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
 				}
 			}
 		}
 		
 		/* Validate serie */
 		if ($Series != 1)
-			RaiseFatal ( "Pie chart can only accept one serie of data." );
+			throw new Exception( "Pie chart can only accept one serie of data." );
+		/** @todo Proper exception type needed here */
 		
 		$SpliceRatio = 360 / $PieSum;
 		$SplicePercent = 100 / $PieSum;
@@ -2529,22 +2550,24 @@ class pChart {
 		/* Determine pie sum */
 		$Series = 0;
 		$PieSum = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
-			if ($ColName != $DataDescription ["Position"]) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+			if ($ColName != $DataDescription->getPosition()) {
 				$Series ++;
 				foreach ( $Data as $Key => $Values ) {
 					if (isset ( $Data [$Key] [$ColName] ))
 						$PieSum = $PieSum + $Data [$Key] [$ColName];
 					$iValues [] = $Data [$Key] [$ColName];
-					$iLabels [] = $Data [$Key] [$DataDescription ["Position"]];
+					$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
 				}
 			}
 		}
 		
 		/* Validate serie */
 		if ($Series != 1) {
-			RaiseFatal ( "Pie chart can only accept one serie of data." );
-			return (0);
+			/**
+			 * @todo Proper exception type needed here
+			 */
+			throw new Exception("Pie chart can only accept one serie of data.");
 		}
 		
 		$SpliceRatio = 360 / $PieSum;
@@ -2663,20 +2686,20 @@ class pChart {
 		$Series = 0;
 		$PieSum = 0;
 		$rPieSum = 0;
-		foreach ( $DataDescription ["Values"] as $Key2 => $ColName ) {
-			if ($ColName != $DataDescription ["Position"]) {
+		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+			if ($ColName != $DataDescription->getPosition()) {
 				$Series ++;
 				foreach ( $Data as $Key => $Values )
 					if (isset ( $Data [$Key] [$ColName] )) {
 						if ($Data [$Key] [$ColName] == 0) {
 							$iValues [] = 0;
 							$rValues [] = 0;
-							$iLabels [] = $Data [$Key] [$DataDescription ["Position"]];
+							$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
 						} // Removed : $PieSum++; $rValues[] = 1;
 						else {
 							$PieSum += $Data [$Key] [$ColName];
 							$iValues [] = $Data [$Key] [$ColName];
-							$iLabels [] = $Data [$Key] [$DataDescription ["Position"]];
+							$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
 							$rValues [] = $Data [$Key] [$ColName];
 							$rPieSum += $Data [$Key] [$ColName];
 						}
@@ -2686,7 +2709,8 @@ class pChart {
 		
 		/* Validate serie */
 		if ($Series != 1)
-			RaiseFatal ( "Pie chart can only accept one serie of data." );
+			throw new Exception( "Pie chart can only accept one serie of data." );
+		/** @todo Proper exception type needed here */
 		
 		$SpliceDistanceRatio = $SpliceDistance;
 		$SkewHeight = ($Radius * $Skew) / 100;
@@ -3428,26 +3452,28 @@ class pChart {
 	
 	/**
 	 * Validate data contained in the description array 
+	 *
+	 * @todo Should this be a method on DataDescription?
 	 */
-	private function validateDataDescription($FunctionName, &$DataDescription, $DescriptionRequired = TRUE) {
-		if (! isset ( $DataDescription ["Position"] )) {
+	private function validateDataDescription($FunctionName, DataDescription &$DataDescription, $DescriptionRequired = TRUE) {
+		if ($DataDescription->getPosition() == '') {
 			$this->Errors [] = "[Warning] " . $FunctionName . " - Y Labels are not set.";
-			$DataDescription ["Position"] = "Name";
+			$DataDescription->setPosition("Name");
 		}
 		
 		if ($DescriptionRequired) {
-			if (! isset ( $DataDescription ["Description"] )) {
+			if (! isset ( $DataDescription->description)) {
 				$this->Errors [] = "[Warning] " . $FunctionName . " - Series descriptions are not set.";
-				foreach ( $DataDescription ["Values"] as $key => $Value ) {
-					$DataDescription ["Description"] [$Value] = $Value;
+				foreach ( $DataDescription->values as $key => $Value ) {
+					$DataDescription->description[$Value] = $Value;
 				}
 			}
 			
-			if (count ( $DataDescription ["Description"] ) < count ( $DataDescription ["Values"] )) {
+			if (count ( $DataDescription->description) < count ( $DataDescription->values )) {
 				$this->Errors [] = "[Warning] " . $FunctionName . " - Some series descriptions are not set.";
-				foreach ( $DataDescription ["Values"] as $key => $Value ) {
-					if (! isset ( $DataDescription ["Description"] [$Value] ))
-						$DataDescription ["Description"] [$Value] = $Value;
+				foreach ( $DataDescription->values as $key => $Value ) {
+					if (! isset ( $DataDescription->description[$Value] ))
+						$DataDescription->description[$Value] = $Value;
 				}
 			}
 		}
