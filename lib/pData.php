@@ -172,14 +172,6 @@ class pData {
 		$this->dataDescription->setYAxisName($Name);
 	}
 	
-	public function setXAxisFormat($Format) {
-		$this->dataDescription->setXFormat($Format);
-	}
-	
-	public function setYAxisFormat($Format) {
-		$this->dataDescription->setYFormat($Format);
-	}
-	
 	public function setSeriesSymbol($Name, $Symbol) {
 		$this->dataDescription->seriesSymbols[$Name] = $Symbol;
 	}
