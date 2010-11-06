@@ -747,8 +747,17 @@ class pChart {
 		$YPos = $this->GArea_Y2 - $this->DivisionHeight;
 		for($i = 1; $i <= $this->DivisionCount; $i ++) {
 			if ($YPos > $this->GArea_Y1 && $YPos < $this->GArea_Y2)
-				$this->drawDottedLine ( $this->GArea_X1, $YPos, $this->GArea_X2, $YPos, $LineWidth, $color);
-			
+				$this->canvas->drawDottedLine(new Point($this->GArea_X1, $YPos),
+											  new Point($this->GArea_X2, $YPos),
+											  $LineWidth, $this->LineWidth,
+											  $color, 
+											  ShadowProperties::NoShadow());
+			/** @todo There's some inconsistency here. The parameter
+			 * $lineWidth appears to be used to control the dot size,
+			 * not the line width?  This is the same way it's always
+			 * been done, although now it's more obvious that there's
+			 * a problem. */
+
 			$YPos = $YPos - $this->DivisionHeight;
 		}
 		
@@ -763,7 +772,10 @@ class pChart {
 		
 		for($i = 1; $i <= $ColCount; $i ++) {
 			if ($XPos > $this->GArea_X1 && $XPos < $this->GArea_X2)
-				$this->drawDottedLine ( floor ( $XPos ), $this->GArea_Y1, floor ( $XPos ), $this->GArea_Y2, $LineWidth, $color);
+				$this->canvas->drawDottedLine(new Point(floor($XPos), $this->GArea_Y1),
+											  new Point(floor($XPos), $this->GArea_Y2),
+											  $LineWidth, $this->LineWidth, $color,
+											  $this->shadowProperties);
 			$XPos = $XPos + $this->DivisionWidth;
 		}
 	}
@@ -1025,8 +1037,12 @@ class pChart {
 		if ($TickWidth == 0)
 			$this->drawLine ( $this->GArea_X1, $Y, $this->GArea_X2, $Y, $color);
 		else
-			$this->drawDottedLine ( $this->GArea_X1, $Y, $this->GArea_X2, $Y, $TickWidth, 
-									$color);
+			$this->canvas->drawDottedLine(new Point($this->GArea_X1, $Y),
+										  new Point($this->GArea_X2, $Y),
+										  $TickWidth, 
+										  $this->LineWidth,
+										  $color,
+										  $this->shadowProperties);
 		
 		if ($ShowLabel) {
 			if ($FreeText == NULL) {
@@ -2179,7 +2195,10 @@ class pChart {
 				$Y = sin ( $Angle * M_PI / 180 ) * $TRadius + $YCenter;
 				
 				if ($LastX != - 1)
-					$this->drawDottedLine ( $LastX, $LastY, $X, $Y, 4, $colorS);
+					$this->canvas->drawDottedLine(new Point($LastX, $LastY),
+												  new Point($X, $Y),
+												  4, 1, $colorS,
+												  $this->shadowProperties);
 				
 				$LastX = $X;
 				$LastY = $Y;
@@ -3198,9 +3217,22 @@ class pChart {
 	 */
 	function drawLine($X1, $Y1, $X2, $Y2, Color $color, $GraphFunction = FALSE) {
 		if ($this->LineDotSize > 1) {
-			$this->drawDottedLine($X1, $Y1,
-								  $X2, $Y2,
-								  $this->LineDotSize, $color, $GraphFunction );
+			if ($GraphFunction) {
+				$this->canvas->drawDottedLine(new Point($X1, $Y1),
+											  new Point($X2, $Y2),
+											  $this->LineDotSize, $this->LineWidth,
+											  $color, $this->shadowProperties,
+											  new Point($this->GArea_X1,
+														$this->GArea_Y1),
+											  new Point($this->GArea_X2,
+														$this->GArea_Y2));
+			}
+			else {
+				$this->canvas->drawDottedLine(new Point($X1, $Y1),
+											  new Point($X2, $Y2),
+											  $this->LineDotSize, $this->LineWidth,
+											  $color, $this->shadowProperties);
+			}
 			return (0);
 		}
 		
@@ -3227,40 +3259,7 @@ class pChart {
 			}
 		}
 	}
-	
-	/**
-	 * This function create a line with antialias 
-	 */
-	function drawDottedLine($X1, $Y1, $X2, $Y2, $DotSize, Color $color, $GraphFunction = FALSE) {
-		$Distance = sqrt ( ($X2 - $X1) * ($X2 - $X1) + ($Y2 - $Y1) * ($Y2 - $Y1) );
 		
-		$XStep = ($X2 - $X1) / $Distance;
-		$YStep = ($Y2 - $Y1) / $Distance;
-		
-		$DotIndex = 0;
-		for($i = 0; $i <= $Distance; $i ++) {
-			$X = $i * $XStep + $X1;
-			$Y = $i * $YStep + $Y1;
-			
-			if ($DotIndex <= $DotSize) {
-				if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
-					if ($this->LineWidth == 1)
-						$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
-					else {
-						$StartOffset = - ($this->LineWidth / 2);
-						$EndOffset = ($this->LineWidth / 2);
-						for($j = $StartOffset; $j <= $EndOffset; $j ++)
-							$this->canvas->drawAntialiasPixel(new Point($X + $j, $Y + $j), $color, $this->shadowProperties);
-					}
-				}
-			}
-			
-			$DotIndex ++;
-			if ($DotIndex == $DotSize * 2)
-				$DotIndex = 0;
-		}
-	}
-	
 	/**
 	 * Load a PNG file and draw it over the chart 
 	 */

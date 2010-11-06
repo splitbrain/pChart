@@ -21,8 +21,41 @@ class GDCanvas implements ICanvas {
 
 	}
 
-	public function drawDottedLine(Point $point1, Point $point2, $dotSize, Color $color, $graphFunction = false) {
+	public function drawDottedLine(Point $point1, Point $point2, $dotSize, $lineWidth, Color $color, ShadowProperties $shadowProperties, Point $boundingBoxMin = null, Point $boundingBoxMax = null) {
+		$Distance = $point1->distanceFrom($point2);
+
+		$XStep = ($point2->getX() - $point1->getX()) / $Distance;
+		$YStep = ($point2->getY() - $point1->getY()) / $Distance;
 		
+		$DotIndex = 0;
+		for($i = 0; $i <= $Distance; $i ++) {
+			$X = $i * $XStep + $point1->getX();
+			$Y = $i * $YStep + $point1->getY();
+			
+			if ($DotIndex <= $dotSize) {
+				if (($boundingBoxMin == null || (($X >= $boundingBoxMin->getX())
+												 && ($Y >= $boundingBoxMin->getY())))
+					&& ($boundingBoxMax == null || (($X <= $boundingBoxMax->getX())
+													&& ($Y <= $boundingBoxMax->getY())))) {
+					if ($lineWidth == 1)
+						$this->drawAntialiasPixel(new Point($X, $Y),
+												  $color, $shadowProperties);
+					else {
+						$StartOffset = - ($lineWidth / 2);
+						$EndOffset = ($lineWidth / 2);
+						for($j = $StartOffset; $j <= $EndOffset; $j ++) {
+							$this->drawAntialiasPixel(new Point($X + $j,
+																$Y + $j),
+													  $color, $shadowProperties);
+						}
+					}
+				}
+			}
+			
+			$DotIndex ++;
+			if ($DotIndex == $dotSize * 2)
+				$DotIndex = 0;
+		}		
 	}
 
 	public function drawAntialiasPixel(Point $point, Color $color, ShadowProperties $shadowProperties, $alpha = 100) {

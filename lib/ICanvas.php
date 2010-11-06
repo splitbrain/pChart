@@ -9,7 +9,7 @@ interface ICanvas {
 
 	function drawLine(Point $point1, Point $point2, Color $color, $graphFunction = false);
 
-	function drawDottedLine(Point $point1, Point $point2, $dotSize, Color $color, $graphFunction = false);
+	function drawDottedLine(Point $point1, Point $point2, $dotSize, $lineWidth, Color $color, ShadowProperties $shadowProperties, Point $boundingBoxMin = null, Point $boundingBoxMax = null);
 
 	function drawAntialiasPixel(Point $point, Color $color, ShadowProperties $shadowProperties, $alpha);
 }
