@@ -24,7 +24,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->getDataDescription()->setYUnit("µs");
   
 		// Initialise the graph   
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
 		$Test->setGraphArea(70,30,680,200);   
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));   
@@ -72,7 +72,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setAbscissaLabelSeries("Serie2");
 		
 		// Initialise the graph
-		$Test = new pChart(420, 250, new GDCanvas());
+		$Test = new pChart(420, 250, new GDCanvas(420, 250));
 		$Test->drawFilledRoundedRectangle(7, 7, 413, 243, 5, new Color(240, 240, 240));
 		$Test->drawRoundedRectangle(5, 5, 415, 245, 5, new Color(230, 230, 230));
 		$Test->setPalette(Palette::colorGradientPalette(new Color(195, 204, 56),
@@ -106,7 +106,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetAbscissaLabelSeries("Serie2");
 		
 		// Initialise the graph
-		$Test = new pChart(300, 200, new GDCanvas());
+		$Test = new pChart(300, 200, new GDCanvas(300, 200));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
 		$Test->drawFilledRoundedRectangle(7, 7, 293, 193, 5, new Color(240, 240, 240));
 		$Test->drawRoundedRectangle(5, 5, 295, 195, 5, new Color(230, 230, 230));
@@ -147,7 +147,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetYAxisName("Y Axis");
 
 		// Initialise the graph
-		$Test = new pChart(300,300, new GDCanvas());
+		$Test = new pChart(300,300, new GDCanvas(300, 400));
 		$Test->drawGraphAreaGradient(new Color(0,0,0),-100,TARGET_BACKGROUND);
 		
 		// Prepare the graph area
@@ -202,7 +202,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 		
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
@@ -266,7 +266,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							$DataSet->getDataDescription()->values);
 
 		// Initialise the graph
-		$Test = new pChart(300, 200, new GDCanvas());
+		$Test = new pChart(300, 200, new GDCanvas(300, 200));
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
 		$Test->drawFilledRoundedRectangle(7, 7, 293, 193, 5, new Color(240, 240, 240));
 		$Test->drawRoundedRectangle(5, 5, 295, 195, 5, new Color(230, 230, 230));
@@ -306,7 +306,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setSeriesName("Tested computer","Serie2");
 		
 		// Initialise the graph
-		$Test = new pChart(400,400, new GDCanvas());
+		$Test = new pChart(400,400, new GDCanvas(400, 400));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->drawFilledRoundedRectangle(7,7,393,393,5, new Color(240,240,240));
 		$Test->drawRoundedRectangle(5,5,395,395,5, new Color(230,230,230));
@@ -350,7 +350,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("Tested computer","Serie2");
 		
 		// Initialise the graph
-		$Test = new pChart(400,400, new GDCanvas());
+		$Test = new pChart(400,400, new GDCanvas(400, 400));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->drawFilledRoundedRectangle(7,7,393,393,5, new Color(240,240,240));
 		$Test->drawRoundedRectangle(5,5,395,395,5, new Color(230,230,230));
@@ -385,7 +385,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$dataSet->addSeries('X');
 		$dataSet->addSeries('Y');
 
-		$chart = new pChart(300, 300, new GDCanvas());
+		$chart = new pChart(300, 300, new GDCanvas(300, 300));
 		$chart->setFontProperties(dirname(__FILE__).'/../Fonts/tahoma.ttf', 8);
 		$chart->setGraphArea(55, 30, 270, 230);
 		$chart->drawXYScale($dataSet->getData(),
@@ -422,7 +422,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
@@ -470,7 +470,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetAbscissaLabelSeries();
 
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(60,30,680,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5,new Color(240,240,240));
@@ -512,7 +512,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5,new Color(240,240,240));
@@ -555,7 +555,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setSeriesName("March","Serie3");
 
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
@@ -599,7 +599,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("March","Serie3");
 
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5, new Color(240,240,240));
@@ -641,7 +641,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 
 		// Initialise the graph
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$Test->drawFilledRoundedRectangle(7,7,693,223,5,new Color(240,240,240));
@@ -688,7 +688,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetXAxisName("Month of the year");
   
 		// Initialise the graph   
-		$Test = new pChart(700,230, new GDCanvas());
+		$Test = new pChart(700,230, new GDCanvas(700, 230));
 		$Test->reportWarnings("GD");
 		$Test->setFixedScale(-12,12,5);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
