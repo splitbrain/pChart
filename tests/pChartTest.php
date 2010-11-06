@@ -72,7 +72,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setAbscissaLabelSeries("Serie2");
 		
 		// Initialise the graph
-		$Test = new pChart(420, 250, new GDCanvas(420, 250));
+		$canvas = new GDCanvas(420, 250);
+		$canvas->setAntialiasQuality(0);
+		$Test = new pChart(420, 250, $canvas);
 		$Test->drawFilledRoundedRectangle(7, 7, 413, 243, 5, new Color(240, 240, 240));
 		$Test->drawRoundedRectangle(5, 5, 415, 245, 5, new Color(230, 230, 230));
 		$Test->setPalette(Palette::colorGradientPalette(new Color(195, 204, 56),
@@ -81,7 +83,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Draw the pie chart
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
-		$Test->setAntialiasQuality(0);
 		$Test->drawPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 180, 130, 110, PIE_PERCENTAGE_LABEL, FALSE, 50, 20, 5);
 		$Test->drawPieLegend(330, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
@@ -112,7 +113,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawRoundedRectangle(5, 5, 295, 195, 5, new Color(230, 230, 230));
 		
 		// Draw the pie chart
-		$Test->setAntialiasQuality(0);
 		$Test->setShadowProperties(2, 2, new Color(200, 200, 200));
 		$Test->drawFlatPieGraphWithShadow($DataSet->GetData(), 
 										  $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8);
@@ -276,7 +276,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Draw the pie chart
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
-		$Test->setAntialiasQuality(0);
 		$Test->drawBasicPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 
 								 120, 100, 70, PIE_PERCENTAGE, new Color(255, 255, 218));
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 

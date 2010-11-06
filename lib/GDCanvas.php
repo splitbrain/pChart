@@ -9,6 +9,8 @@ class GDCanvas implements ICanvas {
 		$C_White = $this->allocateColor(new Color(255, 255, 255));
 		imagefilledrectangle($this->picture, 0, 0, $xSize, $ySize, $C_White);
 		imagecolortransparent($this->picture, $C_White);
+
+		$this->antialiasQuality = 0;
 	}
 
 	public function drawRoundedRectangle(Point $point1, Point $point2, $radius, Color $color) {
@@ -24,7 +26,66 @@ class GDCanvas implements ICanvas {
 	}
 
 	public function drawAntialiasPixel(Point $point, Color $color, ShadowProperties $shadowProperties, $alpha = 100) {
-
+		/* Process shadows */
+		if ($shadowProperties->active) {
+			$this->drawAntialiasPixel(new Point($point->getX() + $shadowProperties->xDistance,
+												$point->getY() + $shadowProperties->yDistance),
+									  $shadowProperties->color,
+									  ShadowProperties::NoShadow(),
+									  $shadowProperties->alpha);
+			if ($shadowProperties->blur != 0) {
+				$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
+				
+				for($i = 1; $i <= $shadowProperties->blur; $i ++)
+					$this->drawAntialiasPixel(new Point($point->getX() + $shadowProperties->xDistance - $i / 2,
+														$point->getY() + $shadowProperties->yDistance - $i / 2),
+											  $shadowProperties->color,
+											  ShadowProperties::NoShadow(),
+											  $shadowProperties->alpha - $AlphaDecay * $i);
+				for($i = 1; $i <= $shadowProperties->blur; $i ++)
+					$this->drawAntialiasPixel(new Point($point->getX() + $shadowProperties->xDistance + $i / 2,
+														$point->getY() + $shadowProperties->yDistance + $i / 2),
+											  $shadowProperties->color, 
+											  ShadowProperties::NoShadow(),
+											  $shadowProperties->alpha - $AlphaDecay * $i);
+			}
+		}
+		
+		$Plot = "";
+		$Xi = floor ( $point->getX() );
+		$Yi = floor ( $point->getY() );
+		
+		if ($Xi == $point->getX() && $Yi == $point->getY()) {
+			if ($alpha == 100) {
+				$C_Aliased = $this->allocateColor($color);
+				imagesetpixel ( $this->picture, 
+								$point->getX(), $point->getY(),
+								$C_Aliased );
+			} else
+				$this->drawAlphaPixel($point, $alpha, $color);
+		} else {
+			$Alpha1 = (((1 - ($point->getX() - $Xi)) * (1 - ($point->getY() - $Yi)) * 100) / 100) * $alpha;
+			if ($Alpha1 > $this->antialiasQuality) {
+				$this->drawAlphaPixel(new Point($Xi, $Yi), $Alpha1, $color);
+			}
+			
+			$Alpha2 = ((($point->getX() - $Xi) * (1 - ($point->getY() - $Yi)) * 100) / 100) * $alpha;
+			if ($Alpha2 > $this->antialiasQuality) {
+				$this->drawAlphaPixel (new Point($Xi + 1, $Yi), $Alpha2, $color);
+			}
+			
+			$Alpha3 = (((1 - ($point->getX() - $Xi)) * ($point->getY() - $Yi) * 100) / 100) 
+				* $alpha;
+			if ($Alpha3 > $this->antialiasQuality) {
+				$this->drawAlphaPixel (new Point($Xi, $Yi + 1), $Alpha3, $color);
+			}
+			
+			$Alpha4 = ((($point->getX() - $Xi) * ($point->getY() - $Yi) * 100) / 100) 
+				* $alpha;
+			if ($Alpha4 > $this->antialiasQuality) {
+				$this->drawAlphaPixel (new Point($Xi + 1, $Yi + 1), $Alpha4, $color);
+			}
+		}
 	}
 
 	public function drawAlphaPixel(Point $point, $alpha, Color $color) {
@@ -69,5 +130,24 @@ class GDCanvas implements ICanvas {
 		return $this->picture;
 	}
 
+	public function getAntialiasQuality() {
+		return $this->antialiasQuality;
+	}
+
+	public function setAntialiasQuality($newQuality) {
+		if (!is_numeric($newQuality)
+			|| $newQuality < 0
+			|| $newQuality > 100) {
+			throw new InvalidArgumentException("Invalid argument to GDCanvas::setAntialiasQuality()");
+		}
+
+		$this->antialiasQuality = $newQuality;
+	}
+
 	private $picture;
+
+	/**
+	 * Quality of the antialiasing we do: 0 is maximum, 100 is minimum
+	 */
+	private $antialiasQuality;
 }

@@ -100,9 +100,6 @@ class pChart {
 	/* Layer related vars */
 	protected $Layers = NULL;
 	
-	/* Set antialias quality : 0 is maximum, 100 minimum*/
-	protected $AntialiasQuality = 0;
-	
 	/* Shadow settings */
 	private $shadowProperties;
 	
@@ -2863,20 +2860,17 @@ class pChart {
 					$ColorFactor = 0;
 				}
 				
-				$this->drawAntialiasPixel($Plots[0],
-										  $Plots [1],
-										  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
-										  $this->shadowProperties);
+				$this->canvas->drawAntialiasPixel(new Point($Plots[0], $Plots[1]),
+												  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
+												  $this->shadowProperties);
+				
+				$this->canvas->drawAntialiasPixel(new Point($Plots[2], $Plots[3]),
+												  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
+												  $this->shadowProperties);
 
-				$this->drawAntialiasPixel($Plots[2],
-										  $Plots[3],
-										  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
-										  $this->shadowProperties);
-
-				$this->drawAntialiasPixel($Plots[$Index - 4],
-										  $Plots [$Index - 3],
-										  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
-										  $this->shadowProperties);
+				$this->canvas->drawAntialiasPixel(new Point($Plots[$Index - 4], $Plots [$Index - 3]),
+												  $palette->colors[$Key]->addRGBIncrement($ColorFactor),
+												  $this->shadowProperties);
 			}
 		}
 	}
@@ -3061,19 +3055,19 @@ class pChart {
 		for($i = 0; $i <= 90; $i = $i + $Step) {
 			$X = cos ( ($i + 180) * M_PI / 180 ) * $Radius + $X1 + $Radius;
 			$Y = sin ( ($i + 180) * M_PI / 180 ) * $Radius + $Y1 + $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
 			
 			$X = cos ( ($i - 90) * M_PI / 180 ) * $Radius + $X2 - $Radius;
 			$Y = sin ( ($i - 90) * M_PI / 180 ) * $Radius + $Y1 + $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
 			
 			$X = cos ( ($i) * M_PI / 180 ) * $Radius + $X2 - $Radius;
 			$Y = sin ( ($i) * M_PI / 180 ) * $Radius + $Y2 - $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
 			
 			$X = cos ( ($i + 90) * M_PI / 180 ) * $Radius + $X1 + $Radius;
 			$Y = sin ( ($i + 90) * M_PI / 180 ) * $Radius + $Y2 - $Radius;
-			$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
 		}
 		
 		$X1 = $X1 - .2;
@@ -3113,14 +3107,18 @@ class pChart {
 			imageline ( $this->canvas->getPicture(), $X2 - $Radius, $Yi3, $Xi3, $Yi3, $C_Rectangle );
 			imageline ( $this->canvas->getPicture(), $Xi4, $Yi4, $X1 + $Radius, $Yi4, $C_Rectangle );
 			
-			$this->drawAntialiasPixel ( $Xi1, $Yi1, $color,
-										$this->shadowProperties);
-			$this->drawAntialiasPixel ( $Xi2, $Yi2, $color,
-										$this->shadowProperties);
-			$this->drawAntialiasPixel ( $Xi3, $Yi3, $color,
-										$this->shadowProperties);
-			$this->drawAntialiasPixel ( $Xi4, $Yi4, $color,
-										$this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($Xi1, $Yi1),
+											  $color,
+											  $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($Xi2, $Yi2),
+											  $color,
+											  $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($Xi3, $Yi3),
+											  $color,
+											  $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($Xi4, $Yi4),
+											  $color,
+											  $this->shadowProperties);
 		}
 		
 		imagefilledrectangle ( $this->canvas->getPicture(), $X1, $Y1 + $Radius, $X2, $Y2 - $Radius, $C_Rectangle );
@@ -3150,7 +3148,9 @@ class pChart {
 		for($i = 0; $i <= 360; $i = $i + $Step) {
 			$X = cos ( $i * M_PI / 180 ) * $Height + $Xc;
 			$Y = sin ( $i * M_PI / 180 ) * $Width + $Yc;
-			$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X, $Y),
+											  $color,
+											  $this->shadowProperties);
 		}
 	}
 	
@@ -3171,8 +3171,8 @@ class pChart {
 			$X2 = cos ( (180 - $i) * M_PI / 180 ) * $Height + $Xc;
 			$Y2 = sin ( (180 - $i) * M_PI / 180 ) * $Width + $Yc;
 			
-			$this->drawAntialiasPixel ( $X1 - 1, $Y1 - 1, $color, $this->shadowProperties);
-			$this->drawAntialiasPixel ( $X2 - 1, $Y2 - 1, $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X1 - 1, $Y1 - 1), $color, $this->shadowProperties);
+			$this->canvas->drawAntialiasPixel(new Point($X2 - 1, $Y2 - 1), $color, $this->shadowProperties);
 			
 			if (($Y1 - 1) > $Yc - max ( $Width, $Height ))
 				imageline ( $this->canvas->getPicture(), $X1, $Y1 - 1, $X2 - 1, $Y2 - 1, $C_Circle );
@@ -3216,12 +3216,13 @@ class pChart {
 			
 			if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
 				if ($this->LineWidth == 1)
-					$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+					$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
 				else {
 					$StartOffset = - ($this->LineWidth / 2);
 					$EndOffset = ($this->LineWidth / 2);
 					for($j = $StartOffset; $j <= $EndOffset; $j ++)
-						$this->drawAntialiasPixel ( $X + $j, $Y + $j, $color, $this->shadowProperties);
+						$this->canvas->drawAntialiasPixel(new Point($X + $j, $Y + $j),
+														  $color, $this->shadowProperties);
 				}
 			}
 		}
@@ -3244,12 +3245,12 @@ class pChart {
 			if ($DotIndex <= $DotSize) {
 				if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
 					if ($this->LineWidth == 1)
-						$this->drawAntialiasPixel ( $X, $Y, $color, $this->shadowProperties);
+						$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
 					else {
 						$StartOffset = - ($this->LineWidth / 2);
 						$EndOffset = ($this->LineWidth / 2);
 						for($j = $StartOffset; $j <= $EndOffset; $j ++)
-							$this->drawAntialiasPixel ( $X + $j, $Y + $j, $color, $this->shadowProperties);
+							$this->canvas->drawAntialiasPixel(new Point($X + $j, $Y + $j), $color, $this->shadowProperties);
 					}
 				}
 			}
@@ -3368,69 +3369,7 @@ class pChart {
 		header ( 'Content-type: image/png' );
 		imagepng ( $this->canvas->getPicture() );
 	}
-	
-	/**
-	 * Private functions for internal processing 
-	 */
-	private function drawAntialiasPixel($X, $Y, Color $color, ShadowProperties $shadowProperties, $Alpha = 100) {
-		/* Process shadows */
-		if ($shadowProperties->active) {
-			$this->drawAntialiasPixel($X + $shadowProperties->xDistance,
-									  $Y + $shadowProperties->yDistance,
-									  $shadowProperties->color,
-									  ShadowProperties::NoShadow(),
-									  $shadowProperties->alpha);
-			if ($shadowProperties->blur != 0) {
-				$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
-				
-				for($i = 1; $i <= $shadowProperties->blur; $i ++)
-					$this->drawAntialiasPixel($X + $shadowProperties->xDistance - $i / 2,
-											  $Y + $shadowProperties->yDistance - $i / 2,
-											  $shadowProperties->color,
-											  ShadowProperties::NoShadow(),
-											  $shadowProperties->alpha - $AlphaDecay * $i);
-				for($i = 1; $i <= $shadowProperties->blur; $i ++)
-					$this->drawAntialiasPixel($X + $shadowProperties->xDistance + $i / 2,
-											  $Y + $shadowProperties->yDistance + $i / 2,
-											  $shadowProperties->color, 
-											  ShadowProperties::NoShadow(),
-											  $shadowProperties->alpha - $AlphaDecay * $i);
-			}
-		}
 		
-		$Plot = "";
-		$Xi = floor ( $X );
-		$Yi = floor ( $Y );
-		
-		if ($Xi == $X && $Yi == $Y) {
-			if ($Alpha == 100) {
-				$C_Aliased = $this->canvas->allocateColor($color);
-				imagesetpixel ( $this->canvas->getPicture(), $X, $Y, $C_Aliased );
-			} else
-				$this->drawAlphaPixel ( $X, $Y, $Alpha, $color);
-		} else {
-			$Alpha1 = (((1 - ($X - floor ( $X ))) * (1 - ($Y - floor ( $Y ))) * 100) / 100) * $Alpha;
-			if ($Alpha1 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi, $Yi, $Alpha1, $color);
-			}
-			
-			$Alpha2 = ((($X - floor ( $X )) * (1 - ($Y - floor ( $Y ))) * 100) / 100) * $Alpha;
-			if ($Alpha2 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi + 1, $Yi, $Alpha2, $color);
-			}
-			
-			$Alpha3 = (((1 - ($X - floor ( $X ))) * ($Y - floor ( $Y )) * 100) / 100) * $Alpha;
-			if ($Alpha3 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi, $Yi + 1, $Alpha3, $color);
-			}
-			
-			$Alpha4 = ((($X - floor ( $X )) * ($Y - floor ( $Y )) * 100) / 100) * $Alpha;
-			if ($Alpha4 > $this->AntialiasQuality) {
-				$this->drawAlphaPixel ( $Xi + 1, $Yi + 1, $Alpha4, $color);
-			}
-		}
-	}
-	
 	/**
 	 * Validate data contained in the description array 
 	 *
@@ -3605,20 +3544,6 @@ class pChart {
 		if ($Value == floor ( $Value ))
 			return (TRUE);
 		return (FALSE);
-	}
-
-	/**
-	 * @return the $AntialiasQuality
-	 */
-	public function getAntialiasQuality() {
-		return $this->AntialiasQuality;
-	}
-
-	/**
-	 * @param $AntialiasQuality the $AntialiasQuality to set
-	 */
-	public function setAntialiasQuality($AntialiasQuality) {
-		$this->AntialiasQuality = $AntialiasQuality;
 	}
 
 	/**
