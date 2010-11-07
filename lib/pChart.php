@@ -310,12 +310,14 @@ class pChart {
 		
 		$C_TextColor = $this->canvas->allocateColor($color);
 		
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1,
-						  $this->GArea_X1, $this->GArea_Y2,
-						  $color );
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2, 
-						  $this->GArea_X2, $this->GArea_Y2,
-						  $color );
+		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
+								new Point($this->GArea_X1, $this->GArea_Y2),
+								$color, $this->LineWidth, $this->LineDotSize,
+								$this->shadowProperties);
+		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y2), 
+								new Point($this->GArea_X2, $this->GArea_Y2),
+								$color, $this->LineWidth, $this->LineDotSize,
+								$this->shadowProperties);
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
 			if (isset ( $DataDescription->values[0] )) {
@@ -430,9 +432,18 @@ class pChart {
 		$XMin = NULL;
 		for($i = 1; $i <= $Divisions + 1; $i ++) {
 			if ($RightScale)
-				$this->drawLine ( $this->GArea_X2, $YPos, $this->GArea_X2 + 5, $YPos, $color);
+				$this->canvas->drawLine(new Point($this->GArea_X2, $YPos),
+										new Point($this->GArea_X2 + 5, $YPos),
+										$color, $this->LineWidth,
+										$this->LineDotSize, 
+										$this->shadowProperties);
 			else
-				$this->drawLine ( $this->GArea_X1, $YPos, $this->GArea_X1 - 5, $YPos, $color );
+				$this->canvas->drawLine(new Point($this->GArea_X1, $YPos),
+										new Point($this->GArea_X1 - 5, $YPos),
+										$color,
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
 			
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
@@ -489,9 +500,12 @@ class pChart {
 		$YMax = NULL;
 		foreach ( $Data as $Key => $Values ) {
 			if ($ID % $SkipLabels == 0) {
-				$this->drawLine ( floor ( $XPos ), $this->GArea_Y2,
-								  floor ( $XPos ), $this->GArea_Y2 + 5,
-								  $color );
+				$this->canvas->drawLine(new Point(floor($XPos), $this->GArea_Y2),
+										new Point(floor($XPos), $this->GArea_Y2 + 5),
+										$color,
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
 				$Value = $Data [$Key] [$DataDescription->getPosition()];
 				if ($DataDescription->getXFormat() == "number")
 					$Value = $Value . $DataDescription->getXUnit();
@@ -550,12 +564,18 @@ class pChart {
 		
 		$C_TextColor = $this->canvas->allocateColor($color);
 		
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y1,
-						  $this->GArea_X1, $this->GArea_Y2,
-						  $color );
-		$this->drawLine ( $this->GArea_X1, $this->GArea_Y2,
-						  $this->GArea_X2, $this->GArea_Y2,
-						  $color);
+		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
+								new Point($this->GArea_X1, $this->GArea_Y2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y2),
+								new Point($this->GArea_X2, $this->GArea_Y2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 		
 		/* Process Y scale */
 		if ($this->VMin == NULL && $this->VMax == NULL) {
@@ -592,7 +612,12 @@ class pChart {
 		$YPos = $this->GArea_Y2;
 		$XMin = NULL;
 		for($i = 1; $i <= $Divisions + 1; $i ++) {
-			$this->drawLine ( $this->GArea_X1, $YPos, $this->GArea_X1 - 5, $YPos, $color );
+			$this->canvas->drawLine(new Point($this->GArea_X1, $YPos),
+									new Point($this->GArea_X1 - 5, $YPos),
+									$color,
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
 			if ($DataDescription->getYFormat() == "number")
@@ -650,7 +675,12 @@ class pChart {
 		$XPos = $this->GArea_X1;
 		$YMax = NULL;
 		for($i = 1; $i <= $XDivisions + 1; $i ++) {
-			$this->drawLine ( $XPos, $this->GArea_Y2, $XPos, $this->GArea_Y2 + 5, $color);
+			$this->canvas->drawLine(new Point($XPos, $this->GArea_Y2),
+									new Point($XPos, $this->GArea_Y2 + 5),
+									$color,
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
 			
 			$Value = $this->VXMin + ($i - 1) * (($this->VXMax - $this->VXMin) / $XDivisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
@@ -1035,7 +1065,12 @@ class pChart {
 			return (- 1);
 		
 		if ($TickWidth == 0)
-			$this->drawLine ( $this->GArea_X1, $Y, $this->GArea_X2, $Y, $color);
+			$this->canvas->drawLine(new Point($this->GArea_X1, $Y),
+									new Point($this->GArea_X2, $Y),
+									$color,
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
 		else
 			$this->canvas->drawDottedLine(new Point($this->GArea_X1, $Y),
 										  new Point($this->GArea_X2, $Y),
@@ -1097,13 +1132,19 @@ class pChart {
 		$Poly = array ($XPos + 1, $YPos + 1, $XPos + 9, $YPos - $TextOffset, $XPos + 8, $YPos + $TextOffset + 2 );
 		imagefilledpolygon ( $this->canvas->getPicture(), $Poly, 3, $C_Shadow );
 
-		$this->drawLine ( $XPos, $YPos + 1, 
-						  $XPos + 9, $YPos - $TextOffset - .2,
-						  $color->addRGBIncrement(-$ShadowFactor));
+		$this->canvas->drawLine(new Point($XPos, $YPos + 1), 
+								new Point($XPos + 9, $YPos - $TextOffset - .2),
+								$color->addRGBIncrement(-$ShadowFactor),
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 
-		$this->drawLine ( $XPos, $YPos + 1,
-						  $XPos + 9, $YPos + $TextOffset + 2.2,
-						  $color->addRGBIncrement(-$ShadowFactor));
+		$this->canvas->drawLine(new Point($XPos, $YPos + 1),
+								new Point($XPos + 9, $YPos + $TextOffset + 2.2),
+								$color->addRGBIncrement(-$ShadowFactor),
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 
 		$this->drawFilledRectangle ( $XPos + 9, $YPos - $TextOffset - .2,
 									 $XPos + 13 + $TextWidth, $YPos + $TextOffset + 2.2,
@@ -1114,13 +1155,19 @@ class pChart {
 		$Poly = array ($XPos, $YPos, $XPos + 8, $YPos - $TextOffset - 1, $XPos + 8, $YPos + $TextOffset + 1 );
 		imagefilledpolygon ( $this->canvas->getPicture(), $Poly, 3, $C_Label );
 
-		$this->drawLine ( $XPos - 1, $YPos, 
-						  $XPos + 8, $YPos - $TextOffset - 1.2,
-						  $color);
+		$this->canvas->drawLine(new Point($XPos - 1, $YPos), 
+								new Point($XPos + 8, $YPos - $TextOffset - 1.2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 
-		$this->drawLine ( $XPos - 1, $YPos, 
-						  $XPos + 8, $YPos + $TextOffset + 1.2,
-						  $color );
+		$this->canvas->drawLine(new Point($XPos - 1, $YPos), 
+								new Point($XPos + 8, $YPos + $TextOffset + 1.2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $color, $this->shadowProperties);
 		
 		imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XPos + 10, $YPos + $TextOffset, $C_TextColor, $this->FontName, $Caption );
@@ -1378,12 +1425,16 @@ class pChart {
 							$XLast = - 1;
 						}
 						if ($XLast != - 1)
-							$this->drawLine($XLast,
-											$YLast, 
-											$XPos,
-											$YPos,
-											$this->palette->colors[$ColorID],
-											TRUE );
+							$this->canvas->drawLine(new Point($XLast, $YLast), 
+													new Point($XPos, $YPos),
+													$this->palette->colors[$ColorID],
+													$this->LineWidth,
+													$this->LineDotSize,
+													$this->shadowProperties,
+													new Point($this->GArea_X1,
+															  $this->GArea_Y1),
+													new Point($this->GArea_X2,
+															  $this->GArea_Y2));
 						
 						$XLast = $XPos;
 						$YLast = $YPos;
@@ -1413,9 +1464,16 @@ class pChart {
 				$X = $this->GArea_X1 + (($X - $this->VXMin) * $this->XDivisionRatio);
 				
 				if ($XLast != - 1 && $YLast != - 1) {
-					$this->drawLine($XLast, $YLast, $X, $Y,
-									$this->palette->colors[$PaletteID],
-									TRUE );
+					$this->canvas->drawLine(new Point($XLast, $YLast),
+											new Point($X, $Y),
+											$this->palette->colors[$PaletteID],
+											$this->LineWidth,
+											$this->LineDotSize,
+											$this->shadowProperties,
+											new Point($this->GArea_X1,
+													  $this->GArea_Y1),
+											new Point($this->GArea_X2,
+													  $this->GArea_Y2));
 				}
 				
 				$XLast = $X;
@@ -1507,12 +1565,18 @@ class pChart {
 					$YPos = $this->GArea_Y2 - (($Value - $this->VMin) * $this->DivisionRatio);
 					
 					if ($XLast != - 1 && ! isset ( $Missing [floor ( $X )] ) && ! isset ( $Missing [floor ( $X + 1 )] ))
-						$this->drawLine($XLast,
-										$YLast,
-										$XPos,
-										$YPos,
-										$this->palette->colors[$ColorID],
-										TRUE);
+						$this->canvas->drawLine(new Point($XLast,
+														  $YLast),
+												new Point($XPos,
+														  $YPos),
+												$this->palette->colors[$ColorID],
+												$this->LineWidth,
+												$this->LineDotSize,
+												$this->shadowProperties,
+												new Point($this->GArea_X1,
+														  $this->GArea_Y1),
+												new Point($this->GArea_X2,
+														  $this->GArea_Y2));
 					
 					$XLast = $XPos;
 					$YLast = $YPos;
@@ -1523,12 +1587,18 @@ class pChart {
 				$XPos = $XPos - $this->DivisionWidth * $Accuracy;
 				if ($XPos < ($this->GArea_X2 - $this->GAreaXOffset)) {
 					$YPos = $this->GArea_Y2 - (($YIn [$Index] - $this->VMin) * $this->DivisionRatio);
-					$this->drawLine($XLast,
-									$YLast,
-									$this->GArea_X2 - $this->GAreaXOffset, 
-									$YPos, 
-									$this->palette->colors[$ColorID],
-									TRUE );
+					$this->canvas->drawLine(new Point($XLast,
+													  $YLast),
+											new Point($this->GArea_X2 - $this->GAreaXOffset, 
+													  $YPos), 
+											$this->palette->colors[$ColorID],
+											$this->LineWidth,
+											$this->LineDotSize,
+											$this->shadowProperties,
+											new Point($this->GArea_X1,
+													  $this->GArea_Y1),
+											new Point($this->GArea_X2,
+													  $this->GArea_Y2));
 				}
 				
 				$GraphID ++;
@@ -1760,7 +1830,7 @@ class pChart {
 			$YLast = $Empty;
 			foreach ( $Data as $Key => $Values ) {
 				$Value = $Data [$Key] [$ColName];
-				$YPos = $LayerHeight - (($Value - $this->VMin) * $this->DivisionRatio);
+				$YPos = $LayerHeight - (($Value - $this->VMin) * $this->DivisionRatio);
 				
 				/* Save point into the image map if option activated */
 				if ($this->BuildMap)
@@ -1886,12 +1956,18 @@ class pChart {
 						if ($this->BuildMap)
 							$this->addToImageMap ( $X1, min ( $Y1, $Y2 ), $X2, max ( $Y1, $Y2 ), $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "oBar" );
 						
-						$this->drawLine($X1,
-										$Y1,
-										$X2,
-										$Y1,
-										$this->palette->colors[$ColorID],
-										TRUE );
+						$this->canvas->drawLine(new Point($X1,
+														  $Y1),
+												new Point($X2,
+														  $Y1),
+												$this->palette->colors[$ColorID],
+												$this->LineWidth,
+												$this->LineDotSize,
+												$this->shadowProperties,
+												new Point($this->GArea_X1,
+														  $this->GArea_Y1),
+												new Point($this->GArea_X2,
+														  $this->GArea_Y2));
 					}
 				}
 				$XPos = $XPos + $this->DivisionWidth;
@@ -2086,26 +2162,42 @@ class pChart {
 			$YPos = $this->GArea_Y2 - (($Min - $this->VMin) * $this->DivisionRatio);
 			$Y2 = floor ( $YPos ) + .2;
 			
-			$this->drawLine ( floor ( $XPos ) - .2, $Y1 + 1,
-							  floor ( $XPos ) - .2, $Y2 - 1,
-							  $color,
-							  TRUE );
-			$this->drawLine ( floor ( $XPos ) + .2, $Y1 + 1,
-							  floor ( $XPos ) + .2, $Y2 - 1,
-							  $color,
-							  TRUE );
-			$this->drawLine($X1,
-							$Y1,
-							$X2,
-							$Y1,
-							$this->palette->colors[$MaxID],
-							FALSE );
-			$this->drawLine($X1,
-							$Y2,
-							$X2,
-							$Y2,
-							$this->palette->colors[$MinID],
-							FALSE );
+			$this->canvas->drawLine(new Point(floor ( $XPos ) - .2, $Y1 + 1),
+									new Point(floor ( $XPos ) - .2, $Y2 - 1),
+									$color,
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties,
+									new Point($this->GArea_X1,
+											  $this->GArea_Y1),
+									new Point($this->GArea_X2,
+											  $this->GArea_Y2));
+			$this->canvas->drawLine(new Point(floor ( $XPos ) + .2, $Y1 + 1),
+									new Point(floor ( $XPos ) + .2, $Y2 - 1),
+									$color,
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties,
+									new Point($this->GArea_X1,
+											  $this->GArea_Y1),
+									new Point($this->GArea_X2,
+											  $this->GArea_Y2));
+			$this->canvas->drawLine(new Point($X1,
+											  $Y1),
+									new Point($X2,
+											  $Y1),
+									$this->palette->colors[$MaxID],
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
+			$this->canvas->drawLine(new Point($X1,
+											  $Y2),
+									new Point($X2,
+											  $Y2),
+									$this->palette->colors[$MinID],
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
 			
 			$XPos = $XPos + $this->DivisionWidth;
 		}
@@ -2211,7 +2303,12 @@ class pChart {
 			$X = cos ( $Angle * M_PI / 180 ) * $Radius + $XCenter;
 			$Y = sin ( $Angle * M_PI / 180 ) * $Radius + $YCenter;
 			
-			$this->drawLine ( $XCenter, $YCenter, $X, $Y, $colorA);
+			$this->canvas->drawLine(new Point($XCenter, $YCenter),
+									new Point($X, $Y),
+									$colorA,
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
 			
 			$XOffset = 0;
 			$YOffset = 0;
@@ -2321,11 +2418,14 @@ class pChart {
 					$YPos = sin ( $Angle * M_PI / 180 ) * $Strength + $YCenter;
 					
 					if ($XLast != - 1)
-						$this->drawLine($XLast,
-										$YLast,
-										$XPos,
-										$YPos,
-										$this->palette->colors[$ColorID]);
+						$this->canvas->drawLine(new Point($XLast,
+														  $YLast),
+												new Point($XPos,
+														  $YPos),
+												$this->palette->colors[$ColorID],
+												$this->LineWidth,
+												$this->LineDotSize,
+												$this->shadowProperties);
 					
 					if ($XLast == - 1) {
 						$FirstX = $XPos;
@@ -2337,11 +2437,14 @@ class pChart {
 					$YLast = $YPos;
 				}
 			}
-			$this->drawLine($XPos,
-							$YPos,
-							$FirstX,
-							$FirstY,
-							$this->palette->colors[$ColorID]);
+			$this->canvas->drawLine(new Point($XPos,
+											  $YPos),
+									new Point($FirstX,
+											  $FirstY),
+									$this->palette->colors[$ColorID],
+									$this->LineWidth,
+									$this->LineDotSize,
+									$this->shadowProperties);
 			$GraphID ++;
 		}
 	}
@@ -2420,11 +2523,14 @@ class pChart {
 				imagedestroy ( $this->Layers [0] );
 				
 				for($i = 0; $i <= count ( $Plots ) - 4; $i = $i + 2)
-					$this->drawLine($Plots [$i] + $this->GArea_X1,
-									$Plots [$i + 1] + $this->GArea_Y1,
-									$Plots [$i + 2] + $this->GArea_X1,
-									$Plots [$i + 3] + $this->GArea_Y1,
-									$this->palette->colors[$ColorID]);
+					$this->canvas->drawLine(new Point($Plots [$i] + $this->GArea_X1,
+													  $Plots [$i + 1] + $this->GArea_Y1),
+											new Point($Plots [$i + 2] + $this->GArea_X1,
+													  $Plots [$i + 3] + $this->GArea_Y1),
+											$this->palette->colors[$ColorID],
+											$this->LineWidth,
+											$this->LineDotSize,
+											$this->shadowProperties);
 			}
 			
 			$GraphID ++;
@@ -2543,7 +2649,14 @@ class pChart {
 		/* Draw Top polygons */
 		foreach ( $TopPlots as $Key => $Value ) {
 			for($j = 0; $j <= count ( $TopPlots [$Key] ) - 4; $j = $j + 2)
-				$this->drawLine ( $TopPlots [$Key] [$j], $TopPlots [$Key] [$j + 1], $TopPlots [$Key] [$j + 2], $TopPlots [$Key] [$j + 3], $color);
+				$this->canvas->drawLine(new Point($TopPlots [$Key] [$j],
+												  $TopPlots [$Key] [$j + 1]),
+										new Point($TopPlots [$Key] [$j + 2],
+												  $TopPlots [$Key] [$j + 3]),
+										$color,
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
 		}
 	}
 	
@@ -2663,11 +2776,20 @@ class pChart {
 				$TopPlots [$Key] [] = round ( $PosY );
 				
 				if ($iAngle == $Angle || $iAngle == $Angle + $Value * $SpliceRatio || $iAngle + .5 > $Angle + $Value * $SpliceRatio)
-					$this->drawLine ( $XPos + $XOffset, $YPos + $YOffset, $PosX, $PosY, 
-									  $color);
+					$this->canvas->drawLine(new Point($XPos + $XOffset, $YPos + $YOffset),
+											new Point($PosX, $PosY), 
+											$color,
+											$this->LineWidth,
+											$this->LineDotSize,
+											$this->shadowProperties);
 				
 				if ($XLineLast != "")
-					$this->drawLine ( $XLineLast, $YLineLast, $PosX, $PosY, $color);
+					$this->canvas->drawLine(new Point($XLineLast, $YLineLast),
+											new Point($PosX, $PosY),
+											$color,
+											$this->LineWidth,
+											$this->LineDotSize,
+											$this->shadowProperties);
 				
 				$XLineLast = $PosX;
 				$YLineLast = $PosY;
@@ -2841,12 +2963,14 @@ class pChart {
 			}
 			
 			for($j = 0; $j <= count ( $aBotPlots [$Key] ) - 4; $j = $j + 2) {
-				/** @todo Check for color component range overflow here */
-				$this->drawLine($aBotPlots [$Key] [$j],
-								$aBotPlots [$Key] [$j + 1],
-								$aBotPlots [$Key] [$j + 2],
-								$aBotPlots [$Key] [$j + 3],
-								$this->palette->colors[$Key]->addRGBIncrement($En));
+				$this->canvas->drawLine(new Point($aBotPlots [$Key] [$j],
+												  $aBotPlots [$Key] [$j + 1]),
+										new Point($aBotPlots [$Key] [$j + 2],
+												  $aBotPlots [$Key] [$j + 3]),
+										$this->palette->colors[$Key]->addRGBIncrement($En),
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
 			}
 		}
 	}
@@ -2906,11 +3030,14 @@ class pChart {
 				$En = 0;
 			}
 			for($j = 0; $j <= count ( $aTopPlots [$Key] ) - 4; $j = $j + 2)
-				$this->drawLine($aTopPlots[$Key][$j],
-								$aTopPlots[$Key][$j + 1],
-								$aTopPlots [$Key] [$j + 2],
-								$aTopPlots [$Key] [$j + 3],
-								$this->palette->colors[$Key]->addRGBIncrement($En));
+				$this->canvas->drawLine(new Point($aTopPlots[$Key][$j],
+												  $aTopPlots[$Key][$j + 1]),
+										new Point($aTopPlots [$Key] [$j + 2],
+												  $aTopPlots [$Key] [$j + 3]),
+										$this->palette->colors[$Key]->addRGBIncrement($En),
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
 		}
 	}
 	
@@ -2984,10 +3111,33 @@ class pChart {
 		$Y1 = $Y1 - .2;
 		$X2 = $X2 + .2;
 		$Y2 = $Y2 + .2;
-		$this->drawLine ( $X1, $Y1, $X2, $Y1, $color);
-		$this->drawLine ( $X2, $Y1, $X2, $Y2, $color);
-		$this->drawLine ( $X2, $Y2, $X1, $Y2, $color);
-		$this->drawLine ( $X1, $Y2, $X1, $Y1, $color);
+		$this->canvas->drawLine(new Point($X1, $Y1),
+								new Point($X2, $Y1),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X2, $Y1),
+								new Point($X2, $Y2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X2, $Y2),
+								new Point($X1, $Y2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+		
+		$this->canvas->drawLine(new Point($X1, $Y2),
+								new Point($X1, $Y1),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 	}
 	
 	/**
@@ -3093,10 +3243,33 @@ class pChart {
 		$Y1 = $Y1 - .2;
 		$X2 = $X2 + .2;
 		$Y2 = $Y2 + .2;
-		$this->drawLine ( $X1 + $Radius, $Y1, $X2 - $Radius, $Y1, $color);
-		$this->drawLine ( $X2, $Y1 + $Radius, $X2, $Y2 - $Radius, $color);
-		$this->drawLine ( $X2 - $Radius, $Y2, $X1 + $Radius, $Y2, $color);
-		$this->drawLine ( $X1, $Y2 - $Radius, $X1, $Y1 + $Radius, $color);
+		$this->canvas->drawLine(new Point($X1 + $Radius, $Y1),
+								new Point($X2 - $Radius, $Y1),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X2, $Y1 + $Radius),
+								new Point($X2, $Y2 - $Radius),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X2 - $Radius, $Y2),
+								new Point($X1 + $Radius, $Y2),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X1, $Y2 - $Radius),
+								new Point($X1, $Y1 + $Radius),
+								$color,
+								$this->LineWidth,
+								$this->LineDotSize,
+								$this->shadowProperties);
 	}
 	
 	/**
@@ -3147,10 +3320,29 @@ class pChart {
 		$Y1 = $Y1 - .2;
 		$X2 = $X2 + .2;
 		$Y2 = $Y2 + .2;
-		$this->drawLine ( $X1 + $Radius, $Y1, $X2 - $Radius, $Y1, $color );
-		$this->drawLine ( $X2, $Y1 + $Radius, $X2, $Y2 - $Radius, $color );
-		$this->drawLine ( $X2 - $Radius, $Y2, $X1 + $Radius, $Y2, $color );
-		$this->drawLine ( $X1, $Y2 - $Radius, $X1, $Y1 + $Radius, $color );
+		$this->canvas->drawLine(new Point($X1 + $Radius, $Y1),
+								new Point($X2 - $Radius, $Y1),
+								$color,
+								$this->LineWidth, $this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X2, $Y1 + $Radius),
+								new Point($X2, $Y2 - $Radius),
+								$color,
+								$this->LineWidth, $this->LineDotSize,
+								$this->shadowProperties);
+		
+		$this->canvas->drawLine(new Point($X2 - $Radius, $Y2),
+								new Point($X1 + $Radius, $Y2),
+								$color,
+								$this->LineWidth, $this->LineDotSize,
+								$this->shadowProperties);
+
+		$this->canvas->drawLine(new Point($X1, $Y2 - $Radius),
+								new Point($X1, $Y1 + $Radius),
+								$color,
+								$this->LineWidth, $this->LineDotSize,
+								$this->shadowProperties);
 	}
 	
 	/**
@@ -3212,54 +3404,6 @@ class pChart {
 		$this->drawFilledCircle ( $Xc, $Yc, $Height, $color, $Width );
 	}
 	
-	/**
-	 * This function create a line with antialias 
-	 */
-	function drawLine($X1, $Y1, $X2, $Y2, Color $color, $GraphFunction = FALSE) {
-		if ($this->LineDotSize > 1) {
-			if ($GraphFunction) {
-				$this->canvas->drawDottedLine(new Point($X1, $Y1),
-											  new Point($X2, $Y2),
-											  $this->LineDotSize, $this->LineWidth,
-											  $color, $this->shadowProperties,
-											  new Point($this->GArea_X1,
-														$this->GArea_Y1),
-											  new Point($this->GArea_X2,
-														$this->GArea_Y2));
-			}
-			else {
-				$this->canvas->drawDottedLine(new Point($X1, $Y1),
-											  new Point($X2, $Y2),
-											  $this->LineDotSize, $this->LineWidth,
-											  $color, $this->shadowProperties);
-			}
-			return (0);
-		}
-		
-		$Distance = sqrt ( ($X2 - $X1) * ($X2 - $X1) + ($Y2 - $Y1) * ($Y2 - $Y1) );
-		if ($Distance == 0)
-			return (- 1);
-		$XStep = ($X2 - $X1) / $Distance;
-		$YStep = ($Y2 - $Y1) / $Distance;
-		
-		for($i = 0; $i <= $Distance; $i ++) {
-			$X = $i * $XStep + $X1;
-			$Y = $i * $YStep + $Y1;
-			
-			if (($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || ! $GraphFunction) {
-				if ($this->LineWidth == 1)
-					$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
-				else {
-					$StartOffset = - ($this->LineWidth / 2);
-					$EndOffset = ($this->LineWidth / 2);
-					for($j = $StartOffset; $j <= $EndOffset; $j ++)
-						$this->canvas->drawAntialiasPixel(new Point($X + $j, $Y + $j),
-														  $color, $this->shadowProperties);
-				}
-			}
-		}
-	}
-		
 	/**
 	 * Load a PNG file and draw it over the chart 
 	 */
