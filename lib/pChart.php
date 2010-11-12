@@ -871,23 +871,35 @@ class pChart {
 		$MaxWidth = $MaxWidth + 32;
 		
 		if ($Border) {
-			$this->drawFilledRoundedRectangle ( $XPos + 1, $YPos + 1,
-												$XPos + $MaxWidth + 1, $YPos + $MaxHeight + 1,
-												5, $color2);
-			$this->drawFilledRoundedRectangle ( $XPos, $YPos,
-												$XPos + $MaxWidth, $YPos + $MaxHeight, 
-												5, $color);
+			$this->canvas->drawFilledRoundedRectangle(new Point($XPos + 1, $YPos + 1),
+													  new Point($XPos + $MaxWidth + 1,
+																$YPos + $MaxHeight + 1),
+													  5, $color2,
+													  $this->LineWidth,
+													  $this->LineDotSize,
+													  $this->shadowProperties);
+			
+			$this->canvas->drawFilledRoundedRectangle(new Point($XPos, $YPos),
+													  new Point($XPos + $MaxWidth,
+																$YPos + $MaxHeight), 
+													  5, $color,
+													  $this->LineWidth,
+													  $this->LineDotSize,
+													  $this->shadowProperties);
 		}
 		
 		$YOffset = 4 + $this->FontSize;
 		$ID = 0;
 		foreach ( $DataDescription->description as $Key => $Value ) {
-			$this->drawFilledRoundedRectangle($XPos + 10,
-											  $YPos + $YOffset - 4,
-											  $XPos + 14,
-											  $YPos + $YOffset - 4,
-											  2,
-											  $this->palette->colors[$ID]);
+			$this->canvas->drawFilledRoundedRectangle(new Point($XPos + 10,
+																$YPos + $YOffset - 4),
+													  new Point($XPos + 14,
+																$YPos + $YOffset - 4),
+													  2,
+													  $this->palette->colors[$ID],
+													  $this->LineWidth,
+													  $this->LineDotSize,
+													  $this->shadowProperties);
 			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XPos + 22, $YPos + $YOffset, $C_TextColor, $this->FontName, $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
@@ -928,13 +940,22 @@ class pChart {
 		$MaxHeight = $MaxHeight - 3;
 		$MaxWidth = $MaxWidth + 32;
 		
-		$this->drawFilledRoundedRectangle ( $XPos + 1, $YPos + 1,
-											$XPos + $MaxWidth + 1, $YPos + $MaxHeight + 1,
-											5,
-											$color->addRGBIncrement(-30));
-		$this->drawFilledRoundedRectangle ( $XPos, $YPos, 
-											$XPos + $MaxWidth, $YPos + $MaxHeight, 
-											5, $color );
+		$this->canvas->drawFilledRoundedRectangle(new Point($XPos + 1, $YPos + 1),
+												  new Point($XPos + $MaxWidth + 1,
+															$YPos + $MaxHeight + 1),
+												  5,
+												  $color->addRGBIncrement(-30),
+												  $this->LineWidth,
+												  $this->LineDotSize,
+												  $this->shadowProperties);
+		
+		$this->canvas->drawFilledRoundedRectangle(new Point($XPos, $YPos), 
+												  new Point($XPos + $MaxWidth,
+															$YPos + $MaxHeight), 
+												  5, $color,
+												  $this->LineWidth,
+												  $this->LineDotSize,
+												  $this->shadowProperties);
 		
 		$YOffset = 4 + $this->FontSize;
 		$ID = 0;
@@ -2352,15 +2373,25 @@ class pChart {
 			$X = $XPos - ($X + $Positions [2] - $X + $Positions [6]) / 2;
 			$Y = $YPos + $this->FontSize;
 			
-			$this->drawFilledRoundedRectangle($X + $Positions [6] - 2, $Y + $Positions [7] - 1, 
-											  $X + $Positions [2] + 4, $Y + $Positions [3] + 1,
-											  2,
-											  new Color(240, 240, 240));
+			$this->canvas->drawFilledRoundedRectangle(new Point($X + $Positions [6] - 2,
+																$Y + $Positions [7] - 1), 
+													  new Point($X + $Positions [2] + 4, 
+																$Y + $Positions [3] + 1),
+													  2,
+													  new Color(240, 240, 240),
+													  $this->LineWidth,
+													  $this->LineDotSize,
+													  $this->shadowProperties);
 
-			$this->drawRoundedRectangle($X + $Positions [6] - 2, $Y + $Positions [7] - 1,
-										$X + $Positions [2] + 4, $Y + $Positions [3] + 1,
-										2,
-										new Color(220, 220, 220));
+			$this->canvas->drawRoundedRectangle(new Point($X + $Positions [6] - 2,
+														  $Y + $Positions [7] - 1),
+												new Point($X + $Positions [2] + 4,
+														  $Y + $Positions [3] + 1),
+												2,
+												new Color(220, 220, 220),
+												$this->LineWidth,
+												$this->LineDotSize,
+												$this->shadowProperties);
 			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $X, $Y, $C_TextColor, $this->FontName, $t );
 		}
 	}
@@ -3213,139 +3244,6 @@ class pChart {
 	}
 	
 	/**
-	 * This function creates a rectangle with rounded corners and
-	 * antialiasing
-	 */
-	function drawRoundedRectangle($X1, $Y1, $X2, $Y2, $Radius, Color $color) {
-		$C_Rectangle = $this->canvas->allocateColor($color);
-		
-		$Step = 90 / ((M_PI * $Radius) / 2);
-		
-		for($i = 0; $i <= 90; $i = $i + $Step) {
-			$X = cos ( ($i + 180) * M_PI / 180 ) * $Radius + $X1 + $Radius;
-			$Y = sin ( ($i + 180) * M_PI / 180 ) * $Radius + $Y1 + $Radius;
-			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
-			
-			$X = cos ( ($i - 90) * M_PI / 180 ) * $Radius + $X2 - $Radius;
-			$Y = sin ( ($i - 90) * M_PI / 180 ) * $Radius + $Y1 + $Radius;
-			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
-			
-			$X = cos ( ($i) * M_PI / 180 ) * $Radius + $X2 - $Radius;
-			$Y = sin ( ($i) * M_PI / 180 ) * $Radius + $Y2 - $Radius;
-			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
-			
-			$X = cos ( ($i + 90) * M_PI / 180 ) * $Radius + $X1 + $Radius;
-			$Y = sin ( ($i + 90) * M_PI / 180 ) * $Radius + $Y2 - $Radius;
-			$this->canvas->drawAntialiasPixel(new Point($X, $Y), $color, $this->shadowProperties);
-		}
-		
-		$X1 = $X1 - .2;
-		$Y1 = $Y1 - .2;
-		$X2 = $X2 + .2;
-		$Y2 = $Y2 + .2;
-		$this->canvas->drawLine(new Point($X1 + $Radius, $Y1),
-								new Point($X2 - $Radius, $Y1),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X2, $Y1 + $Radius),
-								new Point($X2, $Y2 - $Radius),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X2 - $Radius, $Y2),
-								new Point($X1 + $Radius, $Y2),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X1, $Y2 - $Radius),
-								new Point($X1, $Y1 + $Radius),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-	}
-	
-	/**
-	 * This function creates a filled rectangle with rounded corners
-	 * and antialiasing
-	 */
-	function drawFilledRoundedRectangle($X1, $Y1, $X2, $Y2, $Radius, Color $color) {
-		$C_Rectangle = $this->canvas->allocateColor($color);
-		
-		$Step = 90 / ((M_PI * $Radius) / 2);
-		
-		for($i = 0; $i <= 90; $i = $i + $Step) {
-			$Xi1 = cos ( ($i + 180) * M_PI / 180 ) * $Radius + $X1 + $Radius;
-			$Yi1 = sin ( ($i + 180) * M_PI / 180 ) * $Radius + $Y1 + $Radius;
-			
-			$Xi2 = cos ( ($i - 90) * M_PI / 180 ) * $Radius + $X2 - $Radius;
-			$Yi2 = sin ( ($i - 90) * M_PI / 180 ) * $Radius + $Y1 + $Radius;
-			
-			$Xi3 = cos ( ($i) * M_PI / 180 ) * $Radius + $X2 - $Radius;
-			$Yi3 = sin ( ($i) * M_PI / 180 ) * $Radius + $Y2 - $Radius;
-			
-			$Xi4 = cos ( ($i + 90) * M_PI / 180 ) * $Radius + $X1 + $Radius;
-			$Yi4 = sin ( ($i + 90) * M_PI / 180 ) * $Radius + $Y2 - $Radius;
-			
-			imageline ( $this->canvas->getPicture(), $Xi1, $Yi1, $X1 + $Radius, $Yi1, $C_Rectangle );
-			imageline ( $this->canvas->getPicture(), $X2 - $Radius, $Yi2, $Xi2, $Yi2, $C_Rectangle );
-			imageline ( $this->canvas->getPicture(), $X2 - $Radius, $Yi3, $Xi3, $Yi3, $C_Rectangle );
-			imageline ( $this->canvas->getPicture(), $Xi4, $Yi4, $X1 + $Radius, $Yi4, $C_Rectangle );
-			
-			$this->canvas->drawAntialiasPixel(new Point($Xi1, $Yi1),
-											  $color,
-											  $this->shadowProperties);
-			$this->canvas->drawAntialiasPixel(new Point($Xi2, $Yi2),
-											  $color,
-											  $this->shadowProperties);
-			$this->canvas->drawAntialiasPixel(new Point($Xi3, $Yi3),
-											  $color,
-											  $this->shadowProperties);
-			$this->canvas->drawAntialiasPixel(new Point($Xi4, $Yi4),
-											  $color,
-											  $this->shadowProperties);
-		}
-		
-		imagefilledrectangle ( $this->canvas->getPicture(), $X1, $Y1 + $Radius, $X2, $Y2 - $Radius, $C_Rectangle );
-		imagefilledrectangle ( $this->canvas->getPicture(), $X1 + $Radius, $Y1, $X2 - $Radius, $Y2, $C_Rectangle );
-		
-		$X1 = $X1 - .2;
-		$Y1 = $Y1 - .2;
-		$X2 = $X2 + .2;
-		$Y2 = $Y2 + .2;
-		$this->canvas->drawLine(new Point($X1 + $Radius, $Y1),
-								new Point($X2 - $Radius, $Y1),
-								$color,
-								$this->LineWidth, $this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X2, $Y1 + $Radius),
-								new Point($X2, $Y2 - $Radius),
-								$color,
-								$this->LineWidth, $this->LineDotSize,
-								$this->shadowProperties);
-		
-		$this->canvas->drawLine(new Point($X2 - $Radius, $Y2),
-								new Point($X1 + $Radius, $Y2),
-								$color,
-								$this->LineWidth, $this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X1, $Y2 - $Radius),
-								new Point($X1, $Y1 + $Radius),
-								$color,
-								$this->LineWidth, $this->LineDotSize,
-								$this->shadowProperties);
-	}
-	
-	/**
 	 * This function create a circle with antialias 
 	 */
 	function drawCircle($Xc, $Yc, $Height, Color $color, $Width = 0) {
@@ -3587,8 +3485,25 @@ class pChart {
 					$MaxWidth = $TextWidth;
 				}
 			}
-			$this->drawFilledRoundedRectangle ( $this->XSize - ($MaxWidth + 20), $this->YSize - (20 + (($this->ErrorFontSize + 4) * count ( $this->Errors ))), $this->XSize - 10, $this->YSize - 10, 6, 233, 185, 185 );
-			$this->drawRoundedRectangle ( $this->XSize - ($MaxWidth + 20), $this->YSize - (20 + (($this->ErrorFontSize + 4) * count ( $this->Errors ))), $this->XSize - 10, $this->YSize - 10, 6, 193, 145, 145 );
+			$this->canvas->drawFilledRoundedRectangle(new Point($this->XSize - ($MaxWidth + 20),
+																$this->YSize - (20 + (($this->ErrorFontSize + 4) * count ( $this->Errors )))),
+													  new Point($this->XSize - 10,
+																$this->YSize - 10),
+													  6,
+													  new Color(233, 185, 185),
+													  $this->lineWidth,
+													  $this->lineDotSize,
+													  $this->shadowProperties);
+
+			$this->canvas->drawRoundedRectangle(new Point($this->XSize - ($MaxWidth + 20),
+														  $this->YSize - (20 + (($this->ErrorFontSize + 4) * count ( $this->Errors )))),
+												new Point($this->XSize - 10,
+														  $this->YSize - 10),
+												6,
+												new Color(193, 145, 145),
+												$this->LineWidth,
+												$this->LineDotSize,
+												$this->shadowProperties);
 			
 			$C_TextColor = $this->canvas->allocateColor(new Color(133, 85, 85));
 			$YPos = $this->YSize - (18 + (count ( $this->Errors ) - 1) * ($this->ErrorFontSize + 4));

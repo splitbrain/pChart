@@ -13,9 +13,179 @@ class GDCanvas implements ICanvas {
 		$this->antialiasQuality = 0;
 	}
 
-	public function drawRoundedRectangle(Point $point1, Point $point2, $radius, Color $color) {
+	public function drawRoundedRectangle(Point $point1, Point $point2, $radius, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties) {
+		$C_Rectangle = $this->allocateColor($color);
 		
+		$Step = 90 / ((M_PI * $radius) / 2);
+		
+		for($i = 0; $i <= 90; $i = $i + $Step) {
+			$X = cos ( ($i + 180) * M_PI / 180 ) * $radius + $point1->getX() + $radius;
+			$Y = sin ( ($i + 180) * M_PI / 180 ) * $radius + $point1->getY() + $radius;
+			$this->drawAntialiasPixel(new Point($X, $Y), $color, $shadowProperties);
+			
+			$X = cos ( ($i - 90) * M_PI / 180 ) * $radius + $point2->getX() - $radius;
+			$Y = sin ( ($i - 90) * M_PI / 180 ) * $radius + $point1->getY() + $radius;
+			$this->drawAntialiasPixel(new Point($X, $Y), $color, $shadowProperties);
+			
+			$X = cos ( ($i) * M_PI / 180 ) * $radius + $point2->getX() - $radius;
+			$Y = sin ( ($i) * M_PI / 180 ) * $radius + $point2->getY() - $radius;
+			$this->drawAntialiasPixel(new Point($X, $Y), $color, $shadowProperties);
+			
+			$X = cos ( ($i + 90) * M_PI / 180 ) * $radius + $point1->getX() + $radius;
+			$Y = sin ( ($i + 90) * M_PI / 180 ) * $radius + $point2->getY() - $radius;
+			$this->drawAntialiasPixel(new Point($X, $Y), $color, $shadowProperties);
+		}
+		
+		$X1 = $point1->getX() - .2;
+		$Y1 = $point1->getY() - .2;
+		$X2 = $point2->getX() + .2;
+		$Y2 = $point2->getY() + .2;
+		$this->drawLine(new Point($X1 + $radius, $Y1),
+						new Point($X2 - $radius, $Y1),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X2, $Y1 + $radius),
+						new Point($X2, $Y2 - $radius),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X2 - $radius, $Y2),
+						new Point($X1 + $radius, $Y2),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X1, $Y2 - $radius),
+						new Point($X1, $Y1 + $radius),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);		
 	}
+
+	/**
+	 * This function creates a filled rectangle with rounded corners
+	 * and antialiasing
+	 */
+	function drawFilledRoundedRectangle(Point $point1, Point $point2, $radius,
+										Color $color, $lineWidth, $lineDotSize,
+										ShadowProperties $shadowProperties) {
+		$C_Rectangle = $this->allocateColor($color);
+		
+		$Step = 90 / ((M_PI * $radius) / 2);
+		
+		for($i = 0; $i <= 90; $i = $i + $Step) {
+			$Xi1 = cos ( ($i + 180) * M_PI / 180 ) * $radius 
+				+ $point1->getX() 
+				+ $radius;
+
+			$Yi1 = sin ( ($i + 180) * M_PI / 180 ) * $radius 
+				+ $point1->getY() 
+				+ $radius;
+			
+			$Xi2 = cos ( ($i - 90) * M_PI / 180 ) * $radius 
+				+ $point2->getX() 
+				- $radius;
+
+			$Yi2 = sin ( ($i - 90) * M_PI / 180 ) * $radius 
+				+ $point1->getY()
+				+ $radius;
+			
+			$Xi3 = cos ( ($i) * M_PI / 180 ) * $radius 
+				+ $point2->getX() 
+				- $radius;
+
+			$Yi3 = sin ( ($i) * M_PI / 180 ) * $radius 
+				+ $point2->getY() 
+				- $radius;
+			
+			$Xi4 = cos ( ($i + 90) * M_PI / 180 ) * $radius
+				+ $point1->getX()
+				+ $radius;
+
+			$Yi4 = sin ( ($i + 90) * M_PI / 180 ) * $radius
+				+ $point2->getY() 
+				- $radius;
+			
+			imageline($this->picture,
+					  $Xi1, $Yi1, 
+					  $point1->getX() + $radius, $Yi1,
+					  $C_Rectangle);
+
+			imageline($this->picture, $point2->getX() - $radius, $Yi2,
+					  $Xi2, $Yi2,
+					  $C_Rectangle);
+
+			imageline($this->picture,
+					  $point2->getX() - $radius, $Yi3,
+					  $Xi3, $Yi3,
+					  $C_Rectangle);
+
+			imageline($this->picture,
+					  $Xi4, $Yi4,
+					  $point1->getX() + $radius, $Yi4,
+					  $C_Rectangle );
+			
+			$this->drawAntialiasPixel(new Point($Xi1, $Yi1),
+									  $color,
+									  $shadowProperties);
+			$this->drawAntialiasPixel(new Point($Xi2, $Yi2),
+									  $color,
+									  $shadowProperties);
+			$this->drawAntialiasPixel(new Point($Xi3, $Yi3),
+									  $color,
+									  $shadowProperties);
+			$this->drawAntialiasPixel(new Point($Xi4, $Yi4),
+									  $color,
+									  $shadowProperties);
+		}
+		
+		imagefilledrectangle($this->picture,
+							 $point1->getX(), $point1->getY() + $radius,
+							 $point2->getX(), $point2->getY() - $radius,
+							 $C_Rectangle);
+
+		imagefilledrectangle($this->picture,
+							 $point1->getX() + $radius, $point1->getY(),
+							 $point2->getX() - $radius, $point2->getY(),
+							 $C_Rectangle);
+		
+		$X1 = $point1->getX() - .2;
+		$Y1 = $point1->getY() - .2;
+		$X2 = $point2->getX() + .2;
+		$Y2 = $point2->getY() + .2;
+		$this->drawLine(new Point($X1 + $radius, $Y1),
+						new Point($X2 - $radius, $Y1),
+						$color,
+						$lineWidth, $lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X2, $Y1 + $radius),
+						new Point($X2, $Y2 - $radius),
+						$color,
+						$lineWidth, $lineDotSize,
+						$shadowProperties);
+		
+		$this->drawLine(new Point($X2 - $radius, $Y2),
+						new Point($X1 + $radius, $Y2),
+						$color,
+						$lineWidth, $lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X1, $Y2 - $radius),
+						new Point($X1, $Y1 + $radius),
+						$color,
+						$lineWidth, $lineDotSize,
+						$shadowProperties);
+
+	}
+
 
 	public function drawLine(Point $point1, Point $point2, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties, Point $boundingBoxMin = null, Point $boundingBoxMax = null) {
 		if ($lineDotSize > 1) {
