@@ -890,12 +890,10 @@ class pChart {
 		}
 
 		/* Validate the Data and DataDescription array */
-		$this->validateDataDescription ( "drawLegend", $DataDescription );
+		$this->validateDataDescription("drawLegend", $DataDescription);
 		
 		if (! isset ( $DataDescription->description))
 			return (- 1);
-		
-		$C_TextColor = $this->canvas->allocateColor($color3);
 		
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
@@ -942,7 +940,14 @@ class pChart {
 													  $this->LineWidth,
 													  $this->LineDotSize,
 													  $this->shadowProperties);
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XPos + 22, $YPos + $YOffset, $C_TextColor, $this->FontName, $Value );
+			$this->canvas->drawText($this->FontSize, 
+									0,
+									new Point($XPos + 22,
+											  $YPos + $YOffset),
+									$color3,
+									$this->FontName,
+									$Value,
+									$this->shadowProperties);
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextHeight = $Position [1] - $Position [7];
