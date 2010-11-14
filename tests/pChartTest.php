@@ -311,15 +311,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$canvas = new GDCanvas(400, 400);
 		$Test = new pChart(400,400, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
-		$canvas->drawFilledRoundedRectangle(new Point(7,7),
-											new Point(393,393),
-											5, new Color(240,240,240),
-											1, 0, ShadowProperties::NoShadow());
 		$Test->setGraphArea(30,30,370,370);
-		$canvas->drawFilledRoundedRectangle(new Point(30,30),
-											new Point(370,370),
-											5, new Color(255,255,255),
-											1, 0, ShadowProperties::NoShadow());
 		
 		// Draw the radar graph
 		$Test->drawRadarAxis($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE,20,
@@ -360,15 +352,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$canvas = new GDCanvas(400, 400);
 		$Test = new pChart(400,400, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
-		$canvas->drawFilledRoundedRectangle(new Point(7,7),
-											new Point(393,393),
-											5, new Color(240,240,240),
-											1, 0, ShadowProperties::NoShadow());
 		$Test->setGraphArea(30,30,370,370);
-		$canvas->drawFilledRoundedRectangle(new Point(30,30),
-											new Point(370,370),
-											5, new Color(255,255,255),
-											1, 0, ShadowProperties::NoShadow());
 		
 		// Draw the radar graph
 		$Test->drawRadarAxis($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE,20,new Color(120,120,120),new Color(230,230,230));
@@ -438,10 +422,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
-		$canvas->drawFilledRoundedRectangle(new Point(7,7),
-											new Point(693,223),
-											5, new Color(240,240,240),
-											1, 0, ShadowProperties::NoShadow());
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);
@@ -489,10 +469,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(60,30,680,200);
-		$canvas->drawFilledRoundedRectangle(new Point(7,7),
-											new Point(693,223),
-											5,new Color(240,240,240),
-											1, 0, ShadowProperties::NoShadow());
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);
