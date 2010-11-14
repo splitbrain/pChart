@@ -175,7 +175,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Draw the title
 		$Title = "Drawing X versus Y charts trigonometric functions  ";
 		$Test->drawTextBox(0,280,300,300,$Title,0,new Color(255,255,255),
-						   ALIGN_RIGHT,TRUE,
+						   ALIGN_RIGHT,
+						   ShadowProperties::FromSettings(1, 1, new Color(0, 0, 0),
+														  100, 0),
 						   new Color(0,0,0),
 						   30);
 		

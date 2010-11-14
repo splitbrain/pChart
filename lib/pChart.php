@@ -1014,9 +1014,13 @@ class pChart {
 	/**
 	 * Draw a text box with text align & alpha properties 
 	 */
-	function drawTextBox($X1, $Y1, $X2, $Y2, $Text, $Angle = 0, Color $color = null, $Align = ALIGN_LEFT, $Shadow = TRUE, Color $backgroundColor = null, $Alpha = 100) {
+	function drawTextBox($X1, $Y1, $X2, $Y2, $Text, $Angle = 0, Color $color = null, $Align = ALIGN_LEFT, ShadowProperties $shadowProperties = null, Color $backgroundColor = null, $Alpha = 100) {
 		if ($color == null) {
 			$color = new Color(255, 255, 255);
+		}
+
+		if ($shadowProperties == null) {
+			$shadowProperties = ShadowProperties::NoShadow();
 		}
 
 		$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Text );
@@ -1065,11 +1069,7 @@ class pChart {
 			$Y = $Y2 - 1;
 		}
 		
-		$C_ShadowColor = $this->canvas->allocateColor(new Color(0, 0, 0));
-		if ($Shadow)
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, $Angle, $X + 1, $Y + 1, $C_ShadowColor, $this->FontName, $Text );
-		
-		$this->canvas->drawText($this->FontSize, $Angle, new Point($X, $Y), $color, $this->FontName, $Text, ShadowProperties::NoShadow());
+		$this->canvas->drawText($this->FontSize, $Angle, new Point($X, $Y), $color, $this->FontName, $Text, $shadowProperties);
 	}
 	
 	/**

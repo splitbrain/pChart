@@ -388,6 +388,7 @@ class GDCanvas implements ICanvas {
 			imagettftext($this->picture, $fontSize, $angle,
 						 $point->getX() + $shadowProperties->xDistance,
 						 $point->getY() + $shadowProperties->yDistance,
+						 $gdShadowColor,
 						 $fontName, $text);
 		}
 
