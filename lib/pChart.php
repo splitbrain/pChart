@@ -1107,11 +1107,11 @@ class pChart {
 			
 			if ($ShowOnRight) {
 				$position = new Point($this->GArea_X2 + 2,
-									  $Y + ($this->FontSize/ 2))
+									  $Y + ($this->FontSize/ 2));
 			} 
 			else {
 				$position = new Point($this->GArea_X1 + 2,
-									  $Y - ($this->FontSize / 2))
+									  $Y - ($this->FontSize / 2));
 			}
 
 			$this->canvas->drawText($this->FontSize, 0,
@@ -3514,10 +3514,16 @@ class pChart {
 												$this->LineDotSize,
 												$this->shadowProperties);
 			
-			$C_TextColor = $this->canvas->allocateColor(new Color(133, 85, 85));
 			$YPos = $this->YSize - (18 + (count ( $this->Errors ) - 1) * ($this->ErrorFontSize + 4));
 			foreach ( $this->Errors as $key => $Value ) {
-				imagettftext ( $this->canvas->getPicture(), $this->ErrorFontSize, 0, $this->XSize - ($MaxWidth + 15), $YPos, $C_TextColor, $this->ErrorFontName, $Value );
+				$this->canvas->drawText($this->ErrorFontSize,
+										0,
+										new Point($this->XSize - ($MaxWidth + 15),
+												  $YPos),
+										new Color(133, 85, 85),
+										$this->ErrorFontName,
+										$Value,
+										ShadowProperties::NoShadow());
 				$YPos = $YPos + ($this->ErrorFontSize + 4);
 			}
 		}
