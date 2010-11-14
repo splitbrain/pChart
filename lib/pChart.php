@@ -1065,12 +1065,11 @@ class pChart {
 			$Y = $Y2 - 1;
 		}
 		
-		$C_TextColor = $this->canvas->allocateColor($color);
 		$C_ShadowColor = $this->canvas->allocateColor(new Color(0, 0, 0));
 		if ($Shadow)
 			imagettftext ( $this->canvas->getPicture(), $this->FontSize, $Angle, $X + 1, $Y + 1, $C_ShadowColor, $this->FontName, $Text );
 		
-		imagettftext ( $this->canvas->getPicture(), $this->FontSize, $Angle, $X, $Y, $C_TextColor, $this->FontName, $Text );
+		$this->canvas->drawText($this->FontSize, $Angle, new Point($X, $Y), $color, $this->FontName, $Text, ShadowProperties::NoShadow());
 	}
 	
 	/**

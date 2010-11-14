@@ -381,6 +381,23 @@ class GDCanvas implements ICanvas {
 		$this->antialiasQuality = $newQuality;
 	}
 
+	function drawText($fontSize, $angle, Point $point, Color $color, $fontName, $text, ShadowProperties $shadowProperties) {
+		if ($shadowProperties->active) {
+			$gdShadowColor = $this->allocateColor($shadowProperties->color);
+
+			imagettftext($this->picture, $fontSize, $angle,
+						 $point->getX() + $shadowProperties->xDistance,
+						 $point->getY() + $shadowProperties->yDistance,
+						 $fontName, $text);
+		}
+
+		$gdColor = $this->allocateColor($color);
+
+		imagettftext($this->picture, $fontSize, $angle, 
+					 $point->getX(), $point->getY(),
+					 $gdColor, $fontName, $text);
+	}
+
 	private $picture;
 
 	/**
