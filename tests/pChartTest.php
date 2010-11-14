@@ -83,10 +83,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$canvas = new GDCanvas(420, 250);
 		$canvas->setAntialiasQuality(0);
 		$Test = new pChart(420, 250, $canvas);
-		$canvas->drawFilledRoundedRectangle(new Point(7, 7),
-											new Point(413, 243),
-											5, new Color(240, 240, 240),
-											1, 0, ShadowProperties::NoShadow());
 		$Test->setPalette(Palette::colorGradientPalette(new Color(195, 204, 56),
 														new Color(223, 110, 41),
 														5));
@@ -120,10 +116,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$canvas = new GDCanvas(300, 200);
 		$Test = new pChart(300, 200, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
-		$canvas->drawFilledRoundedRectangle(new Point(7, 7),
-											new Point(293, 193),
-											5, new Color(240, 240, 240),
-											1, 0, ShadowProperties::NoShadow());
 		
 		// Draw the pie chart
 		$Test->setShadowProperties(2, 2, new Color(200, 200, 200));
@@ -219,10 +211,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
-		$canvas->drawFilledRoundedRectangle(new Point(7,7),
-											new Point(693,223),
-											5, new Color(240,240,240),
-											1, 0, ShadowProperties::NoShadow());
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);
@@ -285,10 +273,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$canvas = new GDCanvas(300, 200);
 		$Test = new pChart(300, 200, $canvas);
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
-		$canvas->drawFilledRoundedRectangle(new Point(7, 7),
-											new Point(293, 193),
-											5, new Color(240, 240, 240),
-											1, 0, ShadowProperties::NoShadow());
 		
 		// This will draw a shadow under the pie chart
 		$Test->drawFilledCircle(122, 102, 70, new Color(200, 200, 200));
