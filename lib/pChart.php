@@ -1078,7 +1078,6 @@ class pChart {
 	 * @todo What is the method name a typo for? Threshold?
 	 */
 	function drawTreshold($Value, Color $color, $ShowLabel = FALSE, $ShowOnRight = FALSE, $TickWidth = 4, $FreeText = NULL) {
-		$C_TextColor = $this->canvas->allocateColor($color);
 		$Y = $this->GArea_Y2 - ($Value - $this->VMin) * $this->DivisionRatio;
 		
 		if ($Y <= $this->GArea_Y1 || $Y >= $this->GArea_Y2)
@@ -1106,10 +1105,21 @@ class pChart {
 				$Label = $FreeText;
 			}
 			
-			if ($ShowOnRight)
-				imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $this->GArea_X2 + 2, $Y + ($this->FontSize / 2), $C_TextColor, $this->FontName, $Label );
-			else
-				imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $this->GArea_X1 + 2, $Y - ($this->FontSize / 2), $C_TextColor, $this->FontName, $Label );
+			if ($ShowOnRight) {
+				$position = new Point($this->GArea_X2 + 2,
+									  $Y + ($this->FontSize/ 2))
+			} 
+			else {
+				$position = new Point($this->GArea_X1 + 2,
+									  $Y - ($this->FontSize / 2))
+			}
+
+			$this->canvas->drawText($this->FontSize, 0,
+									$position,
+									$color,
+									$this->FontName,
+									$Label,
+									ShadowProperties::NoShadow());
 		}
 	}
 	
