@@ -1182,7 +1182,6 @@ class pChart {
 		$ShadowFactor = 100;
 		$C_Label = $this->canvas->allocateColor($color);
 		$C_Shadow = $this->canvas->allocateColor($color->addRGBIncrement(-$ShadowFactor));
-		$C_TextColor = $this->canvas->allocateColor(new Color(0, 0, 0));
 		
 		$Cp = 0;
 		$Found = FALSE;
@@ -1245,7 +1244,13 @@ class pChart {
 								$this->shadowProperties);
 		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $color, $this->shadowProperties);
 		
-		imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XPos + 10, $YPos + $TextOffset, $C_TextColor, $this->FontName, $Caption );
+		$this->canvas->drawText($this->FontSize,
+								0,
+								new Point($XPos + 10, $YPos + $TextOffset),
+								new Color(0, 0, 0),
+								$this->FontName,
+								$Caption,
+								ShadowProperties::NoShadow());
 	}
 	
 	/**
