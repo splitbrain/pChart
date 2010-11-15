@@ -968,8 +968,6 @@ class pChart {
 		if ($DataDescription->getPosition() == '')
 			return (- 1);
 		
-		$C_TextColor = $this->canvas->allocateColor(new Color(0, 0, 0));
-		
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
 		$MaxHeight = 8;
@@ -1017,7 +1015,14 @@ class pChart {
 									   $this->palette->colors[$ID],
 									   $this->shadowProperties);
 			
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XPos + 22, $YPos + $YOffset, $C_TextColor, $this->FontName, $Value2 );
+			$this->canvas->drawText($this->FontSize,
+									0,
+									new Point($XPos + 22,
+											  $YPos + $YOffset),
+									new Color(0, 0, 0),
+									$this->FontName,
+									$Value2,
+									ShadowProperties::NoShadow());
 			$YOffset = $YOffset + $TextHeight + 4;
 			$ID ++;
 		}
