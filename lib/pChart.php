@@ -1035,8 +1035,6 @@ class pChart {
 	 * this a public function?
 	 */
 	function drawTitle($XPos, $YPos, $Value, Color $color, $XPos2 = -1, $YPos2 = -1, $Shadow = FALSE) {
-		$C_TextColor = $this->canvas->allocateColor($color);
-		
 		if ($XPos2 != - 1) {
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
@@ -1049,18 +1047,13 @@ class pChart {
 			$YPos = floor ( ($YPos2 - $YPos - $TextHeight) / 2 ) + $YPos;
 		}
 		
-		if ($Shadow) {
-			$C_ShadowColor = $this->canvas->allocateColor($this->shadowProperties->color);
-
-			imagettftext($this->canvas->getPicture(),
-						 $this->FontSize,
-						 0,
-						 $XPos + $this->shadowProperties->xDistance,
-						 $YPos + $this->shadowProperties->yDistance,
-						 $C_ShadowColor, $this->FontName, $Value );
-		}
-		
-		imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XPos, $YPos, $C_TextColor, $this->FontName, $Value );
+		$this->canvas->drawText($this->FontSize,
+								0,
+								new Point($XPos, $YPos),
+								$color,
+								$this->FontName,
+								$Value,
+								$this->shadowProperties);
 	}
 	
 	/**
