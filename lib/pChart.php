@@ -257,7 +257,6 @@ class pChart {
 					$Y2 = $this->GArea_Y1 + $X2 - $this->GArea_X2 + 1;
 					$X2 = $this->GArea_X2 - 1;
 				}
-				// * Fixed in 1.27 *         { $X2 = $this->GArea_X2 - 1; $Y2 = $this->GArea_Y2 - ($this->GArea_X2 - $X1); }
 				
 				imageline($this->canvas->getPicture(), 
 						  $X1, $Y1, $X2, $Y2 + 1, $LineColor);
