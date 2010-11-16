@@ -225,13 +225,16 @@ class pChart {
 	 * Prepare the graph area 
 	 */
 	function drawGraphArea(Color $color, $Stripe = FALSE) {
-		$this->drawFilledRectangle($this->GArea_X1, $this->GArea_Y1,
-								   $this->GArea_X2, $this->GArea_Y2,
-								   $color,
-								   $this->shadowProperties, FALSE );
-		$this->drawRectangle($this->GArea_X1, $this->GArea_Y1,
-							 $this->GArea_X2, $this->GArea_Y2,
-							 $color->addRGBIncrement(-40));
+		$this->canvas->drawFilledRectangle(new Point($this->GArea_X1, $this->GArea_Y1),
+										   new Point($this->GArea_X2, $this->GArea_Y2),
+										   $color,
+										   $this->shadowProperties, FALSE );
+		$this->canvas->drawRectangle(new Point($this->GArea_X1, $this->GArea_Y1),
+									 new Point($this->GArea_X2, $this->GArea_Y2),
+									 $color->addRGBIncrement(-40),
+									 $this->LineWidth,
+									 $this->LineDotSize,
+									 $this->shadowProperties);
 		
 		if ($Stripe) {
 			$color2 = $color->addRGBIncrement(-15);
@@ -1008,12 +1011,12 @@ class pChart {
 			$Value2 = $Value [$DataDescription->getPosition()];
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value2 );
 			$TextHeight = $Position [1] - $Position [7];
-			$this->drawFilledRectangle($XPos + 10,
-									   $YPos + $YOffset - 6,
-									   $XPos + 14,
-									   $YPos + $YOffset - 2,
-									   $this->palette->colors[$ID],
-									   $this->shadowProperties);
+			$this->canvas->drawFilledRectangle(new Point($XPos + 10,
+														 $YPos + $YOffset - 6),
+											   new Point($XPos + 14,
+														 $YPos + $YOffset - 2),
+											   $this->palette->colors[$ID],
+											   $this->shadowProperties);
 			
 			$this->canvas->drawText($this->FontSize,
 									0,
@@ -1075,7 +1078,10 @@ class pChart {
 		$AreaHeight = $Y2 - $Y1;
 		
 		if ($backgroundColor != null)
-			$this->drawFilledRectangle($X1, $Y1, $X2, $Y2, $backgroundColor, $this->shadowProperties, FALSE, $Alpha );
+			$this->canvas->drawFilledRectangle(new Point($X1, $Y1),
+											   new Point($X2, $Y2),
+											   $backgroundColor,
+											   $this->shadowProperties, FALSE, $Alpha );
 		
 		if ($Align == ALIGN_TOP_LEFT) {
 			$X = $X1 + 1;
@@ -1220,8 +1226,10 @@ class pChart {
 								$this->LineDotSize,
 								$this->shadowProperties);
 
-		$this->drawFilledRectangle ( $XPos + 9, $YPos - $TextOffset - .2,
-									 $XPos + 13 + $TextWidth, $YPos + $TextOffset + 2.2,
+		$this->canvas->drawFilledRectangle(new Point($XPos + 9,
+													 $YPos - $TextOffset - .2),
+										   new Point($XPos + 13 + $TextWidth,
+													 $YPos + $TextOffset + 2.2),
 									 $color->addRGBIncrement(-$ShadowFactor),
 									 $this->shadowProperties);
 		
@@ -1242,7 +1250,12 @@ class pChart {
 								$this->LineWidth,
 								$this->LineDotSize,
 								$this->shadowProperties);
-		$this->drawFilledRectangle ( $XPos + 8, $YPos - $TextOffset - 1.2, $XPos + 12 + $TextWidth, $YPos + $TextOffset + 1.2, $color, $this->shadowProperties);
+		$this->canvas->drawFilledRectangle(new Point($XPos + 8,
+													 $YPos - $TextOffset - 1.2),
+										   new Point($XPos + 12 + $TextWidth,
+													 $YPos + $TextOffset + 1.2),
+										   $color, 
+										   $this->shadowProperties);
 		
 		$this->canvas->drawText($this->FontSize,
 								0,
@@ -2065,7 +2078,7 @@ class pChart {
 	/**
 	 * This function draw a bar graph 
 	 */
-	function drawBarGraph($Data, $DataDescription, $Shadow = FALSE, $Alpha = 100) {
+	function drawBarGraph($Data, $DataDescription, $Alpha = 100) {
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription ( "drawBarGraph", $DataDescription );
 		$this->validateData ( "drawBarGraph", $Data );
@@ -2104,16 +2117,23 @@ class pChart {
 							$this->addToImageMap ( $XPos + 1, min ( $YZero, $YPos ), $XPos + $SeriesWidth - 1, max ( $YZero, $YPos ), $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "Bar" );
 						}
 						
-						if ($Shadow && $Alpha == 100)
-							$this->drawRectangle ( $XPos + 1, $YZero, $XPos + $SeriesWidth - 1, $YPos, 25, 25, 25, TRUE, $Alpha );
+						if ($Alpha == 100) {
+							$this->canvas->drawRectangle(new Point($XPos + 1, $YZero),
+														 new Point($XPos + $SeriesWidth - 1,
+																   $YPos),
+														 new Color(25, 25, 25),
+														 $this->LineWidth,
+														 $this->LineDotSize,
+														 $this->shadowProperties);
+						}
 						
-						$this->drawFilledRectangle($XPos + 1,
-												   $YZero,
-												   $XPos + $SeriesWidth - 1,
-												   $YPos,
-												   $this->palette->colors[$ColorID],
-												   $this->shadowProperties,
-												   TRUE, $Alpha );
+						$this->canvas->drawFilledRectangle(new Point($XPos + 1,
+																	 $YZero),
+														   new Point($XPos + $SeriesWidth - 1,
+																	 $YPos),
+														   $this->palette->colors[$ColorID],
+														   $this->shadowProperties,
+														   TRUE, $Alpha);
 					}
 				}
 				$XPos = $XPos + $this->DivisionWidth;
@@ -2175,14 +2195,14 @@ class pChart {
 						if ($this->BuildMap)
 							$this->addToImageMap ( $XPos + 1, min ( $YBottom, $YPos ), $XPos + $SeriesWidth - 1, max ( $YBottom, $YPos ), $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "sBar" );
 						
-						$this->drawFilledRectangle($XPos + 1,
-												   $YBottom,
-												   $XPos + $SeriesWidth - 1,
-												   $YPos,
-												   $this->palette->colors[$ColorID],
-												   $this->shadowProperties, 
-												   TRUE,
-												   $Alpha );
+						$this->canvas->drawFilledRectangle(new Point($XPos + 1,
+																	 $YBottom),
+														   new Point($XPos + $SeriesWidth - 1,
+																	 $YPos),
+														   $this->palette->colors[$ColorID],
+														   $this->shadowProperties, 
+														   TRUE,
+														   $Alpha);
 					}
 				}
 				$XPos = $XPos + $this->DivisionWidth;
@@ -3191,116 +3211,6 @@ class pChart {
 		}
 	}
 	
-	/**
-	 * This function create a rectangle with antialias 
-	 */
-	function drawRectangle($X1, $Y1, $X2, $Y2, Color $color) {
-		$C_Rectangle = $this->canvas->allocateColor($color);
-		
-		$X1 = $X1 - .2;
-		$Y1 = $Y1 - .2;
-		$X2 = $X2 + .2;
-		$Y2 = $Y2 + .2;
-		$this->canvas->drawLine(new Point($X1, $Y1),
-								new Point($X2, $Y1),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X2, $Y1),
-								new Point($X2, $Y2),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-
-		$this->canvas->drawLine(new Point($X2, $Y2),
-								new Point($X1, $Y2),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-		
-		$this->canvas->drawLine(new Point($X1, $Y2),
-								new Point($X1, $Y1),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
-								$this->shadowProperties);
-	}
-	
-	/**
-	 * This function create a filled rectangle with antialias 
-	 */
-	function drawFilledRectangle($X1, $Y1, $X2, $Y2, Color $color, ShadowProperties $shadowProperties, $DrawBorder = TRUE, $Alpha = 100) {
-		if ($X2 < $X1) {
-			list ( $X1, $X2 ) = array ($X2, $X1 );
-		}
-		if ($Y2 < $Y1) {
-			list ( $Y1, $Y2 ) = array ($Y2, $Y1 );
-		}
-		
-		if ($Alpha == 100) {
-			/* Process shadows */
-			if ($shadowProperties->active && ! $NoFallBack) {
-				$this->drawFilledRectangle($X1 + $shadowProperties->xDistance,
-										   $Y1 + $shadowProperties->yDistance,
-										   $X2 + $shadowProperties->xDistance,
-										   $Y2 + $shadowProperties->yDistance,
-										   $shadowProperties->color,
-										   ShadowProperties::NoShadow(),
-										   FALSE,
-										   $shadowProperties->alpha);
-				if ($shadowProperties->blur != 0) {
-					$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
-					
-					for($i = 1; $i <= $shadowProperties->blur; $i ++)
-						$this->drawFilledRectangle($X1 + $shadowProperties->xDistance - $i / 2,
-												   $Y1 + $shadowProperties->yDistance - $i / 2,
-												   $X2 + $shadowProperties->xDistance - $i / 2,
-												   $Y2 + $shadowProperties->yDistance - $i / 2,
-												   $shadowProperties->color,
-												   ShadowProperties::NoShadow(),
-												   FALSE,
-												   $shadowProperties->alpha - $AlphaDecay * $i);
-					for($i = 1; $i <= $shadowProperties->blur; $i ++)
-						$this->drawFilledRectangle ( $X1 + $shadowProperties->xDistance + $i / 2,
-													 $Y1 + $shadowProperties->yDistance + $i / 2,
-													 $X2 + $shadowProperties->xDistance + $i / 2,
-													 $Y2 + $shadowProperties->xDistance + $i / 2,
-													 $shadowProperties->color,
-													 ShadowProperties::NoShadow(),
-													 FALSE, 
-													 $shadowProperties->alpha - $AlphaDecay * $i);
-				}
-			}
-			
-			$C_Rectangle = $this->canvas->allocateColor($color);
-			imagefilledrectangle ( $this->canvas->getPicture(), round ( $X1 ), round ( $Y1 ), round ( $X2 ), round ( $Y2 ), $C_Rectangle );
-		} else {
-			$LayerWidth = abs ( $X2 - $X1 ) + 2;
-			$LayerHeight = abs ( $Y2 - $Y1 ) + 2;
-			
-			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = imagecolorallocate( $this->Layers [0], 255, 255, 255);
-			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
-			imagecolortransparent ( $this->Layers [0], $C_White );
-			
-			$C_Rectangle = imagecolorallocate( $this->Layers [0], $color->r, $color->g, $color->b);
-			imagefilledrectangle ( $this->Layers [0], round ( 1 ), round ( 1 ), round ( $LayerWidth - 1 ), round ( $LayerHeight - 1 ), $C_Rectangle );
-			
-			imagecopymerge ( $this->canvas->getPicture(), $this->Layers [0], round ( min ( $X1, $X2 ) - 1 ), round ( min ( $Y1, $Y2 ) - 1 ), 0, 0, $LayerWidth, $LayerHeight, $Alpha );
-			imagedestroy ( $this->Layers [0] );
-		}
-		
-		if ($DrawBorder) {
-			$ShadowSettings = $this->shadowProperties->active;
-			$this->shadowProperties->active = FALSE;
-			$this->drawRectangle ( $X1, $Y1, $X2, $Y2, $color);
-			$this->shadowProperties->active = $ShadowSettings;
-		}
-	}
 	
 	/**
 	 * This function create a circle with antialias 

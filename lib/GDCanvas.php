@@ -13,6 +13,131 @@ class GDCanvas implements ICanvas {
 		$this->antialiasQuality = 0;
 	}
 
+	function drawFilledRectangle(Point $corner1, Point $corner2, Color $color,
+								 ShadowProperties $shadowProperties, $drawBorder = false,
+								 $alpha = 100, $lineWidth = 1, $lineDotSize = 0) {
+		if ($corner2->getX() < $corner1->getX()) {
+			$newCorner1 = new Point($corner2->getX(), $corner1->getY());
+			$newCorner2 = new Point($corner1->getX(), $corner2->getY());
+
+			$corner1 = $newCorner1;
+			$corner2 = $newCorner2;
+		}
+
+		if ($corner2->getY() < $corner1->getY()) {
+			$newCorner1 = new Point($corner1->getX(), $corner2->getY());
+			$newCorner2 = new Point($corner2->getX(), $corner1->getY());
+
+			$corner1 = $newCorner1;
+			$corner2 = $newCorner2;
+		}
+
+		$X1 = $corner1->getX();
+		$Y1 = $corner1->getY();
+
+		$X2 = $corner2->getX();
+		$Y2 = $corner2->getY();
+		
+		if ($alpha == 100) {
+			/* Process shadows */
+			if ($shadowProperties->active) {
+				$this->drawFilledRectangle(new Point($X1 + $shadowProperties->xDistance,
+													 $Y1 + $shadowProperties->yDistance),
+										   new Point($X2 + $shadowProperties->xDistance,
+													 $Y2 + $shadowProperties->yDistance),
+										   $shadowProperties->color,
+										   ShadowProperties::NoShadow(),
+										   FALSE,
+										   $shadowProperties->alpha);
+				if ($shadowProperties->blur != 0) {
+					$AlphaDecay = ($shadowProperties->alpha / $shadowProperties->blur);
+					
+					for($i = 1; $i <= $shadowProperties->blur; $i ++)
+						$this->drawFilledRectangle(new Point($X1 + $shadowProperties->xDistance - $i / 2,
+															 $Y1 + $shadowProperties->yDistance - $i / 2),
+												   new Point($X2 + $shadowProperties->xDistance - $i / 2,
+															 $Y2 + $shadowProperties->yDistance - $i / 2),
+												   $shadowProperties->color,
+												   ShadowProperties::NoShadow(),
+												   FALSE,
+												   $shadowProperties->alpha - $AlphaDecay * $i);
+					for($i = 1; $i <= $shadowProperties->blur; $i ++)
+						$this->drawFilledRectangle(new Point($X1 + $shadowProperties->xDistance + $i / 2,
+															 $Y1 + $shadowProperties->yDistance + $i / 2),
+												   new Point($X2 + $shadowProperties->xDistance + $i / 2,
+															 $Y2 + $shadowProperties->xDistance + $i / 2),
+												   $shadowProperties->color,
+												   ShadowProperties::NoShadow(),
+												   FALSE, 
+												   $shadowProperties->alpha - $AlphaDecay * $i);
+				}
+			}
+			
+			$C_Rectangle = $this->allocateColor($color);
+			imagefilledrectangle($this->picture, round ( $X1 ), round ( $Y1 ), round ( $X2 ), round ( $Y2 ), $C_Rectangle );
+		} else {
+			$LayerWidth = abs ( $X2 - $X1 ) + 2;
+			$LayerHeight = abs ( $Y2 - $Y1 ) + 2;
+			
+			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
+			$C_White = imagecolorallocate( $this->Layers [0], 255, 255, 255);
+			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
+			imagecolortransparent ( $this->Layers [0], $C_White );
+			
+			$C_Rectangle = imagecolorallocate( $this->Layers [0], $color->r, $color->g, $color->b);
+			imagefilledrectangle ( $this->Layers [0], round ( 1 ), round ( 1 ), round ( $LayerWidth - 1 ), round ( $LayerHeight - 1 ), $C_Rectangle );
+			
+			imagecopymerge ($this->picture, $this->Layers [0], round ( min ( $X1, $X2 ) - 1 ), round ( min ( $Y1, $Y2 ) - 1 ), 0, 0, $LayerWidth, $LayerHeight, $alpha);
+			imagedestroy ( $this->Layers [0] );
+		}
+		
+		if ($drawBorder) {
+			$this->drawRectangle(new Point($X1, $Y1),
+								 new Point($X2, $Y2),
+								 $color,
+								 $lineWidth,
+								 $lineDotSize,
+								 ShadowProperties::NoShadow());
+		}
+	}
+
+	public function drawRectangle(Point $corner1, Point $corner2, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties) {
+		$C_Rectangle = $this->allocateColor($color);
+		
+		$X1 = $corner1->getX() - .2;
+		$Y1 = $corner1->getY() - .2;
+		$X2 = $corner2->getX() + .2;
+		$Y2 = $corner2->getY() + .2;
+		$this->drawLine(new Point($X1, $Y1),
+						new Point($X2, $Y1),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X2, $Y1),
+						new Point($X2, $Y2),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+
+		$this->drawLine(new Point($X2, $Y2),
+						new Point($X1, $Y2),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+		
+		$this->drawLine(new Point($X1, $Y2),
+						new Point($X1, $Y1),
+						$color,
+						$lineWidth,
+						$lineDotSize,
+						$shadowProperties);
+
+	}
+
 	public function drawRoundedRectangle(Point $point1, Point $point2, $radius, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties) {
 		$C_Rectangle = $this->allocateColor($color);
 		

@@ -5,6 +5,10 @@ require_once dirname(__FILE__).'/Point.php';
 require_once dirname(__FILE__).'/ShadowProperties.php';
 
 interface ICanvas {
+	function drawFilledRectangle(Point $corner1, Point $corner2, Color $color,
+								 ShadowProperties $shadowProperties, $drawBorder,
+								 $alpha, $lineWidth, $lineDotSize);
+
 	function drawRoundedRectangle(Point $corner1, Point $corner2, $radius,
 								  Color $color, $lineWidth, $lineDotSize,
 								  ShadowProperties $shadowProperties);
