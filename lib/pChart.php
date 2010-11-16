@@ -239,7 +239,6 @@ class pChart {
 		if ($Stripe) {
 			$color2 = $color->addRGBIncrement(-15);
 
-			$LineColor = $this->canvas->allocateColor($color2);
 			$SkewWidth = $this->GArea_Y2 - $this->GArea_Y1 - 1;
 			
 			for($i = $this->GArea_X1 - $SkewWidth; $i <= $this->GArea_X2; $i = $i + 4) {
@@ -258,8 +257,12 @@ class pChart {
 					$X2 = $this->GArea_X2 - 1;
 				}
 				
-				imageline($this->canvas->getPicture(), 
-						  $X1, $Y1, $X2, $Y2 + 1, $LineColor);
+				$this->canvas->drawLine(new Point($X1, $Y1),
+										new Point($X2, $Y2 + 1),
+										$color2,
+										1,
+										0,
+										ShadowProperties::NoShadow());
 			}
 		}
 	}
