@@ -2753,8 +2753,14 @@ class pChart {
 			imagefilledpolygon ( $this->canvas->getPicture(), $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
 		}
 		
-		$this->drawCircle ( $XPos - .5, $YPos - .5, $Radius, $color);
-		$this->drawCircle ( $XPos - .5, $YPos - .5, $Radius + .5, $color);
+		$this->canvas->drawCircle(new Point($XPos - .5, $YPos - .5),
+								  $Radius,
+								  $color,
+								  $this->shadowProperties);
+		$this->canvas->drawCircle(new Point($XPos - .5, $YPos - .5),
+								  $Radius + .5,
+								  $color,
+								  $this->shadowProperties);
 		
 		/* Draw Top polygons */
 		foreach ( $TopPlots as $Key => $Value ) {
@@ -3210,28 +3216,7 @@ class pChart {
 			}
 		}
 	}
-	
-	
-	/**
-	 * This function create a circle with antialias 
-	 */
-	function drawCircle($Xc, $Yc, $Height, Color $color, $Width = 0) {
-		if ($Width == 0) {
-			$Width = $Height;
-		}
-
-		$C_Circle = $this->canvas->allocateColor($color);
-		$Step = 360 / (2 * M_PI * max ( $Width, $Height ));
 		
-		for($i = 0; $i <= 360; $i = $i + $Step) {
-			$X = cos ( $i * M_PI / 180 ) * $Height + $Xc;
-			$Y = sin ( $i * M_PI / 180 ) * $Width + $Yc;
-			$this->canvas->drawAntialiasPixel(new Point($X, $Y),
-											  $color,
-											  $this->shadowProperties);
-		}
-	}
-	
 	/**
 	 * This function creates a filled circle/ellipse with antialias 
 	 */
@@ -3258,14 +3243,14 @@ class pChart {
 	}
 	
 	/**
-	 * This function will draw a filled ellipse 
+	 * This function will draw an ellipse 
 	 */
 	function drawEllipse($Xc, $Yc, $Height, $Width, Color $color) {
-		$this->drawCircle ( $Xc, $Yc, $Height, $color, $Width );
+		$this->canvas->drawCircle(new Point($Xc, $Yc), $Height, $color, $this->shadowProperties, $Width );
 	}
 	
 	/**
-	 * This function will draw an ellipse 
+	 * This function will draw a filled ellipse 
 	 */
 	function drawFilledEllipse($Xc, $Yc, $Height, $Width, Color $color) {
 		$this->drawFilledCircle ( $Xc, $Yc, $Height, $color, $Width );

@@ -524,6 +524,23 @@ class GDCanvas implements ICanvas {
 					 $gdColor, $fontName, $text);
 	}
 
+	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null) {
+		if ($width == null) {
+			$width = $height;
+		}
+
+		$Step = 360 / (2 * M_PI * max ( $width, $height ));
+		
+		for($i = 0; $i <= 360; $i = $i + $Step) {
+			$X = cos ( $i * M_PI / 180 ) * $height + $center->getX();
+			$Y = sin ( $i * M_PI / 180 ) * $width + $center->getY();
+			$this->drawAntialiasPixel(new Point($X, $Y),
+									  $color,
+									  $shadowProperties);
+		}
+
+	}
+
 	private $picture;
 
 	/**

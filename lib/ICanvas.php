@@ -24,4 +24,11 @@ interface ICanvas {
 	function drawAntialiasPixel(Point $point, Color $color, ShadowProperties $shadowProperties, $alpha);
 
 	function drawText($fontSize, $angle, Point $point, Color $color, $fontName, $text, ShadowProperties $shadowProperties);
+
+	/**
+	 * @todo The function's called drawCircle(), but you can make it
+	 * draw an ellipse by passing in different values for width and
+	 * height. This should be changed.
+	 */
+	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width);
 }
