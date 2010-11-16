@@ -1315,24 +1315,46 @@ class pChart {
 					if (! isset ( $DataDescription->seriesSymbols[$ColName] )) {
 						
 						if ($Shadow) {
-							if ($color3 != null)
-								$this->drawFilledCircle ( $XPos + 2, $YPos + 2, $BigRadius, $color3 );
+							if ($color3 != null) {
+								$this->canvas->drawFilledCircle(new Point($XPos + 2,
+																		  $YPos + 2),
+																$BigRadius,
+																$color3,
+																$this->shadowProperties);
+							}
 							else {
 								$color3 = $this->palette->colors[$ColorID]->addRGBIncrement(-20);
 
-								$this->drawFilledCircle ( $XPos + 2, $YPos + 2, $BigRadius, $color3);
+								$this->canvas->drawFilledCircle(new Point($XPos + 2,
+																		  $YPos + 2),
+																$BigRadius,
+																$color3,
+																$this->shadowProperties);
 							}
 						}
 						
-						$this->drawFilledCircle ( $XPos + 1, $YPos + 1, $BigRadius, $color);
+						$this->canvas->drawFilledCircle(new Point($XPos + 1,
+																  $YPos + 1),
+														$BigRadius,
+														$color,
+														$this->shadowProperties);
 						
 						if ($SmallRadius != 0) {
-							if ($color2 != null)
-								$this->drawFilledCircle ( $XPos + 1, $YPos + 1, $SmallRadius, $color2);
+							if ($color2 != null) {
+								$this->canvas->drawFilledCircle(new Point($XPos + 1,
+																		  $YPos + 1),
+																$SmallRadius,
+																$color2,
+																$this->shadowProperties);
+							}
 							else {
 								$color2 = $this->palette->colors[$ColorID]->addRGBIncrement(-15);
 								
-								$this->drawFilledCircle ( $XPos + 1, $YPos + 1, $SmallRadius, $color2);
+								$this->canvas->drawFilledCircle(new Point($XPos + 1,
+																		  $YPos + 1),
+																$SmallRadius,
+																$color2,
+																$this->shadowProperties);
 							}
 						}
 					} else {
@@ -1366,23 +1388,38 @@ class pChart {
 				
 				if ($Shadow) {
 					if ($color3 != null) {
-						$this->drawFilledCircle ( $X + 2, $Y + 2, $BigRadius, 
-												  $color3);
+						$this->canvas->drawFilledCircle(new Point($X + 2, $Y + 2),
+														$BigRadius, 
+														$color3,
+														$this->shadowProperties);
 					}
 					else {
 						$color3 = $this->palette->colors[$PaletteID]->addRGBIncrement(-20);
-						$this->drawFilledCircle ( $X + 2, $Y + 2, $BigRadius, $color3);
+						$this->canvas->drawFilledCircle(new Point($X + 2, $Y + 2),
+														$BigRadius,
+														$color3,
+														$this->shadowProperties);
 					}
 				}
 				
-				$this->drawFilledCircle ( $X + 1, $Y + 1, $BigRadius, $color);
+				$this->canvas->drawFilledCircle(new Point($X + 1, $Y + 1),
+												$BigRadius,
+												$color,
+												$this->shadowProperties);
 				
-				if ($color2 != null)
-					$this->drawFilledCircle ( $X + 1, $Y + 1, $SmallRadius, $color2);
+				if ($color2 != null) {
+					$this->canvas->drawFilledCircle(new Point($X + 1, $Y + 1),
+													$SmallRadius,
+													$color2,
+													$this->shadowProperties);
+				}
 				else {
 					$color2 = $this->palette->colors[$PaletteID]->addRGBIncrement(20);
 
-					$this->drawFilledCircle ( $X + 1, $Y + 1, $SmallRadius, $color2);
+					$this->canvas->drawFilledCircle(new Point($X + 1, $Y + 1),
+													$SmallRadius,
+													$color2,
+													$this->shadowProperties);
 				}
 			}
 		}
@@ -3223,31 +3260,6 @@ class pChart {
 	}
 		
 	/**
-	 * This function creates a filled circle/ellipse with antialias 
-	 */
-	function drawFilledCircle($Xc, $Yc, $Height, Color $color, $Width = 0) {
-		if ($Width == 0) {
-			$Width = $Height;
-		}
-		
-		$C_Circle = $this->canvas->allocateColor($color);
-		$Step = 360 / (2 * M_PI * max ( $Width, $Height ));
-		
-		for($i = 90; $i <= 270; $i = $i + $Step) {
-			$X1 = cos ( $i * M_PI / 180 ) * $Height + $Xc;
-			$Y1 = sin ( $i * M_PI / 180 ) * $Width + $Yc;
-			$X2 = cos ( (180 - $i) * M_PI / 180 ) * $Height + $Xc;
-			$Y2 = sin ( (180 - $i) * M_PI / 180 ) * $Width + $Yc;
-			
-			$this->canvas->drawAntialiasPixel(new Point($X1 - 1, $Y1 - 1), $color, $this->shadowProperties);
-			$this->canvas->drawAntialiasPixel(new Point($X2 - 1, $Y2 - 1), $color, $this->shadowProperties);
-			
-			if (($Y1 - 1) > $Yc - max ( $Width, $Height ))
-				imageline ( $this->canvas->getPicture(), $X1, $Y1 - 1, $X2 - 1, $Y2 - 1, $C_Circle );
-		}
-	}
-	
-	/**
 	 * This function will draw an ellipse 
 	 */
 	function drawEllipse($Xc, $Yc, $Height, $Width, Color $color) {
@@ -3258,7 +3270,7 @@ class pChart {
 	 * This function will draw a filled ellipse 
 	 */
 	function drawFilledEllipse($Xc, $Yc, $Height, $Width, Color $color) {
-		$this->drawFilledCircle ( $Xc, $Yc, $Height, $color, $Width );
+		$this->canvas->drawFilledCircle(new Point($Xc, $Yc), $Height, $color, $this->shadowProperties, $Width );
 	}
 	
 	/**

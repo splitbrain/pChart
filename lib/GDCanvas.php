@@ -541,6 +541,33 @@ class GDCanvas implements ICanvas {
 
 	}
 
+	public function drawFilledCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null) {
+		if ($width == null) {
+			$width = $height;
+		}
+		
+		$C_Circle = $this->allocateColor($color);
+		$Step = 360 / (2 * M_PI * max ( $width, $height ));
+		
+		for($i = 90; $i <= 270; $i = $i + $Step) {
+			$X1 = cos ( $i * M_PI / 180 ) * $height + $center->getX();
+			$Y1 = sin ( $i * M_PI / 180 ) * $width + $center->getY();
+			$X2 = cos ( (180 - $i) * M_PI / 180 ) * $height + $center->getX();
+			$Y2 = sin ( (180 - $i) * M_PI / 180 ) * $width + $center->getY();
+			
+			$this->drawAntialiasPixel(new Point($X1 - 1, $Y1 - 1),
+									  $color,
+									  $shadowProperties);
+			$this->drawAntialiasPixel(new Point($X2 - 1, $Y2 - 1),
+									  $color,
+									  $shadowProperties);
+			
+			if (($Y1 - 1) > $center->getY() - max ( $width, $height )) {
+				imageline ( $this->picture, $X1, $Y1 - 1, $X2 - 1, $Y2 - 1, $C_Circle );
+			}
+		}
+	}
+
 	private $picture;
 
 	/**

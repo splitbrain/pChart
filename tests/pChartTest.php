@@ -276,9 +276,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test = new pChart(300, 200, $canvas);
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
 		
-		// This will draw a shadow under the pie chart
-		$Test->drawFilledCircle(122, 102, 70, new Color(200, 200, 200));
-		
 		// Draw the pie chart
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
 		$Test->drawBasicPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 

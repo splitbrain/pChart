@@ -31,4 +31,6 @@ interface ICanvas {
 	 * height. This should be changed.
 	 */
 	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width);
+
+	function drawFilledCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width);
 }
