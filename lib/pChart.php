@@ -3193,8 +3193,10 @@ class pChart {
 					$Yi2 = $Y2 - 1;
 				}
 				
-				$C_Background = $this->canvas->allocateColor($color);
-				imagefilledrectangle ( $this->canvas->getPicture(), $X1, $Yi1, $X2, $Yi2, $C_Background );
+				$this->canvas->drawFilledRectangle(new Point($X1, $Yi1),
+												   new Point($X2, $Yi2),
+												   $color,
+												   ShadowProperties::NoShadow());
 			}
 		}
 		
@@ -3205,8 +3207,11 @@ class pChart {
 			$Yi2 = $Y1 + $YStep;
 			for($i = - $Decay; $i >= 0; $i --) {
 				$color = $color->addRGBIncrement(1);
-				$C_Background = $this->canvas->allocateColor($color);
-				imagefilledrectangle ( $this->canvas->getPicture(), $X1, $Yi1, $X2, $Yi2, $C_Background );
+
+				$this->canvas->drawFilledRectangle(new Point($X1, $Yi1),
+												   new Point($X2, $Yi2),
+												   $color,
+												   ShadowProperties::NoShadow());
 				
 				$Yi1 += $YStep;
 				$Yi2 += $YStep;
