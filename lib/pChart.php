@@ -609,8 +609,6 @@ class pChart {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data );
 		
-		$C_TextColor = $this->canvas->allocateColor($color);
-		
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
 								new Point($this->GArea_X1, $this->GArea_Y2),
 								$color,
@@ -680,7 +678,14 @@ class pChart {
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $this->GArea_X1 - 10 - $TextWidth, $YPos + ($this->FontSize / 2), $C_TextColor, $this->FontName, $Value );
+			$this->canvas->drawText($this->FontSize,
+									0,
+									new Point($this->GArea_X1 - 10 - $TextWidth,
+											  $YPos + ($this->FontSize / 2)),
+									$color,
+									$this->FontName,
+									$Value,
+									$this->shadowProperties);
 			
 			if ($XMin > $this->GArea_X1 - 10 - $TextWidth || $XMin == NULL) {
 				$XMin = $this->GArea_X1 - 10 - $TextWidth;
@@ -748,13 +753,36 @@ class pChart {
 			
 			if ($Angle == 0) {
 				$YPos = $this->GArea_Y2 + 18;
-				imagettftext ( $this->canvas->getPicture(), $this->FontSize, $Angle, floor ( $XPos ) - floor ( $TextWidth / 2 ), $YPos, $C_TextColor, $this->FontName, $Value );
+				$this->canvas->drawText($this->FontSize,
+										$Angle,
+										new Point(floor ( $XPos ) - floor ( $TextWidth / 2 ),
+												  $YPos),
+										$color,
+										$this->FontName,
+										$Value,
+										$this->shadowProperties);
 			} else {
 				$YPos = $this->GArea_Y2 + 10 + $TextHeight;
-				if ($Angle <= 90)
-					imagettftext ( $this->canvas->getPicture(), $this->FontSize, $Angle, floor ( $XPos ) - $TextWidth + 5, $YPos, $C_TextColor, $this->FontName, $Value );
-				else
-					imagettftext ( $this->canvas->getPicture(), $this->FontSize, $Angle, floor ( $XPos ) + $TextWidth + 5, $YPos, $C_TextColor, $this->FontName, $Value );
+				if ($Angle <= 90) {
+					$this->canvas->drawText($this->FontSize,
+											$Angle,
+											new Point(floor ( $XPos ) - $TextWidth + 5,
+													  $YPos),
+											$color,
+											$this->FontName,
+											$Value,
+											$this->shadowProperties);
+				}
+				else {
+					$this->canvas->drawText($this->FontSize,
+											$Angle,
+											new Point(floor ( $XPos ) + $TextWidth + 5,
+													  $YPos),
+											$color,
+											$this->FontName,
+											$Value,
+											$this->shadowProperties);
+				}
 			}
 			
 			if ($YMax < $YPos || $YMax == NULL) {
@@ -770,7 +798,14 @@ class pChart {
 									  $DataDescription->getYAxisName());
 			$TextHeight = abs ( $Position [1] ) + abs ( $Position [3] );
 			$TextTop = (($this->GArea_Y2 - $this->GArea_Y1) / 2) + $this->GArea_Y1 + ($TextHeight / 2);
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 90, $XMin - $this->FontSize, $TextTop, $C_TextColor, $this->FontName, $DataDescription->getYAxisName());
+			$this->canvas->drawText($this->FontSize,
+									90,
+									new Point($XMin - $this->FontSize, 
+											  $TextTop),
+									$color, 
+									$this->FontName,
+									$DataDescription->getYAxisName(),
+									$this->shadowProperties);
 		}
 		
 		/* Write the X Axis caption if set */
@@ -778,7 +813,14 @@ class pChart {
 			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription->getXAxisName());
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
 			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $TextLeft, $YMax + $this->FontSize + 5, $C_TextColor, $this->FontName, $DataDescription->getXAxisName());
+			$this->canvas->drawText($this->FontSize,
+									0,
+									new Point($TextLeft,
+											  $YMax + $this->FontSize + 5),
+									$color,
+									$this->FontName,
+									$DataDescription->getXAxisName(),
+									$this->shadowProperties);
 		}
 	}
 	
