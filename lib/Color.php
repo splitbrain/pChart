@@ -60,6 +60,10 @@ class Color {
 		return $incremented;
 	}
 
+	public function __toString() {
+		return sprintf("Color<%d, %d, %d>", $this->r, $this->g, $this->b);
+	}
+
 	private function truncateColorComponentRange($input) {
 		if ($input > 255) {
 			return 255;

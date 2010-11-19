@@ -47,6 +47,12 @@ class ShadowProperties {
 		return self::FromDefaults();
 	}
 
+	public function __toString() {
+		return sprintf("ShadowProperties<%d, %d, %d, %s, %d, %d>",
+					   $this->active, $this->xDistance, $this->yDistance,
+					   $this->color, $this->alpha, $this->blur);
+	}
+
 	public $active;
 	public $xDistance;
 	public $yDistance;

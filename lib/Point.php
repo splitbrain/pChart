@@ -19,6 +19,10 @@ class Point {
 					+ (($other->y - $this->y) * ($other->y - $this->y)));
 	}
 
+	public function __toString() {
+		return sprintf("Point<%d, %d>", $this->x, $this->y);
+	}
+
 	private $x;
 	private $y;
 }
