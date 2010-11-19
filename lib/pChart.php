@@ -837,13 +837,6 @@ class pChart {
 			$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 			$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 			
-			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = imagecolorallocate($this->Layers[0], 255, 255, 255);
-			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
-			imagecolortransparent ( $this->Layers [0], $C_White );
-			
-			$C_Rectangle = imagecolorallocate($this->Layers[0], 250, 250, 250);
-			
 			$YPos = $LayerHeight; //$this->GArea_Y2-1;
 			$LastY = $YPos;
 			for($i = 0; $i <= $this->DivisionCount; $i ++) {
@@ -855,11 +848,14 @@ class pChart {
 				}
 				
 				if ($i % 2 == 0) {
-					imagefilledrectangle ( $this->Layers [0], 1, $YPos, $LayerWidth - 1, $LastY, $C_Rectangle );
+					$this->canvas->drawFilledRectangle(new Point($this->GArea_X1 + 1,
+																 $this->GArea_Y1 + $YPos),
+													   new Point($this->GArea_X2 - 1,
+																 $this->GArea_Y1 + $LastY),
+													   new Color(250, 250, 250),
+													   ShadowProperties::NoShadow());
 				}
 			}
-			imagecopymerge ( $this->canvas->getPicture(), $this->Layers [0], $this->GArea_X1, $this->GArea_Y1, 0, 0, $LayerWidth, $LayerHeight, $Alpha );
-			imagedestroy ( $this->Layers [0] );
 		}
 		
 		/* Horizontal lines */
