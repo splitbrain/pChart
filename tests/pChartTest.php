@@ -157,7 +157,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example10.png');
 
 		$this->assertTrue($expectedContents == $actualContents);
-		}
+	}
 	
 	public function testFlatPieGraph() {
 		// Dataset definition 
