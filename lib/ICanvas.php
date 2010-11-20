@@ -38,4 +38,6 @@ interface ICanvas {
 	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width);
 
 	function drawFilledCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null);
+
+	function setAntialiasQuality($newQuality);
 }
