@@ -8,7 +8,12 @@ require_once 'lib/GDCanvas.php';
 require_once 'lib/TestCanvas.php';
 
 class pChartTest extends PHPUnit_Framework_TestCase {
-	public function testTestCanvas() {
+	/**
+	 * Test generating a chart based on Example1.php in the examples
+	 * directory, compare the trace of requests sent to the test
+	 * canvas against a known good value
+	 */
+	public function testLineChart() {
 		$canvas = new TestCanvas();
 
 		$DataSet = new pData;   
@@ -37,64 +42,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);   
-		/** @todo Not implemented yet */
-		//$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
-		
-		// Draw the 0 line   
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);   
-		$Test->drawTreshold(0, new Color(143,55,72), TRUE,TRUE);   
-		
-		// Draw the line graph
-		$Test->drawLineGraph($DataSet->GetData(),$DataSet->GetDataDescription());   
-		$Test->drawPlotGraph($DataSet->GetData(),$DataSet->GetDataDescription(),3,2,
-							 new Color(255,255,255));   
-  
-		// Finish the graph   
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
-		$Test->drawLegend(75,35,$DataSet->GetDataDescription(), new Color(255,255,255));   
 
-		$this->assertEquals(array(73, 51),
-							$Test->getLegendBoxSize($DataSet->getDataDescription()));
-
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
-		$Test->drawTitle(60,22,"example 1", new Color(50,50,50), 585);   
-
-		$this->assertEquals('c2a123387a2c3e32204339992439f4de', md5($canvas->getActionLog()));
-	}
-	
-	/**
-	 * Test generating a chart based on Example1.php in the examples
-	 * directory, doing a binary compare of the file against a known
-	 * good value.
-	 */
-	public function testLineChart() {
-		$DataSet = new pData;   
-		$DataSet->importFromCSV(dirname(__FILE__)."/../sample/bulkdata.csv",",",array(1,2,3),FALSE,0);   
-		$DataSet->addAllSeries();   
-		$DataSet->setAbscissaLabelSeries();   
-		$DataSet->setSeriesName("January","Serie1");   
-		$DataSet->setSeriesName("February","Serie2");   
-		$DataSet->setSeriesName("March","Serie3");   
-		$DataSet->getDataDescription()->setYAxisName("Average age");
-		$DataSet->getDataDescription()->setYUnit("µs");
-  
-		// Initialise the graph   
-		$canvas = new GDCanvas(700, 230);
-		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
-		$Test->setGraphArea(70,30,680,200);   
-		$canvas->drawFilledRoundedRectangle(new Point(7,7),
-											new Point(693,223),
-											5, new Color(240,240,240),
-											1, 0, ShadowProperties::NoShadow());   
-		$canvas->drawRoundedRectangle(new Point(5,5),
-									  new Point(695,225),
-									  5,
-									  new Color(230,230,230),
-									  1, 0, ShadowProperties::NoShadow());   
-		$Test->drawGraphArea(new Color(255,255,255),TRUE);
-		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
-						 new Color(150,150,150),TRUE,0,2);   
 		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
 		
 		// Draw the 0 line   
@@ -115,14 +63,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
 		$Test->drawTitle(60,22,"example 1", new Color(50,50,50), 585);   
-		$Test->Render(dirname(__FILE__)."/actual/example1.png");
 
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example1.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example1.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals(' b6506e8603f513e9296bfb710aea5bc5', md5($canvas->getActionLog()));
 	}
-
+	
 	/**
 	 * Based on Example10.php
 	 */
