@@ -568,6 +568,15 @@ class GDCanvas implements ICanvas {
 		}
 	}
 
+	function drawFilledPolygon(array $points, $numPoints, Color $color) {
+		$gdColor = $this->allocateColor($color);
+
+		imagefilledpolygon($this->picture,
+						   $points,
+						   $numPoints,
+						   $gdColor);
+	}
+
 	private $picture;
 
 	/**

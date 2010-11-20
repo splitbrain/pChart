@@ -57,6 +57,10 @@ class TestCanvas implements ICanvas {
 		$this->actionLog .= __METHOD__.'('.implode(', ', func_get_args()).")\n";
 	}
 
+	function drawFilledPolygon(array $points, $numPoints, Color $color) {
+		$this->actionLog .= __METHOD__.'('.implode(', ', func_get_args()).")\n";
+	}
+
 	function setAntialiasQuality($newQuality) {
 		$this->actionLog .= __METHOD__.'('.implode(', ', func_get_args()).")\n";
 	}

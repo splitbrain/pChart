@@ -3153,9 +3153,9 @@ class pChart {
 
 	private function drawPieGraphBottomPolygons(array $iValues, array $BotPlots, $EnhanceColors, array $aBotPlots) {
 		foreach ( $iValues as $Key => $Value ) {
-			$C_GraphLo = $this->canvas->allocateColor($this->palette->colors[$Key],
-													  -20);
-			imagefilledpolygon ( $this->canvas->getPicture(), $BotPlots [$Key], (count ( $BotPlots [$Key] ) + 1) / 2, $C_GraphLo );
+			$this->canvas->drawFilledPolygon($BotPlots [$Key],
+											 (count ( $BotPlots [$Key] ) + 1) / 2,
+											 $this->palette->colors[$Key]->addRGBIncrement(-20));
 			
 			if ($EnhanceColors) {
 				$En = - 10;

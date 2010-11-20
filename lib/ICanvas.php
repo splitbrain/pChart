@@ -39,5 +39,14 @@ interface ICanvas {
 
 	function drawFilledCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null);
 
+	/**
+	 * Draw a filled polygon
+	 *
+	 * @todo The points are passed in as an array of X, Y, X, Y
+	 * consecutive coordinates. This interface sucks, and should be
+	 * replaced with passing in an arry of instances of Point
+	 */
+	function drawFilledPolygon(array $points, $numPoints, Color $color);
+
 	function setAntialiasQuality($newQuality);
 }
