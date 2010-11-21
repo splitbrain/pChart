@@ -145,7 +145,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetYAxisName("Y Axis");
 
 		// Initialise the graph
-		$Test = new pChart(300,300, new GDCanvas(300, 400));
+		$canvas = new TestCanvas;
+		$Test = new pChart(300,300, $canvas);
 		$Test->drawGraphAreaGradient(new Color(0,0,0),-100,TARGET_BACKGROUND);
 		
 		// Prepare the graph area
@@ -183,12 +184,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 						  new Color(255,255,255),
 						  FALSE);
 		
-		$Test->Render(dirname(__FILE__)."/actual/example24.png");
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example24.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example24.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('b787628484617f592d9419cccbd2001f',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawFilledCubicCurve() {
@@ -202,7 +199,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 		
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
@@ -225,14 +222,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(), new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 7", new Color(50,50,50),585);
-		$Test->Render(dirname(__FILE__).'/actual/example7.png');
 
-		$expectedContents = file_get_contents(dirname(__FILE__)
-											  .'/expected/example7.png');
-		$actualContents = file_get_contents(dirname(__FILE__)
-											.'/actual/example7.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('9362cef9ce1f572f4462c33bc0e88f70',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawBasicPieGraph() {
