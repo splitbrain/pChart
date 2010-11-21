@@ -110,7 +110,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetAbscissaLabelSeries("Serie2");
 		
 		// Initialise the graph
-		$canvas = new GDCanvas(300, 200);
+		$canvas = new TestCanvas;
 		$Test = new pChart(300, 200, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
 		
@@ -121,12 +121,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->clearShadow();
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
-		$Test->Render(dirname(__FILE__)."/actual/example13.png");
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example13.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example13.png');
-		
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('a2d9c06952857b76cedd80f50324e2fa',
+							md5($canvas->getActionLog()));
 	}
 	
 	/**
