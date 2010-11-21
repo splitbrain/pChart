@@ -2391,8 +2391,6 @@ class pChart {
 		$this->validateDataDescription ( "drawRadarAxis", $DataDescription );
 		$this->validateData ( "drawRadarAxis", $Data );
 		
-		$C_TextColor = $this->canvas->allocateColor($colorA);
-		
 		/* Draw radar axis */
 		$Points = count ( $Data );
 		$Radius = ($this->GArea_Y2 - $this->GArea_Y1) / 2 - $BorderOffset;
@@ -2436,8 +2434,9 @@ class pChart {
 						$Plots [] = $LastX1;
 						$Plots [] = $LastY1;
 						
-						$C_Graph = $this->canvas->allocateColor(new Color(250, 250, 250));
-						imagefilledpolygon ( $this->canvas->getPicture(), $Plots, (count ( $Plots ) + 1) / 2, $C_Graph );
+						$this->canvas->drawFilledPolygon($Plots,
+														 (count ( $Plots ) + 1) / 2,
+														 new Color(250, 250, 250));
 					}
 					
 					$LastX1 = $X1;
@@ -2503,7 +2502,13 @@ class pChart {
 					$XOffset = - $Width;
 				}
 				
-				imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $X + $XOffset, $Y + $YOffset, $C_TextColor, $this->FontName, $Label );
+				$this->canvas->drawText($this->FontSize,
+										0,
+										new Point($X + $XOffset, $Y + $YOffset),
+										$colorA,
+										$this->FontName,
+										$Label,
+										ShadowProperties::NoShadow());
 			}
 		}
 		
@@ -2543,7 +2548,13 @@ class pChart {
 												$this->LineWidth,
 												$this->LineDotSize,
 												$this->shadowProperties);
-			imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $X, $Y, $C_TextColor, $this->FontName, $t );
+			$this->canvas->drawText($this->FontSize,
+									0,
+									new Point($X, $Y),
+									$colorA,
+									$this->FontName,
+									$t,
+									ShadowProperties::NoShadow());
 		}
 	}
 	
