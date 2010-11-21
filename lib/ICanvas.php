@@ -46,7 +46,7 @@ interface ICanvas {
 	 * consecutive coordinates. This interface sucks, and should be
 	 * replaced with passing in an arry of instances of Point
 	 */
-	function drawFilledPolygon(array $points, $numPoints, Color $color);
+	function drawFilledPolygon(array $points, $numPoints, Color $color, $alpha = 100);
 
 	function setAntialiasQuality($newQuality);
 }

@@ -1845,13 +1845,8 @@ class pChart {
 				$Yt [$k] = $Yt [$k] * $Yt [$k + 1] + $U [$k];
 			
 			$Points = "";
-			$Points [] = $this->GAreaXOffset;
-			$Points [] = $LayerHeight;
-			
-			$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = imagecolorallocate( $this->Layers [0], 255, 255, 255);
-			imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
-			imagecolortransparent ( $this->Layers [0], $C_White );
+			$Points [] = $this->GAreaXOffset + $this->GArea_X1;
+			$Points [] = $LayerHeight + $this->GArea_Y1;
 			
 			$YLast = NULL;
 			$XPos = $this->GAreaXOffset;
@@ -1878,30 +1873,31 @@ class pChart {
 				
 				if ($YLast != NULL && $AroundZero && ! isset ( $Missing [floor ( $X )] ) && ! isset ( $Missing [floor ( $X + 1 )] )) {
 					$aPoints = "";
-					$aPoints [] = $XLast;
-					$aPoints [] = $YLast;
-					$aPoints [] = $XPos;
-					$aPoints [] = $YPos;
-					$aPoints [] = $XPos;
-					$aPoints [] = $YZero;
-					$aPoints [] = $XLast;
-					$aPoints [] = $YZero;
+
+					$aPoints [] = $XLast + $this->GArea_X1;
+					$aPoints [] = min($YLast + $this->GArea_Y1, $this->GArea_Y2);
+					$aPoints [] = $XPos + $this->GArea_X1;
+					$aPoints [] = min($YPos + $this->GArea_Y1, $this->GArea_Y2);
+					$aPoints [] = $XPos + $this->GArea_X1;
+					$aPoints [] = $YZero + $this->GArea_Y1;
+					$aPoints [] = $XLast + $this->GArea_X1;
+					$aPoints [] = $YZero + $this->GArea_Y1;
 					
-					$C_Graph = imagecolorallocate($this->Layers[0],
-												  $this->palette->colors[$ColorID]->r,
-												  $this->palette->colors[$ColorID]->g,
-												  $this->palette->colors[$ColorID]->b);
-					imagefilledpolygon ( $this->Layers [0], $aPoints, 4, $C_Graph );
+					$this->canvas->drawFilledPolygon($aPoints,
+													 4,
+													 $this->palette->colors[$ColorID],
+													 $alpha);
 				}
 				
 				if (! isset ( $Missing [floor ( $X )] ) || $YLast == NULL) {
 					$PointsCount ++;
-					$Points [] = $XPos;
-					$Points [] = $YPos;
+					$Points [] = $XPos + $this->GArea_X1;
+					$Points [] = min($YPos + $this->GArea_Y1, $this->GArea_Y2);
 				} else {
 					$PointsCount ++;
-					$Points [] = $XLast;
-					$Points [] = $LayerHeight;
+					$Points [] = $XLast + $this->GArea_X1;
+					$Points [] = min($LayerHeight + $this->GArea_Y1,
+									 $this->GArea_Y2);;
 				}
 				
 				$YLast = $YPos;
@@ -1913,45 +1909,41 @@ class pChart {
 			$XPos = $XPos - $this->DivisionWidth * $Accuracy;
 			if ($XPos < ($LayerWidth - $this->GAreaXOffset)) {
 				$YPos = $LayerHeight - (($YIn [$Index] - $this->VMin) * $this->DivisionRatio);
-				
 				if ($YLast != NULL && $AroundZero) {
 					$aPoints = "";
-					$aPoints [] = $XLast;
-					$aPoints [] = $YLast;
-					$aPoints [] = $LayerWidth - $this->GAreaXOffset;
-					$aPoints [] = $YPos;
-					$aPoints [] = $LayerWidth - $this->GAreaXOffset;
-					$aPoints [] = $YZero;
-					$aPoints [] = $XLast;
-					$aPoints [] = $YZero;
+					$aPoints [] = $XLast + $this->GArea_X1;
+					$aPoints [] = max($YLast + $this->GArea_Y1, $this->GArea_Y1);
+					$aPoints [] = $LayerWidth - $this->GAreaXOffset + $this->GArea_X1;
+					$aPoints [] = max($YPos + $this->GArea_Y1, $this->GArea_Y1);
+					$aPoints [] = $LayerWidth - $this->GAreaXOffset + $this->GArea_X1;
+					$aPoints [] = max($YZero + $this->GArea_Y1, $this->GArea_Y1);
+					$aPoints [] = $XLast + $this->GArea_X1;
+					$aPoints [] = max($YZero + $this->GArea_Y1, $this->GArea_Y1);
 					
-					$C_Graph = imagecolorallocate($this->Layers [0],
-												  $this->palette->colors[$ColorID]->r,
-												  $this->palette->colors[$ColorID]->g,
-												  $this->palette->colors[$ColorID]->b);
-					imagefilledpolygon ( $this->Layers [0], $aPoints, 4, $C_Graph );
+					$this->canvas->drawFilledPolygon($aPoints,
+													 4,
+													 $this->palette->colors[$ColorID],
+													 $alpha);
 				}
 				
 				if ($YIn [$klo] != "" && $YIn [$khi] != "" || $YLast == NULL) {
 					$PointsCount ++;
-					$Points [] = $LayerWidth - $this->GAreaXOffset;
-					$Points [] = $YPos;
+					$Points [] = $LayerWidth 
+						- $this->GAreaXOffset 
+						+ $this->GArea_X1;
+					$Points [] = $YPos + $this->GArea_Y1;
 				}
 			}
 			
-			$Points [] = $LayerWidth - $this->GAreaXOffset;
-			$Points [] = $LayerHeight;
+			$Points [] = $LayerWidth - $this->GAreaXOffset + $this->GArea_X1;
+			$Points [] = $LayerHeight + $this->GArea_Y1;
 			
 			if (! $AroundZero) {
-				$C_Graph = imagecolorallocate($this->Layers[0],
-											  $this->palette->colors[$ColorID]->r,
-											  $this->palette->colors[$ColorID]->g,
-											  $this->palette->colors[$ColorID]->b);
-				imagefilledpolygon ( $this->Layers [0], $Points, $PointsCount, $C_Graph );
+				$this->canvas->drawFilledPolygon($Points,
+												 $PointsCount,
+												 $this->palette->colors[$ColorID],
+												 $Alpha);
 			}
-			
-			imagecopymerge ( $this->canvas->getPicture(), $this->Layers [0], $this->GArea_X1, $this->GArea_Y1, 0, 0, $LayerWidth, $LayerHeight, $Alpha );
-			imagedestroy ( $this->Layers [0] );
 			
 			$this->drawCubicCurve ( $Data, $DataDescription, $Accuracy, $ColName );
 			

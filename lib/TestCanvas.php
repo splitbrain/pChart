@@ -57,7 +57,7 @@ class TestCanvas implements ICanvas {
 		$this->logMethodCall(__METHOD__, func_get_args());
 	}
 
-	function drawFilledPolygon(array $points, $numPoints, Color $color) {
+	function drawFilledPolygon(array $points, $numPoints, Color $color, $alpha = 100) {
 		$this->logMethodCall(__METHOD__, func_get_args());
 	}
 

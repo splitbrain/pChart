@@ -476,12 +476,21 @@ class GDCanvas implements ICanvas {
 	 * @todo This shouldn't need to be public, it's only a temporary
 	 * step while refactoring
 	 */
-	public function allocateColor(Color $color, $Factor = 0) {
+	public function allocateColor(Color $color, $Factor = 0, $alpha = 100) {
 		if ($Factor != 0) {
 			$color = $color->addRGBIncrement($Factor);
 		}
 		
-		return (imagecolorallocate ($this->picture, $color->r, $color->g, $color->b ));
+		if ($alpha == 100) {
+			return (imagecolorallocate ($this->picture, $color->r, $color->g, $color->b ));
+		}
+		else {
+			return imagecolorallocatealpha($this->picture,
+										   $color->r,
+										   $color->g,
+										   $color->b,
+										   127 * (1 - $alpha / 100));
+		}
 	}
 
 	/**
@@ -568,8 +577,8 @@ class GDCanvas implements ICanvas {
 		}
 	}
 
-	function drawFilledPolygon(array $points, $numPoints, Color $color) {
-		$gdColor = $this->allocateColor($color);
+	function drawFilledPolygon(array $points, $numPoints, Color $color, $alpha = 100) {
+		$gdColor = $this->allocateColor($color, 0, $alpha);
 
 		imagefilledpolygon($this->picture,
 						   $points,
