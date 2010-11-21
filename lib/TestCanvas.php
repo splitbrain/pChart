@@ -36,7 +36,7 @@ class TestCanvas implements ICanvas {
 		$this->logMethodCall(__METHOD__, func_get_args());
 	}
 
-	function drawAntialiasPixel(Point $point, Color $color, ShadowProperties $shadowProperties, $alpha) {
+	function drawAntialiasPixel(Point $point, Color $color, ShadowProperties $shadowProperties, $alpha = 100) {
 		$this->logMethodCall(__METHOD__, func_get_args());
 	}
 
