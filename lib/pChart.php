@@ -2791,9 +2791,14 @@ class pChart {
 				
 				if ($TAngle > 90 && $TAngle < 270)
 					$TX = $TX - $TextWidth;
-				
-				$C_TextColor = $this->canvas->allocateColor(new Color(70, 70, 70));
-				imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $TX, $TY, $C_TextColor, $this->FontName, $Caption );
+
+				$this->canvas->drawText($this->FontSize, 
+										0,
+										new Point($TX, $TY),
+										new Color(70, 70, 70),
+										$this->FontName,
+										$Caption,
+										ShadowProperties::NoShadow());
 			}
 			
 			/* Process pie slices */
@@ -2821,8 +2826,9 @@ class pChart {
 		
 		/* Draw Top polygons */
 		foreach ( $PolyPlots as $Key => $Value ) {
-			$C_GraphLo = $this->canvas->allocateColor($this->palette->colors[$Key]);
-			imagefilledpolygon ( $this->canvas->getPicture(), $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
+			$this->canvas->drawFilledPolygon($PolyPlots [$Key],
+											 (count ( $PolyPlots [$Key] ) + 1) / 2,
+											 $this->palette->colors[$Key]);
 		}
 		
 		$this->canvas->drawCircle(new Point($XPos - .5, $YPos - .5),
