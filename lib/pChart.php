@@ -2960,8 +2960,6 @@ class pChart {
 			}
 			
 			/* Process pie slices */
-			$LineColor = $this->canvas->allocateColor($color);
-						
 			$XLineLast = "";
 			$YLineLast = "";
 			for($iAngle = $Angle; $iAngle <= $Angle + $Value * $SpliceRatio; $iAngle = $iAngle + .5) {
