@@ -2999,11 +2999,13 @@ class pChart {
 		/* Draw Top polygons */
 		foreach ( $PolyPlots as $Key => $Value ) {
 			if (! $AllBlack)
-				$C_GraphLo = $this->canvas->allocateColor($this->palette->colors[$Key]);
+				$polygonColor = $this->palette->colors[$Key];
 			else
-				$C_GraphLo = $this->canvas->allocateColor($this->shadowProperties->color);
+				$polygonColor = $this->shadowProperties->color;
 			
-			imagefilledpolygon ( $this->canvas->getPicture(), $PolyPlots [$Key], (count ( $PolyPlots [$Key] ) + 1) / 2, $C_GraphLo );
+			$this->canvas->drawFilledPolygon($PolyPlots [$Key],
+											 (count ( $PolyPlots [$Key] ) + 1) / 2,
+											 $polygonColor);
 		}
 		$this->shadowProperties->active = $ShadowStatus;
 	}
