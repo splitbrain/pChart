@@ -3184,8 +3184,6 @@ class pChart {
 		}
 		for($i = $SpliceHeight - 1; $i >= 1; $i --) {
 			foreach ( $iValues as $Key => $Value ) {
-				$C_GraphLo = $this->canvas->allocateColor($palette->colors[$Key],
-														  - 10);
 				$Plots = "";
 				$Plot = 0;
 				foreach ( $TopPlots [$Key] as $Key2 => $Value2 ) {
@@ -3195,7 +3193,9 @@ class pChart {
 					else
 						$Plots [] = $Value2 + $i;
 				}
-				imagefilledpolygon ( $this->canvas->getPicture(), $Plots, (count ( $Plots ) + 1) / 2, $C_GraphLo );
+				$this->canvas->drawFilledPolygon($Plots,
+												 (count ( $Plots ) + 1) / 2,
+												 $palette->colors[$Key]->addRGBIncrement(-10));
 				
 				$Index = count ( $Plots );
 				if ($EnhanceColors) {
@@ -3221,9 +3221,9 @@ class pChart {
 
 	private function drawPieGraphTopPolygons($iValues, $TopPlots, $EnhanceColors, $aTopPlots) {
 		for($Key = count ( $iValues ) - 1; $Key >= 0; $Key --) {
-			$C_GraphLo = $this->canvas->allocateColor($this->palette->colors[$Key]);
-
-			imagefilledpolygon ( $this->canvas->getPicture(), $TopPlots [$Key], (count ( $TopPlots [$Key] ) + 1) / 2, $C_GraphLo );
+			$this->canvas->drawFilledPolygon($TopPlots [$Key],
+											 (count ( $TopPlots [$Key] ) + 1) / 2,
+											 $this->palette->colors[$Key]);
 			
 			if ($EnhanceColors) {
 				$En = 10;
