@@ -2675,7 +2675,7 @@ class pChart {
 			
 			$Angle = - 90;
 			$XLast = - 1;
-			$Plots = "";
+			$Plots = array();
 			foreach ( $Data as $Key => $Values ) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					$Value = $Data [$Key] [$ColName];
@@ -2687,8 +2687,8 @@ class pChart {
 					$XPos = cos ( $Angle * M_PI / 180 ) * $Strength + $XCenter;
 					$YPos = sin ( $Angle * M_PI / 180 ) * $Strength + $YCenter;
 					
-					$Plots [] = $XPos;
-					$Plots [] = $YPos;
+					$Plots [] = $XPos + $this->GArea_X1;
+					$Plots [] = $YPos + $this->GArea_Y1;
 					
 					$Angle = $Angle + (360 / $Points);
 					$XLast = $XPos;
@@ -2700,26 +2700,16 @@ class pChart {
 				$Plots [] = $Plots [0];
 				$Plots [] = $Plots [1];
 				
-				$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-				$C_White = imagecolorallocate( $this->Layers [0], 255, 255, 255);
-				imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
-				imagecolortransparent ( $this->Layers [0], $C_White );
-				
-				$C_Graph = imagecolorallocate($this->Layers[0],
-											  $this->palette->colors[$ColorID]->r,
-											  $this->palette->colors[$ColorID]->g,
-											  $this->palette->colors[$ColorID]->b);
-
-				imagefilledpolygon ( $this->Layers [0], $Plots, (count ( $Plots ) + 1) / 2, $C_Graph );
-				
-				imagecopymerge ( $this->canvas->getPicture(), $this->Layers [0], $this->GArea_X1, $this->GArea_Y1, 0, 0, $LayerWidth, $LayerHeight, $Alpha );
-				imagedestroy ( $this->Layers [0] );
-				
+				$this->canvas->drawFilledPolygon($Plots,
+												 (count ( $Plots ) + 1) / 2,
+												 $this->palette->colors[$ColorID],
+												 $Alpha);
+								
 				for($i = 0; $i <= count ( $Plots ) - 4; $i = $i + 2)
-					$this->canvas->drawLine(new Point($Plots [$i] + $this->GArea_X1,
-													  $Plots [$i + 1] + $this->GArea_Y1),
-											new Point($Plots [$i + 2] + $this->GArea_X1,
-													  $Plots [$i + 3] + $this->GArea_Y1),
+					$this->canvas->drawLine(new Point($Plots [$i],
+													  $Plots [$i + 1]),
+											new Point($Plots [$i + 2],
+													  $Plots [$i + 3]),
 											$this->palette->colors[$ColorID],
 											$this->LineWidth,
 											$this->LineDotSize,
