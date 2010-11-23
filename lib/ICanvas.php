@@ -35,7 +35,7 @@ interface ICanvas {
 	 * draw an ellipse by passing in different values for width and
 	 * height. This should be changed.
 	 */
-	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width);
+	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null);
 
 	function drawFilledCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null);
 

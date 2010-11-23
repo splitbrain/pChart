@@ -49,7 +49,7 @@ class TestCanvas implements ICanvas {
 	 * draw an ellipse by passing in different values for width and
 	 * height. This should be changed.
 	 */
-	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width) {
+	function drawCircle(Point $center, $height, Color $color, ShadowProperties $shadowProperties, $width = null) {
 		$this->logMethodCall(__METHOD__, func_get_args());
 	}
 
