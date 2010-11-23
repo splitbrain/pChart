@@ -257,7 +257,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							$DataSet->getDataDescription()->values);
 
 		// Initialise the graph
-		$canvas = new GDCanvas(300, 200);
+		$canvas = new TestCanvas;
 		$Test = new pChart(300, 200, $canvas);
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
 		
@@ -267,14 +267,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 								 120, 100, 70, PIE_PERCENTAGE, new Color(255, 255, 218));
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
-		$Test->Render(dirname(__FILE__)."/actual/example14.png");
 
-		$expectedContents = file_get_contents(dirname(__FILE__)
-											  .'/expected/example14.png');
-		$actualContents = file_get_contents(dirname(__FILE__)
-											.'/actual/example14.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('30b0d43c896358ce0344e68058fbf9c9',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawFilledRadar() {
@@ -292,7 +287,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setSeriesName("Tested computer","Serie2");
 		
 		// Initialise the graph
-		$canvas = new GDCanvas(400, 400);
+		$canvas = new TestCanvas;
 		$Test = new pChart(400,400, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(30,30,370,370);
@@ -309,14 +304,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(0,22,"Example 8",new Color(50,50,50),400);
-		$Test->Render(dirname(__FILE__)."/actual/example8.png");
 
-		$expectedContents = file_get_contents(dirname(__FILE__)
-											  .'/expected/example8.png');
-		$actualContents = file_get_contents(dirname(__FILE__)
-											.'/actual/example8.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('0ea479dad0294000c81f8a69f475c861',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawRadar() {
