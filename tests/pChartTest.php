@@ -323,7 +323,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("Tested computer","Serie2");
 		
 		// Initialise the graph
-		$canvas = new GDCanvas(400, 400);
+		$canvas = new TestCanvas;
 		$Test = new pChart(400,400, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(30,30,370,370);
@@ -336,14 +336,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(15,15,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(0,22,"Example 8",new Color(50,50,50),400);
-		$Test->Render(dirname(__FILE__)."/actual/example8_line.png");
 
-		$expectedContents = file_get_contents(dirname(__FILE__)
-											  .'/expected/example8_line.png');
-		$actualContents = file_get_contents(dirname(__FILE__)
-											.'/actual/example8_line.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('71a51c116cd8152773175a2109d64e3c',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawXYPlotGraph() {
@@ -355,7 +350,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$dataSet->addSeries('X');
 		$dataSet->addSeries('Y');
 
-		$chart = new pChart(300, 300, new GDCanvas(300, 300));
+		$canvas = new TestCanvas;
+		$chart = new pChart(300, 300, $canvas);
 		$chart->setFontProperties(dirname(__FILE__).'/../Fonts/tahoma.ttf', 8);
 		$chart->setGraphArea(55, 30, 270, 230);
 		$chart->drawXYScale($dataSet->getData(),
@@ -372,12 +368,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 								'Y',
 								'X');
 
-		$chart->render(dirname(__FILE__).'/actual/xyplot.png');
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/xyplot.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/xyplot.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('8e6ee52cd745c0a50df62a52054fa4c3',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testLabels() {
