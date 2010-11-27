@@ -1229,8 +1229,6 @@ class pChart {
 		$this->validateDataDescription ( "setLabel", $DataDescription );
 		$this->validateData ( "setLabel", $Data );
 		$ShadowFactor = 100;
-		$C_Label = $this->canvas->allocateColor($color);
-		$C_Shadow = $this->canvas->allocateColor($color->addRGBIncrement(-$ShadowFactor));
 		
 		$Cp = 0;
 		$Found = FALSE;
@@ -1253,7 +1251,10 @@ class pChart {
 		
 		// Shadow
 		$Poly = array ($XPos + 1, $YPos + 1, $XPos + 9, $YPos - $TextOffset, $XPos + 8, $YPos + $TextOffset + 2 );
-		imagefilledpolygon ( $this->canvas->getPicture(), $Poly, 3, $C_Shadow );
+
+		$this->canvas->drawFilledPolygon($Poly, 
+										 3,
+										 $color->addRGBIncrement(-$ShadowFactor));
 
 		$this->canvas->drawLine(new Point($XPos, $YPos + 1), 
 								new Point($XPos + 9, $YPos - $TextOffset - .2),
@@ -1278,7 +1279,8 @@ class pChart {
 		
 		// Label background
 		$Poly = array ($XPos, $YPos, $XPos + 8, $YPos - $TextOffset - 1, $XPos + 8, $YPos + $TextOffset + 1 );
-		imagefilledpolygon ( $this->canvas->getPicture(), $Poly, 3, $C_Label );
+
+		$this->canvas->drawFilledPolygon($Poly, 3, $color);
 
 		$this->canvas->drawLine(new Point($XPos - 1, $YPos), 
 								new Point($XPos + 8, $YPos - $TextOffset - 1.2),
