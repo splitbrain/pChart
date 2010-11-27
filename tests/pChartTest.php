@@ -384,7 +384,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
@@ -414,12 +414,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 9",new Color(50,50,50),585);
-		$Test->Render(dirname(__FILE__)."/actual/example9.png");
 
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example9.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example9.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('726fc7ab1b861ef64b3aad60b128f00e',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawFilledLineGraph() {
@@ -431,7 +428,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetAbscissaLabelSeries();
 
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(60,30,680,200);
@@ -452,13 +449,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(65,35,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(60,22,"Example 6",new Color(50,50,50),585);
-		$Test->render(dirname(__FILE__).'/actual/example6.png');
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example6.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example6.png');
-
-		/** @todo This appears to be non-deterministic for some reason */
-		//$this->assertTrue($expectedContents == $actualContents);
+		
+		$this->assertEquals('94bf70cb26569da41d1ef4d045f03267',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawOverlayBarGraph() {
