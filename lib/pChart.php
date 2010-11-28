@@ -3746,7 +3746,7 @@ class pChart {
 			$Divisions ++;
 	}
 
-	private function convertValueForDisplay($value, $format, $unit) {
+	static private function convertValueForDisplay($value, $format, $unit) {
 		if ($format == "number")
 			return $value . $unit;
 		if ($format == "time")
