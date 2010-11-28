@@ -225,7 +225,7 @@ class pChart {
 	/**
 	 * Prepare the graph area 
 	 */
-	function drawGraphArea(BackgroundStyle $style) {
+	private function drawGraphArea(BackgroundStyle $style) {
 		$this->canvas->drawFilledRectangle(new Point($this->GArea_X1, $this->GArea_Y1),
 										   new Point($this->GArea_X2, $this->GArea_Y2),
 										   $style->getBackgroundColor(),
@@ -266,6 +266,11 @@ class pChart {
 										ShadowProperties::NoShadow());
 			}
 		}
+	}
+
+	public function drawGraphBackground(BackgroundStyle $style) {
+		$this->drawGraphArea($style);
+		$this->drawGraphAreaGradient($style);
 	}
 	
 	/**
@@ -3286,7 +3291,7 @@ class pChart {
 	/**
 	 * This function can be used to set the background color 
 	 */
-	function drawGraphAreaGradient(BackgroundStyle $style) {
+	private function drawGraphAreaGradient(BackgroundStyle $style) {
 		if (!$style->useGradient()) {
 			return;
 		}
