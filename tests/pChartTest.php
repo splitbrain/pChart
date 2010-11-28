@@ -7,6 +7,7 @@ require_once 'lib/pData.php';
 require_once 'lib/GDCanvas.php';
 require_once 'lib/TestCanvas.php';
 require_once 'lib/GridStyle.php';
+require_once 'lib/BackgroundStyle.php';
 
 class pChartTest extends PHPUnit_Framework_TestCase {
 	/**
@@ -148,7 +149,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(300,300, $canvas);
-		$Test->drawGraphAreaGradient(new Color(0,0,0),-100,TARGET_BACKGROUND);
+		$Test->drawBackgroundGradient(new Color(0,0,0),
+									  -100);
 		
 		// Prepare the graph area
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
@@ -157,7 +159,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 						   new Color(213,217,221),
 						   TRUE,45);
 		$Test->drawGraphArea(new Color(213,217,221),FALSE);
-		$Test->drawGraphAreaGradient(new Color(30,30,30),-50);
+		$Test->drawGraphAreaGradient(new BackgroundStyle(new Color(30,30,30),-50));
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),20));
 		
 		// Draw the chart

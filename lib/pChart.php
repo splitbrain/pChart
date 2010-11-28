@@ -3242,61 +3242,66 @@ class pChart {
 		imagefilledrectangle ( $this->canvas->getPicture(), 0, 0, $this->XSize, $this->YSize, $C_Background );
 	}
 	
-	/**
-	 * This function can be used to set the background color 
-	 */
-	function drawGraphAreaGradient(Color $color, $Decay, $Target = TARGET_GRAPHAREA) {
-		if ($Target == TARGET_GRAPHAREA) {
-			$X1 = $this->GArea_X1 + 1;
-			$X2 = $this->GArea_X2 - 1;
-			$Y1 = $this->GArea_Y1 + 1;
-			$Y2 = $this->GArea_Y2;
-		}
-		if ($Target == TARGET_BACKGROUND) {
-			$X1 = 0;
-			$X2 = $this->XSize;
-			$Y1 = 0;
-			$Y2 = $this->YSize;
-		}
-		
+	private function drawGradient(Point $point1, Point $point2, Color $color, $decay) {
 		/* Positive gradient */
-		if ($Decay > 0) {
-			$YStep = ($Y2 - $Y1 - 2) / $Decay;
-			for($i = 0; $i <= $Decay; $i ++) {
+		if ($decay > 0) {
+			$YStep = ($point2->getY() - $point1->getY() - 2) / $decay;
+			for($i = 0; $i <= $decay; $i ++) {
 				$color = $color->addRGBIncrement(-1);
-				$Yi1 = $Y1 + ($i * $YStep);
+				$Yi1 = $point1->getY() + ($i * $YStep);
 				$Yi2 = ceil ( $Yi1 + ($i * $YStep) + $YStep );
 				if ($Yi2 >= $Yi2) {
-					$Yi2 = $Y2 - 1;
+					$Yi2 = $point2->getY() - 1;
 				}
 				
-				$this->canvas->drawFilledRectangle(new Point($X1, $Yi1),
-												   new Point($X2, $Yi2),
+				$this->canvas->drawFilledRectangle(new Point($point1->getX(), $Yi1),
+												   new Point($point2->getX(), $Yi2),
 												   $color,
 												   ShadowProperties::NoShadow());
 			}
 		}
 		
 		/* Negative gradient */
-		if ($Decay < 0) {
-			$YStep = ($Y2 - $Y1 - 2) / - $Decay;
-			$Yi1 = $Y1;
-			$Yi2 = $Y1 + $YStep;
-			for($i = - $Decay; $i >= 0; $i --) {
+		if ($decay < 0) {
+			$YStep = ($point2->getY() - $point1->getY() - 2) / - $decay;
+			$Yi1 = $point1->getY();
+			$Yi2 = $point1->getY() + $YStep;
+			for($i = - $decay; $i >= 0; $i --) {
 				$color = $color->addRGBIncrement(1);
 
-				$this->canvas->drawFilledRectangle(new Point($X1, $Yi1),
-												   new Point($X2, $Yi2),
+				$this->canvas->drawFilledRectangle(new Point($point1->getX(), $Yi1),
+												   new Point($point2->getX(), $Yi2),
 												   $color,
 												   ShadowProperties::NoShadow());
 				
 				$Yi1 += $YStep;
 				$Yi2 += $YStep;
 				if ($Yi2 >= $Yi2) {
-					$Yi2 = $Y2 - 1;
+					$Yi2 = $point2->getY() - 1;
 				}
 			}
+		}		
+	}
+
+	/**
+	 * This function can be used to set the background color 
+	 */
+	function drawGraphAreaGradient(BackgroundStyle $style) {
+		if (!$style->useGradient()) {
+			return;
 		}
+
+		$this->drawGradient(new Point($this->GArea_X1 + 1, $this->GArea_Y1 + 1),
+							new Point($this->GArea_X2 - 1, $this->GArea_Y2),
+							$style->getGradientStartColor(),
+							$style->getGradientDecay());
+	}
+
+	public function drawBackgroundGradient(Color $color, $decay) {
+		$this->drawGradient(new Point(0, 0),
+							new Point($this->XSize, $this->YSize),
+							$color,
+							$decay);
 	}
 		
 	/**
