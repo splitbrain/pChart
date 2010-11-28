@@ -1549,8 +1549,13 @@ class pChart {
 					$Height = $Positions [3] - $Positions [7];
 					$YOffset = $YPos - 4;
 					
-					$C_TextColor = $this->canvas->allocateColor($this->palette->colors[$ColorID]);
-					imagettftext ( $this->canvas->getPicture(), $this->FontSize, 0, $XOffset, $YOffset, $C_TextColor, $this->FontName, $Value );
+					$this->canvas->drawText($this->FontSize,
+											0,
+											new Point($XOffset, $YOffset),
+											$this->palette->colors[$ColorID],
+											$this->FontName,
+											$Value,
+											ShadowProperties::NoShadow());
 				}
 				$XPos = $XPos + $this->DivisionWidth;
 			}
