@@ -825,16 +825,16 @@ class pChart {
 		}
 	}
 
-	private function drawGridMosaic(GridStyle $style) {
+	private function drawGridMosaic(GridStyle $style, $divisionCount, $divisionHeight) {
 		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 			
 		$YPos = $LayerHeight - 1; //$this->GArea_Y2-1;
 		$LastY = $YPos;
 
-		for($i = 0; $i < $this->DivisionCount; $i ++) {
+		for($i = 0; $i < $divisionCount; $i ++) {
 			$LastY = $YPos;
-			$YPos = $YPos - $this->DivisionHeight;
+			$YPos = $YPos - $divisionHeight;
 				
 			if ($YPos <= 0) {
 				$YPos = 1;
@@ -859,7 +859,7 @@ class pChart {
 	function drawGrid(GridStyle $style) {
 		/* Draw mosaic */
 		if ($style->getMosaic()) {
-			$this->drawGridMosaic($style);
+			$this->drawGridMosaic($style, $this->DivisionCount, $this->DivisionHeight);
 		}
 		
 		/* Horizontal lines */
