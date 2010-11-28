@@ -1481,13 +1481,6 @@ class pChart {
 		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
-		$this->Layers [0] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-		$C_White = imagecolorallocate( $this->Layers [0], 255, 255, 255);
-		imagefilledrectangle ( $this->Layers [0], 0, 0, $LayerWidth, $LayerHeight, $C_White );
-		imagecolortransparent ( $this->Layers [0], $C_White );
-		
-		$C_Graph = imagecolorallocate( $this->Layers [0], $color->r, $color->g, $color->b);
-		
 		$XPos = $this->GAreaXOffset;
 		$LastXPos = - 1;
 		foreach ( $Data as $Key => $Values ) {
@@ -1497,17 +1490,20 @@ class pChart {
 			$YPos2 = $LayerHeight - (($Value2 - $this->VMin) * $this->DivisionRatio);
 			
 			if ($LastXPos != - 1) {
-				$Points = "";
-				$Points [] = $LastXPos;
-				$Points [] = $LastYPos1;
-				$Points [] = $LastXPos;
-				$Points [] = $LastYPos2;
-				$Points [] = $XPos;
-				$Points [] = $YPos2;
-				$Points [] = $XPos;
-				$Points [] = $YPos1;
+				$Points = array();
+				$Points [] = $LastXPos + $this->GArea_X1;
+				$Points [] = $LastYPos1 + $this->GArea_Y1;
+				$Points [] = $LastXPos + $this->GArea_X1;
+				$Points [] = $LastYPos2 + $this->GArea_Y1;
+				$Points [] = $XPos + $this->GArea_X1;
+				$Points [] = $YPos2 + $this->GArea_Y1;
+				$Points [] = $XPos + $this->GArea_X1;
+				$Points [] = $YPos1 + $this->GArea_Y1;
 				
-				imagefilledpolygon ( $this->Layers [0], $Points, 4, $C_Graph );
+				$this->canvas->drawFilledPolygon($Points,
+												 4,
+												 $color,
+												 $Alpha);
 			}
 			
 			$LastYPos1 = $YPos1;
@@ -1516,9 +1512,6 @@ class pChart {
 			
 			$XPos = $XPos + $this->DivisionWidth;
 		}
-		
-		imagecopymerge ( $this->canvas->getPicture(), $this->Layers [0], $this->GArea_X1, $this->GArea_Y1, 0, 0, $LayerWidth, $LayerHeight, $Alpha );
-		imagedestroy ( $this->Layers [0] );
 	}
 	
 	/**
