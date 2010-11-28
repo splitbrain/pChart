@@ -465,7 +465,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
@@ -490,12 +490,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 3",new Color(50,50,50),585);
-		$Test->render(dirname(__FILE__).'/actual/example3.png');
 
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example3.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example3.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('b98c3bc304552bbadc5412215948b806',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawBarGraph() {
@@ -511,7 +508,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->setSeriesName("March","Serie3");
 
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
@@ -537,12 +534,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 12",new Color(50,50,50),585);
 
-		$Test->render(dirname(__FILE__).'/actual/example12.png');
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example12.png');
-		$actualContents = file_get_contents(dirname(__FILE__).'/actual/example12.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('54911a8885be3707e7df7ba1364a3e9e',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawStackedBarGraph() {
