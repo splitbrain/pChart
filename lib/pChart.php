@@ -25,6 +25,7 @@ require_once(dirname(__FILE__).'/ShadowProperties.php');
 require_once(dirname(__FILE__).'/Color.php');
 require_once(dirname(__FILE__).'/Palette.php');
 require_once(dirname(__FILE__).'/ICanvas.php');
+require_once(dirname(__FILE__).'/GridStyle.php');
 
 /* Declare some script wide constants */
 define ( "SCALE_NORMAL", 1 );
@@ -827,13 +828,9 @@ class pChart {
 	/**
 	 * Compute and draw the scale 
 	 */
-	function drawGrid($LineWidth, $Mosaic = TRUE, Color $color = null, $Alpha = 100) {
-		if ($color == null) {
-			$color = new Color(220, 220, 220);
-		}
-
+	function drawGrid(GridStyle $style) {
 		/* Draw mosaic */
-		if ($Mosaic) {
+		if ($style->getMosaic()) {
 			$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 			$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 			
@@ -856,7 +853,7 @@ class pChart {
 													   new Color(250, 250, 250),
 													   ShadowProperties::NoShadow(),
 													   false,
-													   $Alpha);
+													   $style->getAlpha());
 				}
 			}
 		}
@@ -867,8 +864,9 @@ class pChart {
 			if ($YPos > $this->GArea_Y1 && $YPos < $this->GArea_Y2)
 				$this->canvas->drawDottedLine(new Point($this->GArea_X1, $YPos),
 											  new Point($this->GArea_X2, $YPos),
-											  $LineWidth, $this->LineWidth,
-											  $color, 
+											  $style->getLineWidth(),
+											  $this->LineWidth,
+											  $style->getColor(), 
 											  ShadowProperties::NoShadow());
 			/** @todo There's some inconsistency here. The parameter
 			 * $lineWidth appears to be used to control the dot size,
@@ -892,7 +890,9 @@ class pChart {
 			if ($XPos > $this->GArea_X1 && $XPos < $this->GArea_X2)
 				$this->canvas->drawDottedLine(new Point(floor($XPos), $this->GArea_Y1),
 											  new Point(floor($XPos), $this->GArea_Y2),
-											  $LineWidth, $this->LineWidth, $color,
+											  $style->getLineWidth(),
+											  $this->LineWidth,
+											  $style->getcolor(),
 											  $this->shadowProperties);
 			$XPos = $XPos + $this->DivisionWidth;
 		}

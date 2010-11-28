@@ -6,6 +6,7 @@ require_once 'lib/pChart.php';
 require_once 'lib/pData.php';
 require_once 'lib/GDCanvas.php';
 require_once 'lib/TestCanvas.php';
+require_once 'lib/GridStyle.php';
 
 class pChartTest extends PHPUnit_Framework_TestCase {
 	/**
@@ -43,7 +44,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);   
 
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 		
 		// Draw the 0 line   
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);   
@@ -157,7 +158,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 						   TRUE,45);
 		$Test->drawGraphArea(new Color(213,217,221),FALSE);
 		$Test->drawGraphAreaGradient(new Color(30,30,30),-50);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),20);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),20));
 		
 		// Draw the chart
 		$Test->setShadowProperties(2,2,
@@ -206,7 +207,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 		
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -361,7 +362,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							new Color(213, 217, 221),
 							TRUE, 45);
 		$chart->drawGraphArea(new Color(213, 217, 221), FALSE);
-		$chart->drawGrid(4, TRUE, new Color(230, 230, 230), 20);
+		$chart->drawGrid(new GridStyle(4, TRUE, new Color(230, 230, 230), 20));
 
 		$chart->drawXYPlotGraph($dataSet->getData(),
 								$dataSet->getDataDescription(),
@@ -391,7 +392,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -435,7 +436,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -476,7 +477,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2,TRUE);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -519,7 +520,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,
 						 new Color(150,150,150),TRUE,0,2,TRUE);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -562,7 +563,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_ADDALL,
 						 new Color(150,150,150),TRUE,0,2,TRUE);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -602,7 +603,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 											1, 0, ShadowProperties::NoShadow());
 		$Test->drawGraphArea(new Color(255,255,255),TRUE);
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,new Color(150,150,150),TRUE,0,2,TRUE);
-		$Test->drawGrid(4,TRUE,new Color(230,230,230),50);
+		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
@@ -652,7 +653,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),
 						 SCALE_NORMAL, new Color(150,150,150),
 						 TRUE,0,2,TRUE,3);   
-		$Test->drawGrid(4,TRUE, new Color(230,230,230), 50);
+		$Test->drawGrid(new GridStyle(4,TRUE, new Color(230,230,230), 50));
 
 		// Draw the 0 line   
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);   
