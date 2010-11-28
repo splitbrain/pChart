@@ -2077,15 +2077,6 @@ class pChart {
 				$ID ++;
 			}
 			
-			$this->Layers [$GraphID] = imagecreatetruecolor ( $LayerWidth, $LayerHeight );
-			$C_White = imagecolorallocate( $this->Layers [$GraphID], 255, 255, 255);
-			$C_Graph = imagecolorallocate($this->Layers[$GraphID],
-										  $this->palette->colors[$GraphID]->r,
-										  $this->palette->colors[$GraphID]->g,
-										  $this->palette->colors[$GraphID]->b);
-			imagefilledrectangle ( $this->Layers [$GraphID], 0, 0, $LayerWidth, $LayerHeight, $C_White );
-			imagecolortransparent ( $this->Layers [$GraphID], $C_White );
-			
 			$XWidth = $this->DivisionWidth / 4;
 			$XPos = $this->GAreaXOffset;
 			$YZero = $LayerHeight - ((0 - $this->VMin) * $this->DivisionRatio);
@@ -2096,8 +2087,15 @@ class pChart {
 					$Value = $Data [$Key] [$ColName];
 					if (is_numeric ( $Value )) {
 						$YPos = $LayerHeight - (($Value - $this->VMin) * $this->DivisionRatio);
-						
-						imagefilledrectangle ( $this->Layers [$GraphID], $XPos - $XWidth, $YPos, $XPos + $XWidth, $YZero, $C_Graph );
+
+						$this->canvas->drawFilledRectangle(new Point(floor($XPos - $XWidth + $this->GArea_X1),
+																	 floor($YPos + $this->GArea_Y1)),
+														   new Point(floor($XPos + $XWidth + $this->GArea_X1),
+																	 floor($YZero + $this->GArea_Y1)),
+														   $this->palette->colors[$GraphID],
+														   ShadowProperties::NoShadow(),
+														   false,
+														   $Alpha);
 						
 						$X1 = floor ( $XPos - $XWidth + $this->GArea_X1 );
 						$Y1 = floor ( $YPos + $this->GArea_Y1 ) + .2;
@@ -2132,11 +2130,6 @@ class pChart {
 			}
 			
 			$GraphID ++;
-		}
-		
-		for($i = 0; $i <= ($GraphID - 1); $i ++) {
-			imagecopymerge ( $this->canvas->getPicture(), $this->Layers [$i], $this->GArea_X1, $this->GArea_Y1, 0, 0, $LayerWidth, $LayerHeight, $Alpha );
-			imagedestroy ( $this->Layers [$i] );
 		}
 	}
 	
