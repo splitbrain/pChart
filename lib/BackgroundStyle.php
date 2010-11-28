@@ -22,9 +22,24 @@
 require_once(dirname(__FILE__).'/Color.php');
 
 class BackgroundStyle {
-	public function __construct(Color $gradientStartColor = null, $gradientDecay = null) {
+	/**
+	 * @todo I suspect using stripe and gradient are mutually
+	 * exclusive, so it would be possible to simplify this interface
+	 * somewhat.
+	 */
+	public function __construct(Color $backgroundColor, $stripe = false, Color $gradientStartColor = null, $gradientDecay = null) {
+		$this->backgroundColor = $backgroundColor;
+		$this->stripe = $stripe;
 		$this->gradientStartColor = $gradientStartColor;
 		$this->gradientDecay = $gradientDecay;
+	}
+
+	public function getBackgroundColor() {
+		return $this->backgroundColor;
+	}
+
+	public function useStripe() {
+		return $this->stripe;
 	}
 
 	public function useGradient() {
@@ -46,6 +61,10 @@ class BackgroundStyle {
 		
 		return $this->gradientDecay;
 	}
+
+	private $backgroundColor;
+
+	private $stripe;
 
 	private $gradientStartColor;
 

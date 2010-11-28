@@ -225,20 +225,20 @@ class pChart {
 	/**
 	 * Prepare the graph area 
 	 */
-	function drawGraphArea(Color $color, $Stripe = FALSE) {
+	function drawGraphArea(BackgroundStyle $style) {
 		$this->canvas->drawFilledRectangle(new Point($this->GArea_X1, $this->GArea_Y1),
 										   new Point($this->GArea_X2, $this->GArea_Y2),
-										   $color,
+										   $style->getBackgroundColor(),
 										   $this->shadowProperties, FALSE );
 		$this->canvas->drawRectangle(new Point($this->GArea_X1, $this->GArea_Y1),
 									 new Point($this->GArea_X2, $this->GArea_Y2),
-									 $color->addRGBIncrement(-40),
+									 $style->getBackgroundColor()->addRGBIncrement(-40),
 									 $this->LineWidth,
 									 $this->LineDotSize,
 									 $this->shadowProperties);
 		
-		if ($Stripe) {
-			$color2 = $color->addRGBIncrement(-15);
+		if ($style->useStripe()) {
+			$color2 = $style->getBackgroundColor()->addRGBIncrement(-15);
 
 			$SkewWidth = $this->GArea_Y2 - $this->GArea_Y1 - 1;
 			
