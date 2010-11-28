@@ -638,7 +638,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetXAxisName("Month of the year");
   
 		// Initialise the graph   
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->reportWarnings("GD");
 		$Test->setFixedScale(-12,12,5);
@@ -689,11 +689,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Add an image
 		$Test->drawFromPNG(dirname(__FILE__)."/../Sample/logo.png",584,35);
 
-		$Test->render(dirname(__FILE__).'/actual/example15.png');
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example15.png');
-		$actualContents = @file_get_contents(dirname(__FILE__).'/actual/example15.png');
-
-		$this->assertTrue($expectedContents == $actualContents);		
+		$this->assertEquals('639a705f858e2838588f50d04a01dd6a',
+							md5($canvas->getActionLog()));
 	}
 }
