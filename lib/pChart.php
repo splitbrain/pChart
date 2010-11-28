@@ -304,20 +304,16 @@ class pChart {
 	 * Wrapper to the drawScale() function allowing a second scale to
 	 * be drawn
 	 */
-	function drawRightScale($Data, DataDescription $DataDescription, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
-		$this->drawScale ( $Data, $DataDescription, $ScaleMode, $color, $DrawTicks, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
+	function drawRightScale(pData $Data, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
+		$this->drawScale ( $Data, $ScaleMode, $color, $DrawTicks, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
 	}
 	
 	/**
 	 * Compute and draw the scale 
 	 */
-	function drawScale($Data, DataDescription $DataDescription, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
-		if (empty($Data)) {
-			throw new InvalidArgumentException("Empty data passed to drawScale()");
-		}
-
+	function drawScale(pData $Data, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
 		/* Validate the Data and DataDescription array */
-		$this->validateData ( "drawScale", $Data );
+		$this->validateData ( "drawScale", $Data->getData() );
 		
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
 								new Point($this->GArea_X1, $this->GArea_Y2),
@@ -329,9 +325,13 @@ class pChart {
 								$this->shadowProperties);
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
-			if (isset ( $DataDescription->values[0] )) {
-				$this->VMin = $Data [0] [$DataDescription->values[0]];
-				$this->VMax = $Data [0] [$DataDescription->values[0]];
+			if (isset ( $Data->getDataDescription()->values[0] )) {
+				/* Pointless temporary is necessary because you can't
+				 * directly apply an array index to the return value
+				 * of a function in PHP */
+				$dataArray = $Data->getData();
+				$this->VMin = $dataArray[0] [$Data->getDataDescription()->values[0]];
+				$this->VMax = $dataArray[0] [$Data->getDataDescription()->values[0]];
 			} else {
 				$this->VMin = 2147483647;
 				$this->VMax = - 2147483647;
@@ -343,10 +343,11 @@ class pChart {
 					$this->VMin = 0;
 				}
 				
-				foreach ( $Data as $Key => $Values ) {
-					foreach ( $DataDescription->values as $Key2 => $ColName ) {
-						if (isset ( $Data [$Key] [$ColName] )) {
-							$Value = $Data [$Key] [$ColName];
+				foreach ( $Data->getData() as $Key => $Values ) {
+					foreach ( $Data->getDataDescription()->values as $Key2 => $ColName ) {
+						$dataArray = $Data->getData();
+						if (isset ( $dataArray[$Key] [$ColName] )) {
+							$Value = $dataArray[$Key] [$ColName];
 							
 							if (is_numeric ( $Value )) {
 								if ($this->VMax < $Value) {
@@ -365,11 +366,12 @@ class pChart {
 					$this->VMin = 0;
 				}
 				
-				foreach ( $Data as $Key => $Values ) {
+				foreach ( $Data->getData() as $Key => $Values ) {
 					$Sum = 0;
-					foreach ( $DataDescription->values as $Key2 => $ColName ) {
-						if (isset ( $Data [$Key] [$ColName] )) {
-							$Value = $Data [$Key] [$ColName];
+					foreach ( $Data->getDataDescription()->values as $Key2 => $ColName ) {
+						$dataArray = $Data->getData();
+						if (isset ( $dataArray[$Key] [$ColName] )) {
+							$Value = $dataArray[$Key] [$ColName];
 							if (is_numeric ( $Value ))
 								$Sum += $Value;
 						}
@@ -420,11 +422,11 @@ class pChart {
 		$this->DivisionRatio = ($this->GArea_Y2 - $this->GArea_Y1) / $DataRange;
 		
 		$this->GAreaXOffset = 0;
-		if (count ( $Data ) > 1) {
+		if (count ( $Data->getData() ) > 1) {
 			if ($WithMargin == FALSE)
-				$this->DivisionWidth = ($this->GArea_X2 - $this->GArea_X1) / (count ( $Data ) - 1);
+				$this->DivisionWidth = ($this->GArea_X2 - $this->GArea_X1) / (count ( $Data->getData() ) - 1);
 			else {
-				$this->DivisionWidth = ($this->GArea_X2 - $this->GArea_X1) / (count ( $Data ));
+				$this->DivisionWidth = ($this->GArea_X2 - $this->GArea_X1) / (count ( $Data->getData() ));
 				$this->GAreaXOffset = $this->DivisionWidth / 2;
 			}
 		} else {
@@ -432,7 +434,7 @@ class pChart {
 			$this->GAreaXOffset = $this->DivisionWidth / 2;
 		}
 		
-		$this->DataCount = count ( $Data );
+		$this->DataCount = count ( $Data->getData() );
 		
 		if ($DrawTicks == FALSE)
 			return (0);
@@ -456,15 +458,15 @@ class pChart {
 			
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($DataDescription->getYFormat() == "number")
-				$Value = $Value . $DataDescription->getYUnit();
-			if ($DataDescription->getYFormat() == "time")
+			if ($Data->getDataDescription()->getYFormat() == "number")
+				$Value = $Value . $Data->getDataDescription()->getYUnit();
+			if ($Data->getDataDescription()->getYFormat() == "time")
 				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($DataDescription->getYFormat() == "date")
+			if ($Data->getDataDescription()->getYFormat() == "date")
 				$Value = $this->ToDate ( $Value );
-			if ($DataDescription->getYFormat() == "metric")
+			if ($Data->getDataDescription()->getYFormat() == "metric")
 				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($DataDescription->getYFormat() == "currency")
+			if ($Data->getDataDescription()->getYFormat() == "currency")
 				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
@@ -499,8 +501,8 @@ class pChart {
 		}
 		
 		/* Write the Y Axis caption if set */
-		if ($DataDescription->getYAxisName() != '') {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription->getYAxisName() );
+		if ($Data->getDataDescription()->getYAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $Data->getDataDescription()->getYAxisName() );
 			$TextHeight = abs ( $Position [1] ) + abs ( $Position [3] );
 			$TextTop = (($this->GArea_Y2 - $this->GArea_Y1) / 2) + $this->GArea_Y1 + ($TextHeight / 2);
 			
@@ -509,7 +511,7 @@ class pChart {
 										new Point($XMin + $this->FontSize, 
 												  $TextTop), 
 										$color, $this->FontName,
-										$DataDescription->getYAxisName(),
+										$Data->getDataDescription()->getYAxisName(),
 										ShadowProperties::NoShadow());
 			}
 			else {
@@ -517,7 +519,7 @@ class pChart {
 										new Point($XMin - $this->FontSize,
 												  $TextTop),
 										$color, $this->FontName,
-										$DataDescription->getYAxisName(),
+										$Data->getDataDescription()->getYAxisName(),
 										ShadowProperties::NoShadow());
 			}
 		}
@@ -526,24 +528,25 @@ class pChart {
 		$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 		$ID = 1;
 		$YMax = NULL;
-		foreach ( $Data as $Key => $Values ) {
+		foreach ( $Data->getData() as $Key => $Values ) {
 			if ($ID % $SkipLabels == 0) {
+				$dataArray = $Data->getData();
 				$this->canvas->drawLine(new Point(floor($XPos), $this->GArea_Y2),
 										new Point(floor($XPos), $this->GArea_Y2 + 5),
 										$color,
 										$this->LineWidth,
 										$this->LineDotSize,
 										$this->shadowProperties);
-				$Value = $Data [$Key] [$DataDescription->getPosition()];
-				if ($DataDescription->getXFormat() == "number")
-					$Value = $Value . $DataDescription->getXUnit();
-				if ($DataDescription->getXFormat() == "time")
+				$Value = $dataArray[$Key] [$Data->getDataDescription()->getPosition()];
+				if ($Data->getDataDescription()->getXFormat() == "number")
+					$Value = $Value . $Data->getDataDescription()->getXUnit();
+				if ($Data->getDataDescription()->getXFormat() == "time")
 					$Value = ConversionHelpers::ToTime ( $Value );
-				if ($DataDescription->getXFormat() == "date")
+				if ($Data->getDataDescription()->getXFormat() == "date")
 					$Value = $this->ToDate ( $Value );
-				if ($DataDescription->getXFormat() == "metric")
+				if ($Data->getDataDescription()->getXFormat() == "metric")
 					$Value = ConversionHelpers::ToMetric ( $Value );
-				if ($DataDescription->getXFormat() == "currency")
+				if ($Data->getDataDescription()->getXFormat() == "currency")
 					$Value = ConversionHelpers::ToCurrency ( $Value );
 				
 				$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
@@ -593,17 +596,17 @@ class pChart {
 		}
 		
 		/* Write the X Axis caption if set */
-		if ($DataDescription->getXAxisName() != '') {
+		if ($Data->getDataDescription()->getXAxisName() != '') {
 			$Position = imageftbbox ( $this->FontSize, 90,
 									  $this->FontName,
-									  $DataDescription->getXAxisName());
+									  $Data->getDataDescription()->getXAxisName());
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
 			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
 			$this->canvas->drawText($this->FontSize, 0,
 									new Point($TextLeft,
 											  $YMax + $this->FontSize + 5),
 									$color, $this->FontName, 
-									$DataDescription->getXAxisName(),
+									$Data->getDataDescription()->getXAxisName(),
 									ShadowProperties::NoShadow());
 		}
 	}
