@@ -551,7 +551,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("March","Serie3");
 
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
@@ -577,12 +577,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 20",new Color(50,50,50),585);
 
-		$Test->render(dirname(__FILE__).'/actual/example20.png');
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example20.png');
-		$actualContents = @file_get_contents(dirname(__FILE__).'/actual/example20.png');
-
-		$this->assertTrue($expectedContents == $actualContents);
+		$this->assertEquals('25782a42d33cc79e11d377f0557d473b',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawLimitsGraph() {
@@ -596,7 +592,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$DataSet->SetSeriesName("February","Serie2");
 
 		// Initialise the graph
-		$canvas = new GDCanvas(700, 230);
+		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
@@ -622,12 +618,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 5",new Color(50,50,50),585);
 		
-		$Test->render(dirname(__FILE__).'/actual/example5.png');
-
-		$expectedContents = file_get_contents(dirname(__FILE__).'/expected/example5.png');
-		$actualContents = @file_get_contents(dirname(__FILE__).'/actual/example5.png');
-
-		$this->assertTrue($expectedContents == $actualContents);		
+		$this->assertEquals('1b6b09ec413fb5ecad3d390ffc97e393',
+							md5($canvas->getActionLog()));
 	}
 
 	public function testDrawArea() {
