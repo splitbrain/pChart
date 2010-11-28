@@ -156,7 +156,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Prepare the graph area
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(55,30,270,230);
-		$Test->drawXYScale($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie1","Serie2",
+		$Test->drawXYScale($DataSet,"Serie1","Serie2",
 						   new Color(213,217,221),
 						   TRUE,45);
 		
@@ -365,8 +365,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$chart = new pChart(300, 300, $canvas);
 		$chart->setFontProperties(dirname(__FILE__).'/../Fonts/tahoma.ttf', 8);
 		$chart->setGraphArea(55, 30, 270, 230);
-		$chart->drawXYScale($dataSet->getData(),
-							$dataSet->getDataDescription(),
+		$chart->drawXYScale($dataSet,
 							'Y',
 							'X',
 							new Color(213, 217, 221),

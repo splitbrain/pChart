@@ -614,9 +614,9 @@ class pChart {
 	/**
 	 * Compute and draw the scale for X/Y charts 
 	 */
-	function drawXYScale($Data, DataDescription $DataDescription, $YSerieName, $XSerieName, Color $color, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
+	function drawXYScale(pData $Data, $YSerieName, $XSerieName, Color $color, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
 		/* Validate the Data and DataDescription array */
-		$this->validateData ( "drawScale", $Data );
+		$this->validateData ( "drawScale", $Data->getData());
 		
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
 								new Point($this->GArea_X1, $this->GArea_Y2),
@@ -633,7 +633,7 @@ class pChart {
 		
 		/* Process Y scale */
 		if ($this->VMin == NULL && $this->VMax == NULL) {
-			self::calculateSeriesMinMax($Data, $YSerieName,
+			self::calculateSeriesMinMax($Data->getData(), $YSerieName,
 										$this->VMin, $this->VMax);
 
 			/** @todo The use of ceil() here is questionable if all
@@ -674,15 +674,15 @@ class pChart {
 									$this->shadowProperties);
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($DataDescription->getYFormat() == "number")
-				$Value = $Value . $DataDescription->getYUnit();
-			if ($DataDescription->getYFormat() == "time")
+			if ($Data->getDataDescription()->getYFormat() == "number")
+				$Value = $Value . $Data->getDataDescription()->getYUnit();
+			if ($Data->getDataDescription()->getYFormat() == "time")
 				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($DataDescription->getYFormat() == "date")
+			if ($Data->getDataDescription()->getYFormat() == "date")
 				$Value = $this->ToDate ( $Value );
-			if ($DataDescription->getYFormat() == "metric")
+			if ($Data->getDataDescription()->getYFormat() == "metric")
 				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($DataDescription->getYFormat() == "currency")
+			if ($Data->getDataDescription()->getYFormat() == "currency")
 				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
@@ -705,7 +705,7 @@ class pChart {
 		
 		/* Process X scale */
 		if ($this->VXMin == NULL && $this->VXMax == NULL) {
-			self::calculateSeriesMinMax($Data, $XSerieName,
+			self::calculateSeriesMinMax($Data->getData(), $XSerieName,
 										$this->VXMin, $this->VXMax);
 
 			$this->VXMax = ceil($this->VXMax);
@@ -745,15 +745,15 @@ class pChart {
 			
 			$Value = $this->VXMin + ($i - 1) * (($this->VXMax - $this->VXMin) / $XDivisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($DataDescription->getYFormat() == "number")
-				$Value = $Value . $DataDescription->getYUnit();
-			if ($DataDescription->getYFormat() == "time")
+			if ($Data->getDataDescription()->getYFormat() == "number")
+				$Value = $Value . $Data->getDataDescription()->getYUnit();
+			if ($Data->getDataDescription()->getYFormat() == "time")
 				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($DataDescription->getYFormat() == "date")
+			if ($Data->getDataDescription()->getYFormat() == "date")
 				$Value = $this->ToDate ( $Value );
-			if ($DataDescription->getYFormat() == "metric")
+			if ($Data->getDataDescription()->getYFormat() == "metric")
 				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($DataDescription->getYformat() == "currency")
+			if ($Data->getDataDescription()->getYformat() == "currency")
 				$Value = ConversionHelpers::ToCurrency ( $Value );
 			
 			$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
@@ -802,9 +802,9 @@ class pChart {
 		}
 		
 		/* Write the Y Axis caption if set */
-		if ($DataDescription->getYAxisName() != '') {
+		if ($Data->getDataDescription()->getYAxisName() != '') {
 			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName,
-									  $DataDescription->getYAxisName());
+									  $Data->getDataDescription()->getYAxisName());
 			$TextHeight = abs ( $Position [1] ) + abs ( $Position [3] );
 			$TextTop = (($this->GArea_Y2 - $this->GArea_Y1) / 2) + $this->GArea_Y1 + ($TextHeight / 2);
 			$this->canvas->drawText($this->FontSize,
@@ -813,13 +813,13 @@ class pChart {
 											  $TextTop),
 									$color, 
 									$this->FontName,
-									$DataDescription->getYAxisName(),
+									$Data->getDataDescription()->getYAxisName(),
 									$this->shadowProperties);
 		}
 		
 		/* Write the X Axis caption if set */
-		if ($DataDescription->getXAxisName() != '') {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $DataDescription->getXAxisName());
+		if ($Data->getDataDescription()->getXAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $Data->getDataDescription()->getXAxisName());
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
 			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
 			$this->canvas->drawText($this->FontSize,
@@ -828,7 +828,7 @@ class pChart {
 											  $YMax + $this->FontSize + 5),
 									$color,
 									$this->FontName,
-									$DataDescription->getXAxisName(),
+									$Data->getDataDescription()->getXAxisName(),
 									$this->shadowProperties);
 		}
 	}
