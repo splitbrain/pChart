@@ -458,17 +458,10 @@ class pChart {
 			
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($Data->getDataDescription()->getYFormat() == "number")
-				$Value = $Value . $Data->getDataDescription()->getYUnit();
-			if ($Data->getDataDescription()->getYFormat() == "time")
-				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "date")
-				$Value = $this->ToDate ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "metric")
-				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "currency")
-				$Value = ConversionHelpers::ToCurrency ( $Value );
-			
+			$Value = $this->convertValueForDisplay($Value,
+												   $Data->getDataDescription()->getYFormat(),
+												   $Data->getDataDescription()->getYUnit());
+
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
 			
@@ -538,16 +531,9 @@ class pChart {
 										$this->LineDotSize,
 										$this->shadowProperties);
 				$Value = $dataArray[$Key] [$Data->getDataDescription()->getPosition()];
-				if ($Data->getDataDescription()->getXFormat() == "number")
-					$Value = $Value . $Data->getDataDescription()->getXUnit();
-				if ($Data->getDataDescription()->getXFormat() == "time")
-					$Value = ConversionHelpers::ToTime ( $Value );
-				if ($Data->getDataDescription()->getXFormat() == "date")
-					$Value = $this->ToDate ( $Value );
-				if ($Data->getDataDescription()->getXFormat() == "metric")
-					$Value = ConversionHelpers::ToMetric ( $Value );
-				if ($Data->getDataDescription()->getXFormat() == "currency")
-					$Value = ConversionHelpers::ToCurrency ( $Value );
+				$Value = $this->convertValueForDisplay($Value,
+													   $Data->getDataDescription()->getXFormat(),
+													   $Data->getDataDescription()->getXUnit());
 				
 				$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
 				$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
@@ -674,16 +660,9 @@ class pChart {
 									$this->shadowProperties);
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($Data->getDataDescription()->getYFormat() == "number")
-				$Value = $Value . $Data->getDataDescription()->getYUnit();
-			if ($Data->getDataDescription()->getYFormat() == "time")
-				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "date")
-				$Value = $this->ToDate ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "metric")
-				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "currency")
-				$Value = ConversionHelpers::ToCurrency ( $Value );
+			$Value = $this->convertValueForDisplay($Value,
+												   $Data->getDataDescription()->getYFormat(),
+												   $Data->getDataDescription()->getYUnit());
 			
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
@@ -745,16 +724,10 @@ class pChart {
 			
 			$Value = $this->VXMin + ($i - 1) * (($this->VXMax - $this->VXMin) / $XDivisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
-			if ($Data->getDataDescription()->getYFormat() == "number")
-				$Value = $Value . $Data->getDataDescription()->getYUnit();
-			if ($Data->getDataDescription()->getYFormat() == "time")
-				$Value = ConversionHelpers::ToTime ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "date")
-				$Value = $this->ToDate ( $Value );
-			if ($Data->getDataDescription()->getYFormat() == "metric")
-				$Value = ConversionHelpers::ToMetric ( $Value );
-			if ($Data->getDataDescription()->getYformat() == "currency")
-				$Value = ConversionHelpers::ToCurrency ( $Value );
+
+			$Value = $this->convertValueForDisplay($Value,
+												   $Data->getDataDescription()->getYFormat(),
+												   $Data->getDataDescription()->getYUnit());
 			
 			$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Value );
 			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
@@ -3771,6 +3744,19 @@ class pChart {
 			$Divisions --;
 		elseif (self::isRealInt ( ($maxVal - $minVal) / ($Divisions + 1) ))
 			$Divisions ++;
+	}
+
+	private function convertValueForDisplay($value, $format, $unit) {
+		if ($format == "number")
+			return $value . $unit;
+		if ($format == "time")
+			return ConversionHelpers::ToTime ( $value );
+		if ($format == "date")
+			return $this->ToDate ( $value );
+		if ($format == "metric")
+			return ConversionHelpers::ToMetric ( $value );
+		if ($format == "currency")
+			return ConversionHelpers::ToCurrency ( $value );
 	}
 }
 
