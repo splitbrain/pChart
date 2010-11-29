@@ -98,9 +98,6 @@ class pChart {
 	protected $LineWidth = 1;
 	protected $LineDotSize = 0;
 	
-	/* Layer related vars */
-	protected $Layers = NULL;
-	
 	/* Shadow settings */
 	private $shadowProperties;
 	
