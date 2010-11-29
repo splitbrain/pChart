@@ -67,6 +67,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
 		$Test->drawTitle(60,22,"example 1", new Color(50,50,50), 585);   
 
+		file_put_contents(dirname(__FILE__).'/action_logs/testLineChart',
+						  $canvas->getActionLog());
+
 		$this->assertEquals('b6506e8603f513e9296bfb710aea5bc5', md5($canvas->getActionLog()));
 	}
 	
