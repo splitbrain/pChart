@@ -92,6 +92,13 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Draw the pie chart
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
 		$Test->drawPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 180, 130, 110, PIE_PERCENTAGE_LABEL, FALSE, 50, 20, 5);
+		
+		file_put_contents(dirname(__FILE__).'/action_logs/testPieGraph_partial1',
+						  $canvas->getActionLog());
+
+		$this->assertEquals('d27d556382e62d080f2dc29459b052b7',
+							md5($canvas->getActionLog()));
+
 		$Test->drawPieLegend(330, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(),
 							 new Color(250, 250, 250));
