@@ -2986,14 +2986,14 @@ class pChart {
 	/**
 	 * This function draw a pseudo-3D pie chart 
 	 */
-	function drawPieGraph($Data, $DataDescription, $XPos, $YPos,
+	function drawPieGraph(pData $data, $DataDescription, $XPos, $YPos,
 						  $Radius = 100, $DrawLabels = PIE_NOLABEL,
 						  $EnhanceColors = TRUE, $Skew = 60,
 						  $SpliceHeight = 20, $SpliceDistance = 0,
 						  $Decimals = 0) {
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription ( "drawPieGraph", $DataDescription, FALSE );
-		$this->validateData ( "drawPieGraph", $Data );
+		$this->validateData ( "drawPieGraph", $data->getData());
 		
 		/* Determine pie sum */
 		$Series = 0;
@@ -3002,21 +3002,23 @@ class pChart {
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			if ($ColName != $DataDescription->getPosition()) {
 				$Series ++;
-				foreach ( $Data as $Key => $Values )
-					if (isset ( $Data [$Key] [$ColName] )) {
-						if ($Data [$Key] [$ColName] == 0) {
+				$dataArray = $data->getData();
+				foreach ( $dataArray as $Key => $Values ) {
+					if (isset ( $dataArray[$Key] [$ColName] )) {
+						if ($dataArray[$Key] [$ColName] == 0) {
 							$iValues [] = 0;
 							$rValues [] = 0;
-							$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
+							$iLabels [] = $dataArray[$Key] [$DataDescription->getPosition()];
 						} // Removed : $PieSum++; $rValues[] = 1;
 						else {
-							$PieSum += $Data [$Key] [$ColName];
-							$iValues [] = $Data [$Key] [$ColName];
-							$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
-							$rValues [] = $Data [$Key] [$ColName];
-							$rPieSum += $Data [$Key] [$ColName];
+							$PieSum += $dataArray[$Key] [$ColName];
+							$iValues [] = $dataArray[$Key] [$ColName];
+							$iLabels [] = $dataArray[$Key] [$DataDescription->getPosition()];
+							$rValues [] = $dataArray[$Key] [$ColName];
+							$rPieSum += $dataArray[$Key] [$ColName];
 						}
 					}
+				}
 			}
 		}
 		
