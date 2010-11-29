@@ -27,11 +27,13 @@ class BackgroundStyle {
 	 * exclusive, so it would be possible to simplify this interface
 	 * somewhat.
 	 */
-	public function __construct(Color $backgroundColor, $stripe = false, Color $gradientStartColor = null, $gradientDecay = null) {
+	public function __construct(Color $backgroundColor, $stripe = false, Color $gradientStartColor = null, $gradientDecay = null, $borderWidth = 1, $borderDotSize = 0) {
 		$this->backgroundColor = $backgroundColor;
 		$this->stripe = $stripe;
 		$this->gradientStartColor = $gradientStartColor;
 		$this->gradientDecay = $gradientDecay;
+		$this->borderWidth = $borderWidth;
+		$this->borderDotSize = $borderDotSize;
 	}
 
 	public function getBackgroundColor() {
@@ -62,6 +64,14 @@ class BackgroundStyle {
 		return $this->gradientDecay;
 	}
 
+	public function getBorderWidth() {
+		return $this->borderWidth;
+	}
+
+	public function getBorderDotSize() {
+		return $this->borderDotSize;
+	}
+
 	private $backgroundColor;
 
 	private $stripe;
@@ -69,4 +79,8 @@ class BackgroundStyle {
 	private $gradientStartColor;
 
 	private $gradientDecay;
+
+	private $borderWidth;
+
+	private $borderDotSize;
 }

@@ -230,8 +230,8 @@ class pChart {
 		$this->canvas->drawRectangle(new Point($this->GArea_X1, $this->GArea_Y1),
 									 new Point($this->GArea_X2, $this->GArea_Y2),
 									 $style->getBackgroundColor()->addRGBIncrement(-40),
-									 $this->LineWidth,
-									 $this->LineDotSize,
+									 $style->getBorderWidth(),
+									 $style->getBorderDotSize(),
 									 $this->shadowProperties);
 		
 		if ($style->useStripe()) {
