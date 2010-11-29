@@ -100,6 +100,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/MankSans.ttf", 10);
 		$Test->drawTitle(10, 20, "Sales per month", new Color(100, 100, 100));
 
+		file_put_contents(dirname(__FILE__).'/action_logs/testPieGraph',
+						  $canvas->getActionLog());
+
 		$this->assertEquals('7badeca088d4e1bce4bb20e9237ac37f',
 							md5($canvas->getActionLog()));
 	}
