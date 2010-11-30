@@ -309,17 +309,19 @@ class pChart {
 	/**
 	 * Compute and draw the scale 
 	 */
-	function drawScale(pData $Data, ScaleStyle $style, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
+	function drawScale(pData $Data, ScaleStyle $style, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data->getData() );
 		
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
 								new Point($this->GArea_X1, $this->GArea_Y2),
-								$color, $this->LineWidth, $this->LineDotSize,
+								$style->getColor(),
+								$this->LineWidth, $this->LineDotSize,
 								$this->shadowProperties);
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y2), 
 								new Point($this->GArea_X2, $this->GArea_Y2),
-								$color, $this->LineWidth, $this->LineDotSize,
+								$style->getColor(),
+								$this->LineWidth, $this->LineDotSize,
 								$this->shadowProperties);
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
@@ -443,13 +445,14 @@ class pChart {
 			if ($RightScale)
 				$this->canvas->drawLine(new Point($this->GArea_X2, $YPos),
 										new Point($this->GArea_X2 + 5, $YPos),
-										$color, $this->LineWidth,
+										$style->getColor(),
+										$this->LineWidth,
 										$this->LineDotSize, 
 										$this->shadowProperties);
 			else
 				$this->canvas->drawLine(new Point($this->GArea_X1, $YPos),
 										new Point($this->GArea_X1 - 5, $YPos),
-										$color,
+										$style->getColor(),
 										$this->LineWidth,
 										$this->LineDotSize,
 										$this->shadowProperties);
@@ -467,7 +470,7 @@ class pChart {
 				$this->canvas->drawText($this->FontSize, 0,
 										new Point($this->GArea_X2 + 10,
 												  $YPos + ($this->FontSize / 2)),
-										$color,
+										$style->getColor(),
 										$this->FontName, 
 										$Value,
 										ShadowProperties::NoShadow());
@@ -479,7 +482,7 @@ class pChart {
 										0,
 										new Point($this->GArea_X1 - 10 - $TextWidth,
 												  $YPos + ($this->FontSize / 2)),
-										$color, 
+										$style->getColor(), 
 										$this->FontName,
 										$Value,
 										ShadowProperties::NoShadow());
@@ -501,7 +504,7 @@ class pChart {
 				$this->canvas->drawText($this->FontSize, 90,
 										new Point($XMin + $this->FontSize, 
 												  $TextTop), 
-										$color, $this->FontName,
+										$style->getColor(), $this->FontName,
 										$Data->getDataDescription()->getYAxisName(),
 										ShadowProperties::NoShadow());
 			}
@@ -509,7 +512,7 @@ class pChart {
 				$this->canvas->drawText($this->FontSize, 90,
 										new Point($XMin - $this->FontSize,
 												  $TextTop),
-										$color, $this->FontName,
+										$style->getColor(), $this->FontName,
 										$Data->getDataDescription()->getYAxisName(),
 										ShadowProperties::NoShadow());
 			}
@@ -524,7 +527,7 @@ class pChart {
 				$dataArray = $Data->getData();
 				$this->canvas->drawLine(new Point(floor($XPos), $this->GArea_Y2),
 										new Point(floor($XPos), $this->GArea_Y2 + 5),
-										$color,
+										$style->getColor(),
 										$this->LineWidth,
 										$this->LineDotSize,
 										$this->shadowProperties);
@@ -543,7 +546,7 @@ class pChart {
 											$Angle,
 											new Point(floor ( $XPos ) - floor ( $TextWidth / 2 ),
 													  $YPos),
-											$color,
+											$style->getColor(),
 											$this->FontName,
 											$Value,
 											ShadowProperties::NoShadow());
@@ -554,7 +557,7 @@ class pChart {
 												$Angle,
 												new Point(floor($XPos) - $TextWidth + 5,
 														  $YPos),
-												$color,
+												$style->getColor(),
 												$this->FontName,
 												$Value,
 												ShadowProperties::NoShadow());
@@ -564,7 +567,7 @@ class pChart {
 												$Angle,
 												new Point(floor ( $XPos ) + $TextWidth + 5,
 														  $YPos),
-												$color,
+												$style->getColor(),
 												$this->FontName,
 												$Value,
 												ShadowProperties::NoShadow());
@@ -589,7 +592,7 @@ class pChart {
 			$this->canvas->drawText($this->FontSize, 0,
 									new Point($TextLeft,
 											  $YMax + $this->FontSize + 5),
-									$color, $this->FontName, 
+									$style->getColor(), $this->FontName, 
 									$Data->getDataDescription()->getXAxisName(),
 									ShadowProperties::NoShadow());
 		}
