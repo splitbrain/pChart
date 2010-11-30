@@ -8,6 +8,11 @@ class ScaleStyle {
 		$this->color = $color;
 	}
 
+	static public function DefaultStyle() {
+		return new ScaleStyle(SCALE_NORMAL,
+							  new Color(150, 150, 150));
+	}
+
 	public function getScaleMode() {
 		return $this->scaleMode;
 	}
