@@ -26,6 +26,7 @@ require_once(dirname(__FILE__).'/Color.php');
 require_once(dirname(__FILE__).'/Palette.php');
 require_once(dirname(__FILE__).'/ICanvas.php');
 require_once(dirname(__FILE__).'/GridStyle.php');
+require_once(dirname(__FILE__).'/ScaleStyle.php');
 
 /* Declare some script wide constants */
 define ( "SCALE_NORMAL", 1 );
@@ -308,7 +309,7 @@ class pChart {
 	/**
 	 * Compute and draw the scale 
 	 */
-	function drawScale(pData $Data, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
+	function drawScale(pData $Data, ScaleStyle $style, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data->getData() );
 		
@@ -335,8 +336,9 @@ class pChart {
 			}
 			
 			/* Compute Min and Max values */
-			if ($ScaleMode == SCALE_NORMAL || $ScaleMode == SCALE_START0) {
-				if ($ScaleMode == SCALE_START0) {
+			if ($style->getScaleMode() == SCALE_NORMAL
+				|| $style->getScaleMode() == SCALE_START0) {
+				if ($style->getScaleMode() == SCALE_START0) {
 					$this->VMin = 0;
 				}
 				
@@ -357,9 +359,8 @@ class pChart {
 						}
 					}
 				}
-			} elseif ($ScaleMode == SCALE_ADDALL || $ScaleMode == SCALE_ADDALLSTART0 ) /* Experimental */
-        {
-				if ($ScaleMode == SCALE_ADDALLSTART0) {
+			} elseif ($style->getScaleMode() == SCALE_ADDALL || $style->getScaleMode() == SCALE_ADDALLSTART0 ) /* Experimental */ {
+				if ($style->getScaleMode() == SCALE_ADDALLSTART0) {
 					$this->VMin = 0;
 				}
 				
