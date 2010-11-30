@@ -45,7 +45,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$backgroundStyle = new BackgroundStyle(new Color(255,255,255),TRUE);
 		$Test->drawGraphBackground($backgroundStyle);
 
-		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), TRUE,0,2);   
+		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0,2);   
 
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 		
@@ -230,7 +230,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$backgroundStyle = new BackgroundStyle(new Color(255,255,255),TRUE);
 		$Test->drawGraphBackground($backgroundStyle);
 
-		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(),TRUE,0,2);
+		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0,2);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 		
 		// Draw the 0 line
@@ -418,7 +418,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$backgroundStyle = new BackgroundStyle(new Color(255,255,255),TRUE);
 		$Test->drawGraphBackground($backgroundStyle);
 
-		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), TRUE,0,2);
+		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0,2);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
@@ -465,7 +465,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$Test->drawGraphBackground($backgroundStyle);
 
-		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(),TRUE,0,2);
+		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0,2);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
@@ -509,7 +509,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$Test->drawGraphBackground($backgroundStyle);
 
-		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(),TRUE,0,2,TRUE);
+		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0,2,TRUE);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
@@ -554,7 +554,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$Test->drawGraphBackground($backgroundStyle);
 
-		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), TRUE,0,2,TRUE);
+		$Test->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0,2,TRUE);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
@@ -599,7 +599,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGraphBackground($backgroundStyle);
 		$scaleStyle = new ScaleStyle(SCALE_ADDALL,
 									 new Color(150,150,150));
-		$Test->drawScale($DataSet, $scaleStyle,TRUE,0,2,TRUE);
+		$Test->drawScale($DataSet, $scaleStyle, 0,2,TRUE);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
@@ -643,7 +643,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$Test->drawScale($DataSet,
 						 ScaleStyle::DefaultStyle(),
-						 TRUE,0,2,TRUE);
+						 0,2,TRUE);
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
@@ -696,7 +696,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 									 new Color(150,150,150));
 		$Test->drawScale($DataSet,
 						 $scaleStyle,
-						 TRUE,0,2,TRUE,3);   
+						 0,2,TRUE,3);   
 		$Test->drawGrid(new GridStyle(4,TRUE, new Color(230,230,230), 50));
 
 		// Draw the 0 line   

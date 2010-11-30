@@ -3,9 +3,10 @@
 require_once dirname(__FILE__).'/Color.php';
 
 class ScaleStyle {
-	public function __construct($scaleMode, Color $color) {
+	public function __construct($scaleMode, Color $color, $drawTicks = true) {
 		$this->scaleMode = $scaleMode;
 		$this->color = $color;
+		$this->drawTicks = $drawTicks;
 	}
 
 	static public function DefaultStyle() {
@@ -21,7 +22,13 @@ class ScaleStyle {
 		return $this->color;
 	}
 
+	public function getDrawTicks() {
+		return $this->drawTicks;
+	}
+
 	private $scaleMode;
 
 	private $color;
+
+	private $drawTicks;
 }

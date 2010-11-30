@@ -302,14 +302,14 @@ class pChart {
 	 * Wrapper to the drawScale() function allowing a second scale to
 	 * be drawn
 	 */
-	function drawRightScale(pData $Data, $ScaleMode, Color $color, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
-		$this->drawScale ( $Data, $ScaleMode, $color, $DrawTicks, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
+	function drawRightScale(pData $Data, ScaleStyle $style, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
+		$this->drawScale($Data, $style, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
 	}
 	
 	/**
 	 * Compute and draw the scale 
 	 */
-	function drawScale(pData $Data, ScaleStyle $style, $DrawTicks = TRUE, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
+	function drawScale(pData $Data, ScaleStyle $style, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1, $RightScale = FALSE) {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data->getData() );
 		
@@ -436,7 +436,7 @@ class pChart {
 		
 		$this->DataCount = count ( $Data->getData() );
 		
-		if ($DrawTicks == FALSE)
+		if ($style->getDrawTicks() == FALSE)
 			return (0);
 		
 		$YPos = $this->GArea_Y2;
