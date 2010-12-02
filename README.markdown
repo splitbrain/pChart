@@ -54,6 +54,12 @@ There are several branches of the code:
   to incorporate these improvements in as optional speedups to the
   main branch, but for now if you need speed and don't care too much
   about prettiness, this is a viable option.
+
+## Continuous integration
+
+There's now a hudson server
+[here](http://builds.asymptotic.co.uk:8080/job/pChart-PHP5/) doing
+continuous integration.
  
 ## Future development
 
