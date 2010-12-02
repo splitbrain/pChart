@@ -34,6 +34,13 @@ inconsistent use of camel casing for method names. This isn't a
 particularly big deal in itself, since method names are
 case-insensitive, but we aim to clean it up as part of this project.
 
+## Documentation
+
+There's [API documentation](http://pchart.asymptotic.co.uk/) which is
+built by the continuous integration server, so will track the latest
+changes on the master branch. We don't yet have separate documentation
+of the stable releases.
+
 ## Branches
 
 There are several branches of the code:
