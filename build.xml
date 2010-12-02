@@ -3,6 +3,14 @@
   <property name="tests.dir" value="tests" />
   <property name="reports.dir" value="reports" />
 
+  <target name="clean">
+	<delete>
+	  <fileset dir="${reports.dir}">
+		<include name="**/*.xml" />
+	  </fileset>
+	</delete>
+  </target>
+
   <target name="test" description="Run PHPUnit Tests">
     <phpunit haltonerror="true" haltonfailure="true" printsummary="true">
       <batchtest>
