@@ -31,7 +31,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
   
 		// Initialise the graph   
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);   
 		$Test->setGraphArea(70,30,680,200);   
 		$canvas->drawFilledRoundedRectangle(new Point(7,7),
 											new Point(693,223),
@@ -50,7 +50,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 		
 		// Draw the 0 line   
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);   
 		$Test->drawTreshold(0, new Color(143,55,72), TRUE,TRUE);   
 		
 		// Draw the line graph
@@ -59,19 +59,19 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							 new Color(255,255,255));   
   
 		// Finish the graph   
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);   
 		$Test->drawLegend(75,35,$DataSet->GetDataDescription(), new Color(255,255,255));   
 
 		$this->assertEquals(array(73, 51),
 							$Test->getLegendBoxSize($DataSet->getDataDescription()));
 
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);   
 		$Test->drawTitle(60,22,"example 1", new Color(50,50,50), 585);   
 
 		file_put_contents(dirname(__FILE__).'/action_logs/testLineChart',
 						  $canvas->getActionLog());
 
-		$this->assertEquals('b6506e8603f513e9296bfb710aea5bc5', md5($canvas->getActionLog()));
+		$this->assertEquals('589d8e78ac5d19581198a42b75c1c637', md5($canvas->getActionLog()));
 	}
 	
 	/**
@@ -94,13 +94,13 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 														5));
 		
 		// Draw the pie chart
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
+		$Test->setFontProperties("Fonts/tahoma.ttf", 8);
 		$Test->drawPieGraph($DataSet, 180, 130, 110, PIE_PERCENTAGE_LABEL, FALSE, 50, 20, 5);
 		
 		file_put_contents(dirname(__FILE__).'/action_logs/testPieGraph_partial1',
 						  $canvas->getActionLog());
 
-		$this->assertEquals('d27d556382e62d080f2dc29459b052b7',
+		$this->assertEquals('211751485459ed20cc6bac7215db1f20',
 							md5($canvas->getActionLog()));
 
 		$Test->drawPieLegend(330, 15, $DataSet->GetData(), 
@@ -108,13 +108,13 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							 new Color(250, 250, 250));
 		
 		// Write the title
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/MankSans.ttf", 10);
+		$Test->setFontProperties("Fonts/MankSans.ttf", 10);
 		$Test->drawTitle(10, 20, "Sales per month", new Color(100, 100, 100));
 
 		file_put_contents(dirname(__FILE__).'/action_logs/testPieGraph',
 						  $canvas->getActionLog());
 
-		$this->assertEquals('7badeca088d4e1bce4bb20e9237ac37f',
+		$this->assertEquals('8302fcc3542fd3f36a9d378efea49d3a',
 							md5($canvas->getActionLog()));
 	}
 	
@@ -129,7 +129,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(300, 200, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
+		$Test->setFontProperties("Fonts/tahoma.ttf", 8);
 		
 		// Draw the pie chart
 		$Test->setShadowProperties(2, 2, new Color(200, 200, 200));
@@ -138,7 +138,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->clearShadow();
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
-		$this->assertEquals('a2d9c06952857b76cedd80f50324e2fa',
+		$this->assertEquals('6fb645a6318014dc9978a1e77ccb9079',
 							md5($canvas->getActionLog()));
 	}
 	
@@ -168,7 +168,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 									  -100);
 		
 		// Prepare the graph area
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(55,30,270,230);
 		$Test->drawXYScale($DataSet,"Serie1","Serie2",
 						   new Color(213,217,221),
@@ -199,7 +199,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 						   30);
 		
 		// Draw the legend
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/pf_arma_five.ttf",6);
+		$Test->setFontProperties("Fonts/pf_arma_five.ttf",6);
 		$DataSet->removeSeries("Serie2");
 		$Test->drawLegend(160,5,$DataSet->GetDataDescription(),
 						  new Color(0,0,0),
@@ -207,7 +207,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 						  new Color(255,255,255),
 						  FALSE);
 		
-		$this->assertEquals('b787628484617f592d9419cccbd2001f',
+		$this->assertEquals('29617aa04eb4a3dfe787a5d45733c83c',
 							md5($canvas->getActionLog()));
 	}
 
@@ -224,7 +224,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 
 		$backgroundStyle = new BackgroundStyle(new Color(255,255,255),TRUE);
@@ -234,7 +234,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 		
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,
 							new Color(143,55,72),
 							TRUE,TRUE);
@@ -243,12 +243,12 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawFilledCubicCurve($DataSet->GetData(),$DataSet->GetDataDescription(),.1,50);
 		
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(), new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 7", new Color(50,50,50),585);
 
-		$this->assertEquals('9362cef9ce1f572f4462c33bc0e88f70',
+		$this->assertEquals('25415e5d96f42f64893657ab2389ea30',
 							md5($canvas->getActionLog()));
 	}
 
@@ -287,13 +287,13 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
 		
 		// Draw the pie chart
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf", 8);
+		$Test->setFontProperties("Fonts/tahoma.ttf", 8);
 		$Test->drawBasicPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 
 								 120, 100, 70, PIE_PERCENTAGE, new Color(255, 255, 218));
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
 
-		$this->assertEquals('30b0d43c896358ce0344e68058fbf9c9',
+		$this->assertEquals('0ec1d5de67ae53239101143106d5ee4a',
 							md5($canvas->getActionLog()));
 	}
 
@@ -314,7 +314,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(400,400, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(30,30,370,370);
 		
 		// Draw the radar graph
@@ -327,10 +327,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawLegend(15,15,$DataSet->GetDataDescription(),
 						  new Color(255,255,255));
 
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(0,22,"Example 8",new Color(50,50,50),400);
 
-		$this->assertEquals('0ea479dad0294000c81f8a69f475c861',
+		$this->assertEquals('c2db8bcd7112711a97e8f1798ddd77e5',
 							md5($canvas->getActionLog()));
 	}
 
@@ -350,7 +350,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(400,400, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(30,30,370,370);
 		
 		// Draw the radar graph
@@ -359,10 +359,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Finish the graph
 		$Test->drawLegend(15,15,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(0,22,"Example 8",new Color(50,50,50),400);
 
-		$this->assertEquals('71a51c116cd8152773175a2109d64e3c',
+		$this->assertEquals('be9f2fb9cb890e3ffdae443376d80be9',
 							md5($canvas->getActionLog()));
 	}
 
@@ -377,7 +377,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		$canvas = new TestCanvas;
 		$chart = new pChart(300, 300, $canvas);
-		$chart->setFontProperties(dirname(__FILE__).'/../Fonts/tahoma.ttf', 8);
+		$chart->setFontProperties('Fonts/tahoma.ttf', 8);
 		$chart->setGraphArea(55, 30, 270, 230);
 		$chart->drawXYScale($dataSet,
 							'Y',
@@ -395,7 +395,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 								'Y',
 								'X');
 
-		$this->assertEquals('8e6ee52cd745c0a50df62a52054fa4c3',
+		$this->assertEquals('a769bf6298734bb20665fc27f7f462ab',
 							md5($canvas->getActionLog()));
 	}
 
@@ -413,7 +413,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$backgroundStyle = new BackgroundStyle(new Color(255,255,255),TRUE);
 		$Test->drawGraphBackground($backgroundStyle);
@@ -422,7 +422,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
 
 		// Draw the line graph
@@ -431,19 +431,19 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							 new Color(255,255,255));
 
 		// Set labels
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie1","2","Daily incomes",
 						new Color(221,230,174));
 		$Test->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie2","6","Production break",
 						new Color(239,233,195));
 
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 9",new Color(50,50,50),585);
 
-		$this->assertEquals('726fc7ab1b861ef64b3aad60b128f00e',
+		$this->assertEquals('9388dd3d1a53242b48d730c9256cf03e',
 							md5($canvas->getActionLog()));
 	}
 
@@ -458,7 +458,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(60,30,680,200);
 
 		$backgroundStyle = new BackgroundStyle(new Color(255,255,255), TRUE);
@@ -469,19 +469,19 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
 
 		// Draw the filled line graph
 		$Test->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),50,TRUE);
 
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(65,35,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(60,22,"Example 6",new Color(50,50,50),585);
 		
-		$this->assertEquals('94bf70cb26569da41d1ef4d045f03267',
+		$this->assertEquals('9816ffbe4277df46fdce89cdc0b28a47',
 							md5($canvas->getActionLog()));
 	}
 
@@ -498,7 +498,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$canvas->drawFilledRoundedRectangle(new Point(7,7),
 											new Point(693,223),
@@ -513,19 +513,19 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
 
 		// Draw the bar graph
 		$Test->drawOverlayBarGraph($DataSet->GetData(),$DataSet->GetDataDescription());
 
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 3",new Color(50,50,50),585);
 
-		$this->assertEquals('b98c3bc304552bbadc5412215948b806',
+		$this->assertEquals('8c6b50852e15c261e6a40595eed7e283',
 							md5($canvas->getActionLog()));
 	}
 
@@ -544,7 +544,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
 		$canvas->drawFilledRoundedRectangle(new Point(7,7),
 											new Point(693,223),
@@ -558,19 +558,19 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
 
 		// Draw the bar graph
 		$Test->drawBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE,80);
 
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(596,150,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 12",new Color(50,50,50),585);
 
-		$this->assertEquals('54911a8885be3707e7df7ba1364a3e9e',
+		$this->assertEquals('c5cc595cf2c41c6c363521346c8262a5',
 							md5($canvas->getActionLog()));
 	}
 
@@ -589,7 +589,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,680,200);
 		$canvas->drawFilledRoundedRectangle(new Point(7,7),
 											new Point(693,223),
@@ -603,19 +603,19 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
 
 		// Draw the bar graph
 		$Test->drawStackedBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),100);
 
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(596,150,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 20",new Color(50,50,50),585);
 
-		$this->assertEquals('25782a42d33cc79e11d377f0557d473b',
+		$this->assertEquals('9981801f58bf03e0b2bbe5f8b8f36c2c',
 							md5($canvas->getActionLog()));
 	}
 
@@ -632,7 +632,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$Test = new pChart(700,230, $canvas);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(50,30,585,200);
 		$canvas->drawFilledRoundedRectangle(new Point(7,7),
 											new Point(693,223),
@@ -647,7 +647,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
 
 		// Draw the 0 line
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);
 		$Test->drawTreshold(0,new Color(143,55,72),TRUE,TRUE);
 
 		// Draw the limit graph
@@ -655,12 +655,12 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							   new Color(180,180,180));
 
 		// Finish the graph
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->drawLegend(600,30,$DataSet->GetDataDescription(),new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);
 		$Test->drawTitle(50,22,"Example 5",new Color(50,50,50),585);
 		
-		$this->assertEquals('1b6b09ec413fb5ecad3d390ffc97e393',
+		$this->assertEquals('6964c6d67548ec50af551f396ef0cb09',
 							md5($canvas->getActionLog()));
 	}
 
@@ -684,7 +684,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test = new pChart(700,230, $canvas);
 		$Test->reportWarnings("GD");
 		$Test->setFixedScale(-12,12,5);
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);   
 		$Test->setGraphArea(65,30,570,185);   
 		$canvas->drawFilledRoundedRectangle(new Point(7,7),
 											new Point(693,223),
@@ -700,7 +700,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawGrid(new GridStyle(4,TRUE, new Color(230,230,230), 50));
 
 		// Draw the 0 line   
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",6);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",6);   
 		$Test->drawTreshold(0, new Color(143,55,72),TRUE,TRUE);   
   
 		// Draw the area
@@ -721,20 +721,20 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							 new Color(255,255,255));
 
 		// Write values on Serie3
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);   
 		$Test->writeValues($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie3");   
   
 		// Finish the graph   
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",8);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",8);   
 		$Test->drawLegend(590,90,$DataSet->GetDataDescription(), 
 						  new Color(255,255,255));
-		$Test->setFontProperties(dirname(__FILE__)."/../Fonts/tahoma.ttf",10);   
+		$Test->setFontProperties("Fonts/tahoma.ttf",10);   
 		$Test->drawTitle(60,22,"example 15", new Color(50,50,50),585);
 
 		// Add an image
 		$Test->drawFromPNG(dirname(__FILE__)."/../Sample/logo.png",584,35);
 
-		$this->assertEquals('639a705f858e2838588f50d04a01dd6a',
+		$this->assertEquals('53b34d556af518230b7556e19349bd94',
 							md5($canvas->getActionLog()));
 	}
 }
