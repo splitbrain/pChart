@@ -4,6 +4,13 @@ require_once dirname(__FILE__).'/Color.php';
 require_once dirname(__FILE__).'/Point.php';
 require_once dirname(__FILE__).'/ShadowProperties.php';
 
+/**
+ * @brief Interface that abstracts the implementation of drawing operations
+ *
+ * It's not clear whether this could be replaced with PEAR
+ * Image_Canvas. If it's possible to do so, this would make it a lot
+ * easier to maintain implementation independence
+ */
 interface ICanvas {
 	function drawRectangle(Point $corner1, Point $corner2, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties);
 

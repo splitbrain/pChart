@@ -3,6 +3,8 @@
 require_once dirname(__FILE__).'/ICanvas.php';
 
 /**
+ * @brief An ICanvas stub for unit testing
+ *
  * The TestCanvas implements a canvas object that doesn't draw
  * anything, but keeps a log of which methods have been called. This
  * is used in unit testing the pChart, since all we care about is to
