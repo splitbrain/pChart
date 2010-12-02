@@ -2,6 +2,20 @@
 
 require_once dirname(__FILE__).'/ICanvas.php';
 
+/**
+ * The TestCanvas implements a canvas object that doesn't draw
+ * anything, but keeps a log of which methods have been called. This
+ * is used in unit testing the pChart, since all we care about is to
+ * ensure that the pChart is calling the right methods on the ICanvas
+ * (testing that the canvas does the right thing in response to these
+ * calls belongs in unit testing on the Canvas implementation
+ *
+ * After we run a test, the TestCanvas spits out a list of function
+ * calls and parameters, which we compare against a known good set. To
+ * some extent this is just a way of solving the same problem as Mock
+ * objects, given that the test cases are too large and there are too
+ * many hundreds of calls to manually set up a Mock object script.
+ */
 class TestCanvas implements ICanvas {
 	function drawRectangle(Point $corner1, Point $corner2, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties) {
 		$this->logMethodCall(__METHOD__, func_get_args());
