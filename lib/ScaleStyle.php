@@ -3,10 +3,16 @@
 require_once dirname(__FILE__).'/Color.php';
 
 class ScaleStyle {
-	public function __construct($scaleMode, Color $color, $drawTicks = true) {
+	/**
+	 * @todo The color, lineWidth and lineDotSize variables could all
+	 * be combined into a single LineStyle class
+	 */
+	public function __construct($scaleMode, Color $color, $drawTicks = true, $lineWidth = 1, $lineDotSize = 0) {
 		$this->scaleMode = $scaleMode;
 		$this->color = $color;
 		$this->drawTicks = $drawTicks;
+		$this->lineWidth = $lineWidth;
+		$this->lineDotSize = $lineDotSize;
 	}
 
 	static public function DefaultStyle() {
@@ -26,9 +32,21 @@ class ScaleStyle {
 		return $this->drawTicks;
 	}
 
+	public function getLineWidth() {
+		return $this->lineWidth;
+	}
+
+	public function getLineDotSize() {
+		return $this->lineDotSize;
+	}
+
 	private $scaleMode;
 
 	private $color;
 
 	private $drawTicks;
+
+	private $lineWidth;
+
+	private $lineDotSize;
 }

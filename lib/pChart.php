@@ -308,12 +308,14 @@ class pChart {
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
 								new Point($this->GArea_X1, $this->GArea_Y2),
 								$style->getColor(),
-								$this->LineWidth, $this->LineDotSize,
+								$style->getLineWidth(),
+								$style->getLineDotSize(),
 								$this->shadowProperties);
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y2), 
 								new Point($this->GArea_X2, $this->GArea_Y2),
 								$style->getColor(),
-								$this->LineWidth, $this->LineDotSize,
+								$style->getLineWidth(),
+								$style->getLineDotSize(),
 								$this->shadowProperties);
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
@@ -438,15 +440,15 @@ class pChart {
 				$this->canvas->drawLine(new Point($this->GArea_X2, $YPos),
 										new Point($this->GArea_X2 + 5, $YPos),
 										$style->getColor(),
-										$this->LineWidth,
-										$this->LineDotSize, 
+										$style->getLineWidth(),
+										$style->getLineDotSize(), 
 										$this->shadowProperties);
 			else
 				$this->canvas->drawLine(new Point($this->GArea_X1, $YPos),
 										new Point($this->GArea_X1 - 5, $YPos),
 										$style->getColor(),
-										$this->LineWidth,
-										$this->LineDotSize,
+										$style->getLineWidth(),
+										$style->getLineDotSize(),
 										$this->shadowProperties);
 			
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
@@ -520,8 +522,8 @@ class pChart {
 				$this->canvas->drawLine(new Point(floor($XPos), $this->GArea_Y2),
 										new Point(floor($XPos), $this->GArea_Y2 + 5),
 										$style->getColor(),
-										$this->LineWidth,
-										$this->LineDotSize,
+										$style->getLineWidth(),
+										$style->getLineDotSize(),
 										$this->shadowProperties);
 				$Value = $dataArray[$Key] [$Data->getDataDescription()->getPosition()];
 				$Value = $this->convertValueForDisplay($Value,
