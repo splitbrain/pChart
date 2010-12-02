@@ -88,7 +88,6 @@ class pChart {
 	protected $XDivisionRatio = NULL;
 	protected $DivisionWidth = NULL;
 	protected $DataCount = NULL;
-	protected $Currency = "\$";
 	
 	/* Text format related vars */
 	protected $FontName = NULL;
@@ -201,13 +200,6 @@ class pChart {
 	function setLineStyle($Width = 1, $DotSize = 0) {
 		$this->LineWidth = $Width;
 		$this->LineDotSize = $DotSize;
-	}
-	
-	/**
-	 * Set currency symbol 
-	 */
-	function setCurrency($Currency) {
-		$this->Currency = $Currency;
 	}
 	
 	/**
