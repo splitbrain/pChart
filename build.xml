@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<project name="pChart-PHP5" default="test">
+  <property name="tests.dir" value="tests" />
+  <property name="reports.dir" value="reports" />
+
+  <target name="test" description="Run PHPUnit Tests">
+    <phpunit haltonerror="true" haltonfailure="true" printsummary="true">
+      <batchtest>
+	<fileset dir="${tests.dir}">
+	  <include name="**/*Test.php" />
+	</fileset>
+      </batchtest>
+      
+      <formatter type="plain" usefile="false" />
+      <formatter type="xml" usefile="true" todir="${reports.dir}" outfile="test-results.xml" />
+    </phpunit>
+  </target>
+</project>
