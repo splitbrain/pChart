@@ -2,11 +2,18 @@
 <project name="pChart-PHP5" default="test">
   <property name="tests.dir" value="tests" />
   <property name="reports.dir" value="reports" />
+  <property name="documentation.dir" value="docs" />
 
   <target name="clean">
 	<delete>
 	  <fileset dir="${reports.dir}">
-		<include name="**/*.xml" />
+		<include name="**/*" />
+		<exclude name="**/.gitignore" />
+	  </fileset>
+
+	  <fileset dir="${documentation.dir}">
+		<include name="**/*" />
+		<exclude name="**/.gitignore" />
 	  </fileset>
 	</delete>
   </target>
@@ -22,5 +29,10 @@
       <formatter type="plain" usefile="false" />
       <formatter type="xml" usefile="true" todir="${reports.dir}" outfile="test-results.xml" />
     </phpunit>
+  </target>
+
+  <target name="documentation">
+	<exec command="phpdoc -t ${project.basedir}/docs -ti 'pChart' -ue on -s -d ./"
+		  dir="${project.basedir}/lib" />
   </target>
 </project>
