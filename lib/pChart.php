@@ -595,21 +595,21 @@ class pChart {
 	/**
 	 * Compute and draw the scale for X/Y charts 
 	 */
-	function drawXYScale(pData $Data, $YSerieName, $XSerieName, Color $color, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
+	function drawXYScale(pData $Data, ScaleStyle $style, $YSerieName, $XSerieName, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data->getData());
 		
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y1),
 								new Point($this->GArea_X1, $this->GArea_Y2),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
+								$style->getColor(),
+								$style->getLineWidth(),
+								$style->getLineDotSize(),
 								$this->shadowProperties);
 		$this->canvas->drawLine(new Point($this->GArea_X1, $this->GArea_Y2),
 								new Point($this->GArea_X2, $this->GArea_Y2),
-								$color,
-								$this->LineWidth,
-								$this->LineDotSize,
+								$style->getColor(),
+								$style->getLineWidth(),
+								$style->getLineDotSize(),
 								$this->shadowProperties);
 		
 		/* Process Y scale */
@@ -649,9 +649,9 @@ class pChart {
 		for($i = 1; $i <= $Divisions + 1; $i ++) {
 			$this->canvas->drawLine(new Point($this->GArea_X1, $YPos),
 									new Point($this->GArea_X1 - 5, $YPos),
-									$color,
-									$this->LineWidth,
-									$this->LineDotSize,
+									$style->getColor(),
+									$style->getLineWidth(),
+									$style->getLineDotSize(),
 									$this->shadowProperties);
 			$Value = $this->VMin + ($i - 1) * (($this->VMax - $this->VMin) / $Divisions);
 			$Value = round ( $Value * pow ( 10, $Decimals ) ) / pow ( 10, $Decimals );
@@ -665,7 +665,7 @@ class pChart {
 									0,
 									new Point($this->GArea_X1 - 10 - $TextWidth,
 											  $YPos + ($this->FontSize / 2)),
-									$color,
+									$style->getColor(),
 									$this->FontName,
 									$Value,
 									$this->shadowProperties);
@@ -712,9 +712,9 @@ class pChart {
 		for($i = 1; $i <= $XDivisions + 1; $i ++) {
 			$this->canvas->drawLine(new Point($XPos, $this->GArea_Y2),
 									new Point($XPos, $this->GArea_Y2 + 5),
-									$color,
-									$this->LineWidth,
-									$this->LineDotSize,
+									$style->getColor(),
+									$style->getLineWidth(),
+									$style->getLineDotSize(),
 									$this->shadowProperties);
 			
 			$Value = $this->VXMin + ($i - 1) * (($this->VXMax - $this->VXMin) / $XDivisions);
@@ -734,7 +734,7 @@ class pChart {
 										$Angle,
 										new Point(floor ( $XPos ) - floor ( $TextWidth / 2 ),
 												  $YPos),
-										$color,
+										$style->getColor(),
 										$this->FontName,
 										$Value,
 										$this->shadowProperties);
@@ -745,7 +745,7 @@ class pChart {
 											$Angle,
 											new Point(floor ( $XPos ) - $TextWidth + 5,
 													  $YPos),
-											$color,
+											$style->getColor(),
 											$this->FontName,
 											$Value,
 											$this->shadowProperties);
@@ -755,7 +755,7 @@ class pChart {
 											$Angle,
 											new Point(floor ( $XPos ) + $TextWidth + 5,
 													  $YPos),
-											$color,
+											$style->getColor(),
 											$this->FontName,
 											$Value,
 											$this->shadowProperties);
@@ -779,7 +779,7 @@ class pChart {
 									90,
 									new Point($XMin - $this->FontSize, 
 											  $TextTop),
-									$color, 
+									$style->getColor(), 
 									$this->FontName,
 									$Data->getDataDescription()->getYAxisName(),
 									$this->shadowProperties);
@@ -794,7 +794,7 @@ class pChart {
 									0,
 									new Point($TextLeft,
 											  $YMax + $this->FontSize + 5),
-									$color,
+									$style->getColor(),
 									$this->FontName,
 									$Data->getDataDescription()->getXAxisName(),
 									$this->shadowProperties);

@@ -170,8 +170,11 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Prepare the graph area
 		$Test->setFontProperties("Fonts/tahoma.ttf",8);
 		$Test->setGraphArea(55,30,270,230);
-		$Test->drawXYScale($DataSet,"Serie1","Serie2",
-						   new Color(213,217,221),
+		$scaleStyle = new ScaleStyle(SCALE_NORMAL,
+									 new Color(213, 217, 221));
+		$Test->drawXYScale($DataSet,
+						   $scaleStyle,
+						   "Serie1","Serie2",
 						   TRUE,45);
 		
 		$backgroundStyle = new BackgroundStyle(new Color(213,217,221),
@@ -379,10 +382,12 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$chart = new pChart(300, 300, $canvas);
 		$chart->setFontProperties('Fonts/tahoma.ttf', 8);
 		$chart->setGraphArea(55, 30, 270, 230);
+		$scaleStyle = new ScaleStyle(SCALE_NORMAL,
+									 new Color(213, 217, 221));
 		$chart->drawXYScale($dataSet,
+							$scaleStyle,
 							'Y',
 							'X',
-							new Color(213, 217, 221),
 							TRUE, 45);
 
 		$backgroundStyle = new BackgroundStyle(new Color(213, 217, 221), FALSE);
