@@ -59,7 +59,7 @@ class ConversionHelpers {
 			return ($Go . "." . $Mo . "g");
 		}
 		if ($Mo != 0) {
-			return ($Mo . "." . $ko . "m");
+			return ($Mo . "." . $Ko . "m");
 		}
 		if ($Ko != 0) {
 			return ($Ko . "." . $o) . "k";
