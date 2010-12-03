@@ -3459,7 +3459,7 @@ class pChart {
 			foreach ( $this->Errors as $key => $Value )
 				echo $Value . "\r\n";
 		} elseif ($Mode == "GD") {
-			$this->setLineStyle ( $Width = 1 );
+			$this->setLineStyle($Width);
 			$MaxWidth = 0;
 			foreach ( $this->Errors as $key => $Value ) {
 				$Position = imageftbbox ( $this->ErrorFontSize, 0, $this->ErrorFontName, $Value );
