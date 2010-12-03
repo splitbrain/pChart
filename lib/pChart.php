@@ -3564,7 +3564,7 @@ class pChart {
 			$this->Errors [] = "[Warning] SaveImageMap - Cannot save the image map.";
 			return (- 1);
 		} else {
-			foreach ( $this->ImageMap as $Key => $Value )
+			foreach ( $this->ImageMap as $Value )
 				fwrite ( $Handle, htmlentities ( $Value ) . "\r" );
 		}
 		fclose ( $Handle );
