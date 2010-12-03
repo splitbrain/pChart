@@ -175,7 +175,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->drawXYScale($DataSet,
 						   $scaleStyle,
 						   "Serie1","Serie2",
-						   TRUE,45);
+						   45);
 		
 		$backgroundStyle = new BackgroundStyle(new Color(213,217,221),
 											   FALSE,
@@ -388,7 +388,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							$scaleStyle,
 							'Y',
 							'X',
-							TRUE, 45);
+							45);
 
 		$backgroundStyle = new BackgroundStyle(new Color(213, 217, 221), FALSE);
 

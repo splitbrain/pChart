@@ -595,7 +595,7 @@ class pChart {
 	/**
 	 * Compute and draw the scale for X/Y charts 
 	 */
-	function drawXYScale(pData $Data, ScaleStyle $style, $YSerieName, $XSerieName, $WithMargin = 0, $Angle = 0, $Decimals = 1) {
+	function drawXYScale(pData $Data, ScaleStyle $style, $YSerieName, $XSerieName, $Angle = 0, $Decimals = 1) {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawScale", $Data->getData());
 		
