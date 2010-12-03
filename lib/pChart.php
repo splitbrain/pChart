@@ -802,7 +802,6 @@ class pChart {
 	}
 
 	private function drawGridMosaic(GridStyle $style, $divisionCount, $divisionHeight) {
-		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 			
 		$YPos = $LayerHeight - 1; //$this->GArea_Y2-1;
@@ -3627,7 +3626,6 @@ class pChart {
 			while ( ! $ScaleOk ) {
 				$Scale1 = ($this->VMax - $this->VMin) / $Factor;
 				$Scale2 = ($this->VMax - $this->VMin) / $Factor / 2;
-				$Scale4 = ($this->VMax - $this->VMin) / $Factor / 4;
 
 				if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
 					$ScaleOk = TRUE;
@@ -3668,7 +3666,7 @@ class pChart {
 		$min = $data[0][$seriesName];
 		$max = $data[0][$seriesName];
 
-		foreach ($data as $key => $values) {
+		foreach (array_keys($data) as $key) {
 			if (isset($data[$key][$seriesName])) {
 				$value = $data[$key][$seriesName];
 
@@ -3698,7 +3696,6 @@ class pChart {
 			while ( ! $ScaleOk ) {
 				$Scale1 = ($maxVal - $minVal) / $Factor;
 				$Scale2 = ($maxVal - $minVal) / $Factor / 2;
-				$Scale4 = ($maxVal - $minVal) / $Factor / 4;
 					
 				if ($Scale1 > 1 && $Scale1 <= $MaxDivs && ! $ScaleOk) {
 					$ScaleOk = TRUE;
