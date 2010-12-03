@@ -3340,16 +3340,6 @@ class pChart {
 	}
 	
 	/**
-	 * Draw an alpha pixel 
-	 */
-	private function drawAlphaPixel($X, $Y, $Alpha, Color $color) {
-		if ($X < 0 || $Y < 0 || $X >= $this->XSize || $Y >= $this->YSize)
-			return (- 1);
-
-		return $this->canvas->drawAlphaPixel(new Point($X, $Y), $Alpha, $color);
-	}
-	
-	/**
 	 * Add a border to the picture 
 	 *
 	 * @todo This hasn't been updated to the new API yet
