@@ -3349,7 +3349,7 @@ class pChart {
 		$Height = $this->YSize + 2 * $Size;
 		
 		$Resampled = imagecreatetruecolor ( $Width, $Height );
-		$C_Background = imagecolorallocate($Resmpled, $R, $G, $B);
+		$C_Background = imagecolorallocate($Resampled, $R, $G, $B);
 		imagefilledrectangle ( $Resampled, 0, 0, $Width, $Height, $C_Background );
 		
 		imagecopy ( $Resampled, $this->canvas->getPicture(), $Size, $Size, 0, 0, $this->XSize, $this->YSize );
