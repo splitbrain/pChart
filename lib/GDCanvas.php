@@ -102,8 +102,6 @@ class GDCanvas implements ICanvas {
 	}
 
 	public function drawRectangle(Point $corner1, Point $corner2, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties) {
-		$C_Rectangle = $this->allocateColor($color);
-		
 		$X1 = $corner1->getX() - .2;
 		$Y1 = $corner1->getY() - .2;
 		$X2 = $corner2->getX() + .2;
@@ -139,8 +137,6 @@ class GDCanvas implements ICanvas {
 	}
 
 	public function drawRoundedRectangle(Point $point1, Point $point2, $radius, Color $color, $lineWidth, $lineDotSize, ShadowProperties $shadowProperties) {
-		$C_Rectangle = $this->allocateColor($color);
-		
 		$Step = 90 / ((M_PI * $radius) / 2);
 		
 		for($i = 0; $i <= 90; $i = $i + $Step) {
@@ -413,7 +409,6 @@ class GDCanvas implements ICanvas {
 			}
 		}
 		
-		$Plot = "";
 		$Xi = floor ( $point->getX() );
 		$Yi = floor ( $point->getY() );
 		
