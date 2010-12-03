@@ -3121,7 +3121,7 @@ class pChart {
 	}
 
 	private function drawPieGraphBottomPolygons(array $iValues, array $BotPlots, $EnhanceColors, array $aBotPlots) {
-		foreach ( $iValues as $Key => $Value ) {
+		foreach (array_keys($iValues) as $Key) {
 			$this->canvas->drawFilledPolygon($BotPlots [$Key],
 											 (count ( $BotPlots [$Key] ) + 1) / 2,
 											 $this->palette->colors[$Key]->addRGBIncrement(-20));
@@ -3152,10 +3152,10 @@ class pChart {
 			$ColorRatio = 25 / $SpliceHeight;
 		}
 		for($i = $SpliceHeight - 1; $i >= 1; $i --) {
-			foreach ( $iValues as $Key => $Value ) {
+			foreach (array_keys($iValues) as $Key) {
 				$Plots = "";
 				$Plot = 0;
-				foreach ( $TopPlots [$Key] as $Key2 => $Value2 ) {
+				foreach ( $TopPlots [$Key] as $Value2 ) {
 					$Plot ++;
 					if ($Plot % 2 == 1)
 						$Plots [] = $Value2;
