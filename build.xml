@@ -19,20 +19,26 @@
   </target>
 
   <target name="test" description="Run PHPUnit Tests">
+	<mkdir dir="${reports.dir}/phpunit" />
     <phpunit haltonerror="true" haltonfailure="true" printsummary="true">
       <batchtest>
-	<fileset dir="${tests.dir}">
-	  <include name="**/*Test.php" />
-	</fileset>
+		<fileset dir="${tests.dir}">
+		  <include name="**/*Test.php" />
+		</fileset>
       </batchtest>
       
       <formatter type="plain" usefile="false" />
-      <formatter type="xml" usefile="true" todir="${reports.dir}" outfile="test-results.xml" />
+      <formatter type="xml" usefile="true" todir="${reports.dir}/phpunit" outfile="test-results.xml" />
     </phpunit>
   </target>
 
   <target name="documentation">
 	<exec command="phpdoc -t ${project.basedir}/docs -ti 'pChart' -ue on -s -d ./"
 		  dir="${project.basedir}/lib" />
+  </target>
+
+  <target name="phpmd">
+	<mkdir dir="${reports.dir}/phpmd" />
+	<exec command="phpmd lib xml unusedcode --reportfile ${reports.dir}/phpmd/unusedcode.xml" />
   </target>
 </project>
