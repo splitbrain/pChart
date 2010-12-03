@@ -400,6 +400,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 								'Y',
 								'X');
 
+		file_put_contents(dirname(__FILE__).'/action_logs/testDrawXYPlotGraph',
+						  $canvas->getActionLog());
+
 		$this->assertEquals('a769bf6298734bb20665fc27f7f462ab',
 							md5($canvas->getActionLog()));
 	}
