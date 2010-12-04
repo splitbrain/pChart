@@ -2848,10 +2848,10 @@ class pChart {
 		/* Determine pie sum */
 		$Series = 0;
 		$PieSum = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			if ($ColName != $DataDescription->getPosition()) {
 				$Series ++;
-				foreach ( $Data as $Key => $Values ) {
+				foreach (array_keys($Data) as $Key) {
 					if (isset ( $Data [$Key] [$ColName] ))
 						$PieSum = $PieSum + $Data [$Key] [$ColName];
 					$iValues [] = $Data [$Key] [$ColName];
@@ -2993,11 +2993,11 @@ class pChart {
 		$Series = 0;
 		$PieSum = 0;
 		$rPieSum = 0;
-		foreach ($data->getDataDescription()->values as $Key2 => $ColName ) {
+		foreach ($data->getDataDescription()->values as $ColName ) {
 			if ($ColName != $data->getDataDescription()->getPosition()) {
 				$Series ++;
 				$dataArray = $data->getData();
-				foreach ( $dataArray as $Key => $Values ) {
+				foreach (array_keys($dataArray) as $Key) {
 					if (isset ( $dataArray[$Key] [$ColName] )) {
 						if ($dataArray[$Key] [$ColName] == 0) {
 							$iValues [] = 0;
@@ -3459,7 +3459,6 @@ class pChart {
 			foreach ( $this->Errors as $key => $Value )
 				echo $Value . "\r\n";
 		} elseif ($Mode == "GD") {
-			$this->setLineStyle($Width);
 			$MaxWidth = 0;
 			foreach ( $this->Errors as $key => $Value ) {
 				$Position = imageftbbox ( $this->ErrorFontSize, 0, $this->ErrorFontName, $Value );
