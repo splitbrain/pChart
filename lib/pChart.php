@@ -2524,7 +2524,7 @@ class pChart {
 	private function calculateMaxValue($Data, $DataDescription) {
 		$MaxValue = -1;
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] ))
 					if ($Data [$Key] [$ColName] > $MaxValue && is_numeric($Data[$Key][$ColName])) {
 						$MaxValue = $Data [$Key] [$ColName];
@@ -2553,19 +2553,19 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
+			foreach (array_keys($DataDescription->description) as $keyI) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
-				;
+
 				$ID ++;
 			}
 			
 			$Angle = - 90;
 			$XLast = - 1;
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					$Value = $Data [$Key] [$ColName];
 					$Strength = ($Radius / $MaxValue) * $Value;
@@ -2614,8 +2614,6 @@ class pChart {
 		$this->validateData ( "drawFilledRadar", $Data );
 		
 		$Points = count ( $Data );
-		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
-		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		$Radius = ($this->GArea_Y2 - $this->GArea_Y1) / 2 - $BorderOffset;
 		$XCenter = ($this->GArea_X2 - $this->GArea_X1) / 2;
 		$YCenter = ($this->GArea_Y2 - $this->GArea_Y1) / 2;
@@ -2626,7 +2624,7 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ID = 0;
 			foreach (array_keys($DataDescription->description) as $keyI) {
 				if ($keyI == $ColName) {
