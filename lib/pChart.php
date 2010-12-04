@@ -2628,18 +2628,18 @@ class pChart {
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
+			foreach (array_keys($DataDescription->description) as $keyI) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
-				;
+				
 				$ID ++;
 			}
 			
 			$Angle = - 90;
 			$XLast = - 1;
 			$Plots = array();
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					$Value = $Data [$Key] [$ColName];
 					if (! is_numeric ( $Value )) {
@@ -2655,7 +2655,6 @@ class pChart {
 					
 					$Angle = $Angle + (360 / $Points);
 					$XLast = $XPos;
-					$YLast = $YPos;
 				}
 			}
 			
@@ -2705,7 +2704,7 @@ class pChart {
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			if ($ColName != $DataDescription->getPosition()) {
 				$Series ++;
-				foreach ( $Data as $Key => $Values ) {
+				foreach (array_keys($Data) as $Key) {
 					if (isset ( $Data [$Key] [$ColName] ))
 						$PieSum = $PieSum + $Data [$Key] [$ColName];
 					$iValues [] = $Data [$Key] [$ColName];
@@ -2783,7 +2782,7 @@ class pChart {
 		
 		/* Set array values type to float --- PHP Bug with imagefilledpolygon casting to integer */
 		foreach ( $TopPlots as $Key => $Value ) {
-			foreach ( $TopPlots [$Key] as $Key2 => $Value2 ) {
+			foreach (array_keys($TopPlots[$Key]) as $Key2) {
 				settype ( $TopPlots [$Key] [$Key2], "float" );
 			}
 		}
