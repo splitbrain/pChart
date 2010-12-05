@@ -2211,7 +2211,7 @@ class pChart {
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset - $SeriesWidth / 2;
 			$XLast = - 1;
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					if (is_numeric ( $Data [$Key] [$ColName] )) {
 						$Value = $Data [$Key] [$ColName];
@@ -2261,13 +2261,13 @@ class pChart {
 		$XWidth = $this->DivisionWidth / 4;
 		$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 		
-		foreach ( $Data as $Key => $Values ) {
+		foreach (array_keys($Data) as $Key) {
 			$Min = $Data [$Key] [$DataDescription->values[0]];
 			$Max = $Data [$Key] [$DataDescription->values[0]];
 			$GraphID = 0;
 			$MaxID = 0;
 			$MinID = 0;
-			foreach ( $DataDescription->values as $Key2 => $ColName ) {
+			foreach ( $DataDescription->values as $ColName ) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					if ($Data [$Key] [$ColName] > $Max && is_numeric ( $Data [$Key] [$ColName] )) {
 						$Max = $Data [$Key] [$ColName];
@@ -2362,8 +2362,8 @@ class pChart {
 		
 		/* Search for the max value */
 		if ($MaxValue == - 1) {
-			foreach ( $DataDescription->values as $Key2 => $ColName ) {
-				foreach ( $Data as $Key => $Values ) {
+			foreach ( $DataDescription->values as $ColName ) {
+				foreach (array_keys($Data) as $Key) {
 					if (isset ( $Data [$Key] [$ColName] ))
 						if ($Data [$Key] [$ColName] > $MaxValue) {
 							$MaxValue = $Data [$Key] [$ColName];
@@ -2523,7 +2523,7 @@ class pChart {
 	
 	private function calculateMaxValue($Data, $DataDescription) {
 		$MaxValue = -1;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] ))
 					if ($Data [$Key] [$ColName] > $MaxValue && is_numeric($Data[$Key][$ColName])) {
