@@ -1537,7 +1537,7 @@ class pChart {
 		$this->validateData ( "drawLineGraph", $Data );
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			if ($SerieName == "" || $SerieName == $ColName) {
@@ -1909,7 +1909,7 @@ class pChart {
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$aPoints = array();
@@ -1998,11 +1998,10 @@ class pChart {
 		$this->validateDataDescription ( "drawOverlayBarGraph", $DataDescription );
 		$this->validateData ( "drawOverlayBarGraph", $Data );
 		
-		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$XWidth = $this->DivisionWidth / 4;
