@@ -1301,15 +1301,8 @@ class pChart {
 		$GraphID = 0;
 		$colorO = $color2;
 		
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
-			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+		foreach ( $DataDescription->values as $ColName ) {
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$color = $this->palette->colors[$ColorID];
 			$color2 = $colorO;
@@ -1506,14 +1499,7 @@ class pChart {
 		}
 		
 		foreach ( $Series as $Key => $Serie ) {
-			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
-				if ($keyI == $Serie) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($Serie);
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 			$XLast = - 1;
@@ -1552,14 +1538,7 @@ class pChart {
 		
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
-			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			if ($SerieName == "" || $SerieName == $ColName) {
 				$XPos = $this->GArea_X1 + $this->GAreaXOffset;
@@ -1652,14 +1631,7 @@ class pChart {
 				$XIn [0] = 0;
 				$YIn [0] = 0;
 				
-				$ID = 0;
-				foreach ( $DataDescription->description as $keyI => $ValueI ) {
-					if ($keyI == $ColName) {
-						$ColorID = $ID;
-					}
-					;
-					$ID ++;
-				}
+				$ColorID = $DataDescription->getColumnIndex($ColName);
 				
 				$Index = 1;
 				$XLast = - 1;
@@ -1782,14 +1754,7 @@ class pChart {
 			$XIn [0] = 0;
 			$YIn [0] = 0;
 			
-			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$Index = 1;
 			$XLast = - 1;
@@ -1945,14 +1910,7 @@ class pChart {
 		
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
-			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$aPoints = array();
 			$aPoints [] = $this->GAreaXOffset + $this->GArea_X1;
@@ -2045,14 +2003,7 @@ class pChart {
 		
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
-			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$XWidth = $this->DivisionWidth / 4;
 			$XPos = $this->GAreaXOffset;
@@ -2128,16 +2079,10 @@ class pChart {
 		}
 		
 		$SerieID = 0;
+
 		foreach ( $DataDescription->values as $ColName ) {
-			$ID = 0;
-			foreach (array_keys($DataDescription->description) as $keyI) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
-			
+			$ColorID = $DataDescription->getColumnIndex($ColName);
+
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset - $SerieXOffset + $SeriesWidth * $SerieID;
 			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
@@ -2196,14 +2141,7 @@ class pChart {
 		$SerieID = 0;
 		$LastValue = "";
 		foreach ( $DataDescription->values as $ColName ) {
-			$ID = 0;
-			foreach (array_keys($DataDescription->description) as $keyI) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				;
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset - $SeriesWidth / 2;
 			foreach (array_keys($Data) as $Key) {
@@ -2549,15 +2487,8 @@ class pChart {
 		
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $ColName ) {
-			$ID = 0;
-			foreach (array_keys($DataDescription->description) as $keyI) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 
-				$ID ++;
-			}
-			
 			$Angle = - 90;
 			$XLast = - 1;
 			foreach (array_keys($Data) as $Key) {
@@ -2620,14 +2551,7 @@ class pChart {
 		
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $ColName ) {
-			$ID = 0;
-			foreach (array_keys($DataDescription->description) as $keyI) {
-				if ($keyI == $ColName) {
-					$ColorID = $ID;
-				}
-				
-				$ID ++;
-			}
+			$ColorID = $DataDescription->getColumnIndex($ColName);
 			
 			$Angle = - 90;
 			$XLast = - 1;

@@ -84,6 +84,17 @@ class DataDescription {
 		return $this->yUnit;
 	}
 
+	public function getColumnIndex($columnName) {
+		$ID = 0;
+		foreach (array_keys($this->description) as $keyI) {
+			if ($keyI == $columnName) {
+				return $ID;
+			}
+
+			$ID ++;
+		}
+	}
+
 	private $position;
 	private $xFormat;
 	private $yFormat;
