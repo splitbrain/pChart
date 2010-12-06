@@ -2118,7 +2118,6 @@ class pChart {
 		$this->validateDataDescription ( "drawBarGraph", $DataDescription );
 		$this->validateData ( "drawBarGraph", $Data );
 		
-		$GraphID = 0;
 		$Series = count ( $DataDescription->values);
 		$SeriesWidth = $this->DivisionWidth / ($Series + 1);
 		$SerieXOffset = $this->DivisionWidth / 2 - $SeriesWidth / 2;
@@ -2129,9 +2128,9 @@ class pChart {
 		}
 		
 		$SerieID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
+			foreach (array_keys($DataDescription->description) as $keyI) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -2140,8 +2139,7 @@ class pChart {
 			}
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset - $SerieXOffset + $SeriesWidth * $SerieID;
-			$XLast = - 1;
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					if (is_numeric ( $Data [$Key] [$ColName] )) {
 						$Value = $Data [$Key] [$ColName];
@@ -2185,8 +2183,6 @@ class pChart {
 		$this->validateDataDescription ( "drawBarGraph", $DataDescription );
 		$this->validateData ( "drawBarGraph", $Data );
 		
-		$GraphID = 0;
-		$Series = count ( $DataDescription->values);
 		if ($Contiguous)
 			$SeriesWidth = $this->DivisionWidth;
 		else
@@ -2199,9 +2195,9 @@ class pChart {
 		
 		$SerieID = 0;
 		$LastValue = "";
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $DataDescription->values as $ColName ) {
 			$ID = 0;
-			foreach ( $DataDescription->description as $keyI => $ValueI ) {
+			foreach (array_keys($DataDescription->description) as $keyI) {
 				if ($keyI == $ColName) {
 					$ColorID = $ID;
 				}
@@ -2210,7 +2206,6 @@ class pChart {
 			}
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset - $SeriesWidth / 2;
-			$XLast = - 1;
 			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					if (is_numeric ( $Data [$Key] [$ColName] )) {
