@@ -1929,7 +1929,7 @@ class pChart {
 			}
 			
 			$YLast = $Empty;
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				$Value = $Data [$Key] [$ColName];
 				$YPos = $LayerHeight - (($Value - $this->VMin) * $this->DivisionRatio);
 				
@@ -2011,9 +2011,7 @@ class pChart {
 			$XWidth = $this->DivisionWidth / 4;
 			$XPos = $this->GAreaXOffset;
 			$YZero = $LayerHeight - ((0 - $this->VMin) * $this->DivisionRatio);
-			$XLast = - 1;
-			$PointsCount = 2;
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				if (isset ( $Data [$Key] [$ColName] )) {
 					$Value = $Data [$Key] [$ColName];
 					if (is_numeric ( $Value )) {
