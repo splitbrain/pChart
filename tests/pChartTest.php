@@ -243,7 +243,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 							TRUE,TRUE);
 		
 		// Draw the cubic curve graph
-		$Test->drawFilledCubicCurve($DataSet->GetData(),$DataSet->GetDataDescription(),.1,50);
+		$Test->drawFilledCubicCurve($DataSet, .1, 50);
 		
 		// Finish the graph
 		$Test->setFontProperties("Fonts/tahoma.ttf",8);

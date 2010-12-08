@@ -1737,10 +1737,11 @@ class pChart {
 	/**
 	 * This function draw a filled cubic curve
 	 */
-	function drawFilledCubicCurve($Data, $DataDescription, $Accuracy = .1, $Alpha = 100, $AroundZero = FALSE) {
+	function drawFilledCubicCurve(pData $data, $Accuracy = .1, $Alpha = 100, $AroundZero = FALSE) {
 		/* Validate the Data and DataDescription array */
-		$this->validateDataDescription ( "drawFilledCubicCurve", $DataDescription );
-		$this->validateData ( "drawFilledCubicCurve", $Data );
+		$this->validateDataDescription("drawFilledCubicCurve",
+									   $data->getDataDescription());
+		$this->validateData ( "drawFilledCubicCurve", $data->getData() );
 		
 		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
@@ -1750,7 +1751,7 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ($DataDescription->values as $ColName) {
+		foreach ($data->getDataDescription()->values as $ColName) {
 			$XIn = array();
 			$YIn = array();
 			$Yt = "";
@@ -1758,13 +1759,14 @@ class pChart {
 			$XIn [0] = 0;
 			$YIn [0] = 0;
 			
-			$ColorID = $DataDescription->getColumnIndex($ColName);
+			$ColorID = $data->getDataDescription()->getColumnIndex($ColName);
 			
 			$Index = 1;
 			$XLast = - 1;
 			$Missing = "";
-			foreach (array_keys($Data) as $Key) {
-				$Value = $Data [$Key] [$ColName];
+			$dataArray = $data->getData();
+			foreach (array_keys($dataArray) as $Key) {
+				$Value = $dataArray[$Key] [$ColName];
 				$XIn [$Index] = $Index;
 				$YIn [$Index] = $Value;
 				if (! is_numeric ( $Value )) {
@@ -1893,7 +1895,7 @@ class pChart {
 												 $Alpha);
 			}
 			
-			$this->drawCubicCurve ( $Data, $DataDescription, $Accuracy, $ColName );
+			$this->drawCubicCurve ( $data->getData(), $data->getDataDescription(), $Accuracy, $ColName );
 			
 			$GraphID ++;
 		}
