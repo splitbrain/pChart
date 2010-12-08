@@ -1630,7 +1630,7 @@ class pChart {
 		$graphAreaMax = new Point($this->GArea_X2, $this->GArea_Y2);
 
 		$GraphID = 0;
-		foreach ( $data->getDataDescription()->values as $Key2 => $ColName ) {
+		foreach ( $data->getDataDescription()->values as $ColName ) {
 			if ($SerieName == "" || $SerieName == $ColName) {
 				/** @todo The next section of code has been duplicated by 
 				 * copy & paste */
