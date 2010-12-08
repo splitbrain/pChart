@@ -1628,8 +1628,8 @@ class pChart {
 		$GraphID = 0;
 		foreach ( $DataDescription->values as $Key2 => $ColName ) {
 			if ($SerieName == "" || $SerieName == $ColName) {
-				$XIn = "";
-				$Yin = "";
+				$XIn = array();
+				$YIn = array();
 				$Yt = "";
 				$U = "";
 				$XIn [0] = 0;
@@ -1640,7 +1640,7 @@ class pChart {
 				$Index = 1;
 				$XLast = - 1;
 				$Missing = "";
-				foreach ( $Data as $Key => $Values ) {
+				foreach (array_keys($Data) as $Key) {
 					if (isset ( $Data [$Key] [$ColName] )) {
 						$Value = $Data [$Key] [$ColName];
 						$XIn [$Index] = $Index;
@@ -1750,9 +1750,9 @@ class pChart {
 		}
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
-			$XIn = "";
-			$Yin = "";
+		foreach ($DataDescription->values as $ColName) {
+			$XIn = array();
+			$YIn = array();
 			$Yt = "";
 			$U = "";
 			$XIn [0] = 0;
@@ -1763,7 +1763,7 @@ class pChart {
 			$Index = 1;
 			$XLast = - 1;
 			$Missing = "";
-			foreach ( $Data as $Key => $Values ) {
+			foreach (array_keys($Data) as $Key) {
 				$Value = $Data [$Key] [$ColName];
 				$XIn [$Index] = $Index;
 				$YIn [$Index] = $Value;
