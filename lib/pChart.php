@@ -1626,6 +1626,9 @@ class pChart {
 									   $data->getDataDescription());
 		$this->validateData ( "drawCubicCurve", $data->getData() );
 		
+		$graphAreaMin = new Point($this->GArea_X1, $this->GArea_Y1);
+		$graphAreaMax = new Point($this->GArea_X2, $this->GArea_Y2);
+
 		$GraphID = 0;
 		foreach ( $data->getDataDescription()->values as $Key2 => $ColName ) {
 			if ($SerieName == "" || $SerieName == $ColName) {
@@ -1692,10 +1695,8 @@ class pChart {
 												$this->LineWidth,
 												$this->LineDotSize,
 												$this->shadowProperties,
-												new Point($this->GArea_X1,
-														  $this->GArea_Y1),
-												new Point($this->GArea_X2,
-														  $this->GArea_Y2));
+												$graphAreaMin,
+												$graphAreaMax);
 					
 					$XLast = $XPos;
 					$YLast = $YPos;
@@ -1714,10 +1715,8 @@ class pChart {
 											$this->LineWidth,
 											$this->LineDotSize,
 											$this->shadowProperties,
-											new Point($this->GArea_X1,
-													  $this->GArea_Y1),
-											new Point($this->GArea_X2,
-													  $this->GArea_Y2));
+											$graphAreaMin,
+											$graphAreaMax);
 				}
 				
 				$GraphID ++;
