@@ -1059,7 +1059,11 @@ class pChart {
 	 * @todo Should we pass in a ShadowProperties object here? Or is
 	 * this a public function?
 	 */
-	function drawTitle($XPos, $YPos, $Value, Color $color, $XPos2 = -1, $YPos2 = -1, $Shadow = FALSE) {
+	function drawTitle($XPos, $YPos, $Value, Color $color, $XPos2 = -1, $YPos2 = -1, ShadowProperties $shadowProperties = null) {
+		if ($shadowProperties == null) {
+			$shadowProperties = ShadowProperties::NoShadow();
+		}
+
 		if ($XPos2 != - 1) {
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
@@ -1078,7 +1082,7 @@ class pChart {
 								$color,
 								$this->FontName,
 								$Value,
-								$this->shadowProperties);
+								$shadowProperties);
 	}
 	
 	/**
@@ -1388,7 +1392,7 @@ class pChart {
 	/**
 	 * This function draw a plot graph in an X/Y space 
 	 */
-	function drawXYPlotGraph($Data, $DataDescription, $YSerieName, $XSerieName, $PaletteID = 0, $BigRadius = 5, $SmallRadius = 2, Color $color2 = null, $Shadow = TRUE) {
+	function drawXYPlotGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0, $BigRadius = 5, $SmallRadius = 2, Color $color2 = null, $Shadow = TRUE) {
 		$color = $this->palette->colors[$PaletteID];
 		
 		$color3 = null;
@@ -1583,7 +1587,7 @@ class pChart {
 	/**
 	 * This function draw a line graph 
 	 */
-	function drawXYGraph($Data, $DataDescription, $YSerieName, $XSerieName, $PaletteID = 0) {
+	function drawXYGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0) {
 		$YLast = - 1;
 		$XLast = - 1;
 		foreach ( $Data as $Key => $Values ) {

@@ -189,7 +189,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setShadowProperties(2,2,
 								   new Color(0,0,0),
 								   60,4);
-		$Test->drawXYGraph($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie1","Serie2",0);
+		$Test->drawXYGraph($DataSet->GetData(),"Serie1","Serie2",0);
 		$Test->clearShadow();
 		
 		// Draw the title
@@ -396,7 +396,6 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$chart->drawGrid(new GridStyle(4, TRUE, new Color(230, 230, 230), 20));
 
 		$chart->drawXYPlotGraph($dataSet->getData(),
-								$dataSet->getDataDescription(),
 								'Y',
 								'X');
 
