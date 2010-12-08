@@ -196,4 +196,26 @@ class pData {
 	public function getDataDescription() {
 		return $this->dataDescription;
 	}
+
+	/**
+	 * Ugly interface, but this is a step towards refactoring
+	 * duplicated code
+	 */
+	public function getXYMap($colName, array &$xIn, array & $yIn, array & $missing, & $index) {
+		$xIn [0] = 0;
+		$yIn [0] = 0;
+
+		foreach (array_keys($this->Data) as $Key) {
+			if (isset ( $this->Data[$Key] [$colName] )) {
+				$Value = $this->Data[$Key] [$colName];
+				$xIn [$index] = $index;
+				$yIn [$index] = $Value;
+				if (! is_numeric ( $Value )) {
+					$missing [$Index] = TRUE;
+				}
+				$index ++;
+			}
+		}
+		$index --;
+	}
 }

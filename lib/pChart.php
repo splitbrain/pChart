@@ -1635,27 +1635,14 @@ class pChart {
 				$YIn = array();
 				$Yt = "";
 				$U = "";
-				$XIn [0] = 0;
-				$YIn [0] = 0;
 				
 				$ColorID = $data->getDataDescription()->getColumnIndex($ColName);
 				
 				$Index = 1;
 				$XLast = - 1;
-				$Missing = "";
-				$dataArray = $data->getData();
-				foreach (array_keys($dataArray) as $Key) {
-					if (isset ( $dataArray[$Key] [$ColName] )) {
-						$Value = $dataArray[$Key] [$ColName];
-						$XIn [$Index] = $Index;
-						$YIn [$Index] = $Value;
-						if (! is_numeric ( $Value )) {
-							$Missing [$Index] = TRUE;
-						}
-						$Index ++;
-					}
-				}
-				$Index --;
+				$Missing = array();
+
+				$data->getXYMap($ColName, $XIn, $YIn, $Missing, $Index);
 				
 				$Yt [0] = 0;
 				$Yt [1] = 0;
@@ -1760,25 +1747,14 @@ class pChart {
 			$YIn = array();
 			$Yt = "";
 			$U = "";
-			$XIn [0] = 0;
-			$YIn [0] = 0;
 			
 			$ColorID = $data->getDataDescription()->getColumnIndex($ColName);
 			
 			$Index = 1;
 			$XLast = - 1;
-			$Missing = "";
-			$dataArray = $data->getData();
-			foreach (array_keys($dataArray) as $Key) {
-				$Value = $dataArray[$Key] [$ColName];
-				$XIn [$Index] = $Index;
-				$YIn [$Index] = $Value;
-				if (! is_numeric ( $Value )) {
-					$Missing [$Index] = TRUE;
-				}
-				$Index ++;
-			}
-			$Index --;
+			$Missing = array();
+
+			$data->getXYMap($ColName, $XIn, $YIn, $Missing, $Index);
 			
 			$Yt [0] = 0;
 			$Yt [1] = 0;
