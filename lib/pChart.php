@@ -1620,13 +1620,14 @@ class pChart {
 	/**
 	 * This function draw a cubic curve 
 	 */
-	function drawCubicCurve($Data, $DataDescription, $Accuracy = .1, $SerieName = "") {
+	function drawCubicCurve(pData $data, $Accuracy = .1, $SerieName = "") {
 		/* Validate the Data and DataDescription array */
-		$this->validateDataDescription ( "drawCubicCurve", $DataDescription );
-		$this->validateData ( "drawCubicCurve", $Data );
+		$this->validateDataDescription("drawCubicCurve",
+									   $data->getDataDescription());
+		$this->validateData ( "drawCubicCurve", $data->getData() );
 		
 		$GraphID = 0;
-		foreach ( $DataDescription->values as $Key2 => $ColName ) {
+		foreach ( $data->getDataDescription()->values as $Key2 => $ColName ) {
 			if ($SerieName == "" || $SerieName == $ColName) {
 				$XIn = array();
 				$YIn = array();
@@ -1635,14 +1636,15 @@ class pChart {
 				$XIn [0] = 0;
 				$YIn [0] = 0;
 				
-				$ColorID = $DataDescription->getColumnIndex($ColName);
+				$ColorID = $data->getDataDescription()->getColumnIndex($ColName);
 				
 				$Index = 1;
 				$XLast = - 1;
 				$Missing = "";
-				foreach (array_keys($Data) as $Key) {
-					if (isset ( $Data [$Key] [$ColName] )) {
-						$Value = $Data [$Key] [$ColName];
+				$dataArray = $data->getData();
+				foreach (array_keys($dataArray) as $Key) {
+					if (isset ( $dataArray[$Key] [$ColName] )) {
+						$Value = $dataArray[$Key] [$ColName];
 						$XIn [$Index] = $Index;
 						$YIn [$Index] = $Value;
 						if (! is_numeric ( $Value )) {
@@ -1895,7 +1897,7 @@ class pChart {
 												 $Alpha);
 			}
 			
-			$this->drawCubicCurve ( $data->getData(), $data->getDataDescription(), $Accuracy, $ColName );
+			$this->drawCubicCurve($data, $Accuracy, $ColName );
 			
 			$GraphID ++;
 		}
