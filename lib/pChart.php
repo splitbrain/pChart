@@ -1629,6 +1629,8 @@ class pChart {
 		$GraphID = 0;
 		foreach ( $data->getDataDescription()->values as $Key2 => $ColName ) {
 			if ($SerieName == "" || $SerieName == $ColName) {
+				/** @todo The next section of code has been duplicated by 
+				 * copy & paste */
 				$XIn = array();
 				$YIn = array();
 				$Yt = "";
