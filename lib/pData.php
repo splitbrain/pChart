@@ -211,7 +211,7 @@ class pData {
 				$xIn [$index] = $index;
 				$yIn [$index] = $Value;
 				if (! is_numeric ( $Value )) {
-					$missing [$Index] = TRUE;
+					$missing [$index] = TRUE;
 				}
 				$index ++;
 			}
