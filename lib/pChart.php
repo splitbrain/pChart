@@ -1397,12 +1397,10 @@ class pChart {
 		
 		$color3 = null;
 
-		$YLast = - 1;
-		$XLast = - 1;
-		foreach ( $Data as $Key => $Values ) {
-			if (isset ( $Data [$Key] [$YSerieName] ) && isset ( $Data [$Key] [$XSerieName] )) {
-				$X = $Data [$Key] [$XSerieName];
-				$Y = $Data [$Key] [$YSerieName];
+		foreach ( $Data as $Values ) {
+			if (isset($Values[$YSerieName]) && isset ($Values[$XSerieName])) {
+				$X = $Values[$XSerieName];
+				$Y = $Values[$YSerieName];
 				
 				$Y = $this->GArea_Y2 - (($Y - $this->VMin) * $this->DivisionRatio);
 				$X = $this->GArea_X1 + (($X - $this->VXMin) * $this->XDivisionRatio);
@@ -1454,7 +1452,6 @@ class pChart {
 		/* Validate the Data and DataDescription array */
 		$this->validateData ( "drawArea", $Data );
 		
-		$LayerWidth = $this->GArea_X2 - $this->GArea_X1;
 		$LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 		
 		$XPos = $this->GAreaXOffset;
