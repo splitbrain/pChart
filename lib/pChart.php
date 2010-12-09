@@ -1265,6 +1265,8 @@ class pChart {
 
 		$this->canvas->drawFilledPolygon($Poly, 3, $color);
 
+		/** @todo We draw exactly the same line twice, with the same settings.
+		 * Surely this is pointless? */
 		$this->canvas->drawLine(new Point($XPos - 1, $YPos), 
 								new Point($XPos + 8, $YPos - $TextOffset - 1.2),
 								$color,
