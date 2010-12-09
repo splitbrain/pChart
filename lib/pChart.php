@@ -2803,39 +2803,10 @@ class pChart {
 			$this->processLabelsPositionAndSize($DrawLabels, $Angle, $Value, $SpliceRatio, $SplicePercent, $SpliceDistance, $Decimals, $Radius, $XPos, $YPos);
 			
 			/* Process pie slices */
-			$XLineLast = "";
-			$YLineLast = "";
-			for($iAngle = $Angle; $iAngle <= $Angle + $Value * $SpliceRatio; $iAngle = $iAngle + .5) {
-				$PosX = cos ( $iAngle * M_PI / 180 ) * $Radius + $XPos + $XOffset;
-				$PosY = sin ( $iAngle * M_PI / 180 ) * $Radius + $YPos + $YOffset;
-				
-				$TopPlots [$Key] [] = round ( $PosX );
-				$TopPlots [$Key] [] = round ( $PosY );
-				
-				if ($iAngle == $Angle || $iAngle == $Angle + $Value * $SpliceRatio || $iAngle + .5 > $Angle + $Value * $SpliceRatio)
-					$this->canvas->drawLine(new Point($XPos + $XOffset, $YPos + $YOffset),
-											new Point($PosX, $PosY), 
-											$color,
-											$this->LineWidth,
-											$this->LineDotSize,
-											$this->shadowProperties);
-				
-				if ($XLineLast != "")
-					$this->canvas->drawLine(new Point($XLineLast, $YLineLast),
-											new Point($PosX, $PosY),
-											$color,
-											$this->LineWidth,
-											$this->LineDotSize,
-											$this->shadowProperties);
-				
-				$XLineLast = $PosX;
-				$YLineLast = $PosY;
-			}
+			$this->processPieSlices($Angle, $SpliceRatio, $Value, $Radius, $XPos, $YPos, $XOffset, $YOffset, $Key, $color, $TopPlots);
 			
 			$TopPlots [$Key] [] = round ( $XPos + $XOffset );
 			$TopPlots [$Key] [] = round ( $YPos + $YOffset );
-			
-			$Angle = $iAngle;
 		}
 		$PolyPlots = $TopPlots;
 		
@@ -2994,6 +2965,42 @@ class pChart {
 		
 		$this->drawPieGraphTopPolygons($iValues, $TopPlots, $EnhanceColors,
 									   $aTopPlots);
+	}
+
+	private function processPieSlices(& $Angle, $SpliceRatio, $Value, $Radius, $XPos, $YPos, $XOffset, $YOffset, $Key, Color $color, array & $TopPlots) {
+		$lastPos = null;
+
+		for($iAngle = $Angle; $iAngle <= $Angle + $Value * $SpliceRatio; $iAngle = $iAngle + .5) {
+			$PosX = cos ( $iAngle * M_PI / 180 ) * $Radius + $XPos + $XOffset;
+			$PosY = sin ( $iAngle * M_PI / 180 ) * $Radius + $YPos + $YOffset;
+				
+			$TopPlots [$Key] [] = round ( $PosX );
+			$TopPlots [$Key] [] = round ( $PosY );
+
+			$currentPos = new Point($PosX, $PosY);
+				
+			if ($iAngle == $Angle || $iAngle == $Angle + $Value * $SpliceRatio || $iAngle + .5 > $Angle + $Value * $SpliceRatio)
+				$this->canvas->drawLine(new Point($XPos + $XOffset, $YPos + $YOffset),
+										$currentPos, 
+										$color,
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
+				
+			if ($lastPos != null)
+				$this->canvas->drawLine($lastPos,
+										$currentPos,
+										$color,
+										$this->LineWidth,
+										$this->LineDotSize,
+										$this->shadowProperties);
+				
+			$lastPos = $currentPos;
+		}
+		
+		/* Update the angle in the caller to the final angle we
+		 * reached while processing */
+		$Angle = $iAngle;
 	}
 
 	private function drawPieGraphBottomPolygons(array $iValues, array $BotPlots, $EnhanceColors, array $aBotPlots) {
