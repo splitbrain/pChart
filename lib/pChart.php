@@ -319,88 +319,7 @@ class pChart {
 								$this->shadowProperties);
 		
 		if ($this->VMin == NULL && $this->VMax == NULL) {
-			if (isset ( $Data->getDataDescription()->values[0] )) {
-				/* Pointless temporary is necessary because you can't
-				 * directly apply an array index to the return value
-				 * of a function in PHP */
-				$dataArray = $Data->getData();
-				$this->VMin = $dataArray[0] [$Data->getDataDescription()->values[0]];
-				$this->VMax = $dataArray[0] [$Data->getDataDescription()->values[0]];
-			} else {
-				$this->VMin = 2147483647;
-				$this->VMax = - 2147483647;
-			}
-			
-			/* Compute Min and Max values */
-			if ($style->getScaleMode() == SCALE_NORMAL
-				|| $style->getScaleMode() == SCALE_START0) {
-				if ($style->getScaleMode() == SCALE_START0) {
-					$this->VMin = 0;
-				}
-				
-				foreach ( $Data->getData() as $Key => $Values ) {
-					foreach ( $Data->getDataDescription()->values as $ColName ) {
-						if (isset ( $Values[$ColName] )) {
-							$Value = $Values[$ColName];
-							
-							if (is_numeric ( $Value )) {
-								if ($this->VMax < $Value) {
-									$this->VMax = $Value;
-								}
-								if ($this->VMin > $Value) {
-									$this->VMin = $Value;
-								}
-							}
-						}
-					}
-				}
-			} elseif ($style->getScaleMode() == SCALE_ADDALL || $style->getScaleMode() == SCALE_ADDALLSTART0 ) /* Experimental */ {
-				if ($style->getScaleMode() == SCALE_ADDALLSTART0) {
-					$this->VMin = 0;
-				}
-				
-				foreach ( $Data->getData() as $Values ) {
-					$Sum = 0;
-					foreach ( $Data->getDataDescription()->values as $ColName ) {
-						$dataArray = $Data->getData();
-						if (isset ( $Values[$ColName] )) {
-							$Value = $Values[$ColName];
-							if (is_numeric ( $Value ))
-								$Sum += $Value;
-						}
-					}
-					if ($this->VMax < $Sum) {
-						$this->VMax = $Sum;
-					}
-					if ($this->VMin > $Sum) {
-						$this->VMin = $Sum;
-					}
-				}
-			}
-			
-			$this->VMax = ceil($this->VMax);
-				
-			/* If all values are the same */
-			if ($this->VMax == $this->VMin) {
-				if ($this->VMax >= 0) {
-					$this->VMax ++;
-				} else {
-					$this->VMin --;
-				}
-			}
-			
-			$DataRange = $this->VMax - $this->VMin;
-			if ($DataRange == 0) {
-				$DataRange = .1;
-			}
-
-			$this->calculateScales($Scale, $Divisions);
-			
-			if (! isset ( $Divisions ))
-				$Divisions = 2;
-			
-			if ($Scale == 1 && $Divisions % 2 == 1)
-				$Divisions --;
+			$Divisions = $this->calculateDivisions($Data, $style);			
 		} else
 			$Divisions = $this->Divisions;
 		
@@ -589,6 +508,93 @@ class pChart {
 									$Data->getDataDescription()->getXAxisName(),
 									ShadowProperties::NoShadow());
 		}
+	}
+
+	private function calculateDivisions(pData $Data, ScaleStyle $style) {
+		if (isset ( $Data->getDataDescription()->values[0] )) {
+			/* Pointless temporary is necessary because you can't
+			 * directly apply an array index to the return value
+			 * of a function in PHP */
+			$dataArray = $Data->getData();
+			$this->VMin = $dataArray[0] [$Data->getDataDescription()->values[0]];
+			$this->VMax = $dataArray[0] [$Data->getDataDescription()->values[0]];
+		} else {
+			$this->VMin = 2147483647;
+			$this->VMax = - 2147483647;
+		}
+
+		/* Compute Min and Max values */
+		if ($style->getScaleMode() == SCALE_NORMAL
+			|| $style->getScaleMode() == SCALE_START0) {
+			if ($style->getScaleMode() == SCALE_START0) {
+				$this->VMin = 0;
+			}
+				
+			foreach ( $Data->getData() as $Key => $Values ) {
+				foreach ( $Data->getDataDescription()->values as $ColName ) {
+					if (isset ( $Values[$ColName] )) {
+						$Value = $Values[$ColName];
+							
+						if (is_numeric ( $Value )) {
+							if ($this->VMax < $Value) {
+								$this->VMax = $Value;
+							}
+							if ($this->VMin > $Value) {
+								$this->VMin = $Value;
+							}
+						}
+					}
+				}
+			}
+		} elseif ($style->getScaleMode() == SCALE_ADDALL || $style->getScaleMode() == SCALE_ADDALLSTART0 ) /* Experimental */ {
+			if ($style->getScaleMode() == SCALE_ADDALLSTART0) {
+				$this->VMin = 0;
+			}
+				
+			foreach ( $Data->getData() as $Values ) {
+				$Sum = 0;
+				foreach ( $Data->getDataDescription()->values as $ColName ) {
+					$dataArray = $Data->getData();
+					if (isset ( $Values[$ColName] )) {
+						$Value = $Values[$ColName];
+						if (is_numeric ( $Value ))
+							$Sum += $Value;
+					}
+				}
+				if ($this->VMax < $Sum) {
+					$this->VMax = $Sum;
+				}
+				if ($this->VMin > $Sum) {
+					$this->VMin = $Sum;
+				}
+			}
+		}
+			
+		$this->VMax = ceil($this->VMax);
+				
+		/* If all values are the same */
+		if ($this->VMax == $this->VMin) {
+			if ($this->VMax >= 0) {
+				$this->VMax ++;
+			} else {
+				$this->VMin --;
+			}
+		}
+			
+		$DataRange = $this->VMax - $this->VMin;
+		if ($DataRange == 0) {
+			$DataRange = .1;
+		}
+
+		$this->calculateScales($Scale, $Divisions);
+			
+		if (! isset ( $Divisions ))
+			$Divisions = 2;
+			
+		if ($Scale == 1 && $Divisions % 2 == 1)
+			$Divisions --;
+
+		return $Divisions;
 	}
 	
 	/**
