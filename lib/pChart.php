@@ -509,6 +509,14 @@ class pChart {
 		}
 	}
 
+	/**
+	 * Calculate the number of divisions that the Y axis will be
+	 * divided into. This is a function of the range of Y values the
+	 * data covers, as well as the scale style. Divisions should have
+	 * some minimum size in screen coordinates in order that the
+	 * divisions are clearly visible, so this is also a function of
+	 * the graph size in screen coordinates.
+	 */
 	private function calculateDivisions(pData $Data, ScaleStyle $style) {
 		if (isset ( $Data->getDataDescription()->values[0] )) {
 			/* Pointless temporary is necessary because you can't
