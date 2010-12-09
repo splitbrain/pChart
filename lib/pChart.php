@@ -1590,10 +1590,10 @@ class pChart {
 	function drawXYGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0) {
 		$YLast = - 1;
 		$XLast = - 1;
-		foreach ( $Data as $Key => $Values ) {
-			if (isset ( $Data [$Key] [$YSerieName] ) && isset ( $Data [$Key] [$XSerieName] )) {
-				$X = $Data [$Key] [$XSerieName];
-				$Y = $Data [$Key] [$YSerieName];
+		foreach ($Data as $Values) {
+			if (isset ( $Values[$YSerieName] ) && isset ( $Values[$XSerieName] )) {
+				$X = $Values[$XSerieName];
+				$Y = $Values[$YSerieName];
 				
 				$Y = $this->GArea_Y2 - (($Y - $this->VMin) * $this->DivisionRatio);
 				$X = $this->GArea_X1 + (($X - $this->VXMin) * $this->XDivisionRatio);
