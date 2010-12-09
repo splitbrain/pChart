@@ -137,7 +137,7 @@ class pData {
 		unset($this->dataDescription->values);
 		
 		if (isset ( $this->Data [0] )) {
-			foreach ( $this->Data [0] as $Key => $Value ) {
+			foreach (array_keys($this->Data [0]) as $Key) {
 				if ($Key != "Name") {
 					$this->dataDescription->values[] = $Key;
 				}
@@ -149,7 +149,6 @@ class pData {
 		if (! isset($this->dataDescription->values))
 			return;
 		
-		$Found = FALSE;
 		foreach ( $this->dataDescription->values as $key => $Value ) {
 			if ($Value == $SerieName)
 				unset ( $this->dataDescription->values[$key] );
@@ -185,8 +184,7 @@ class pData {
 	}
 	
 	public function removeAllSeries() {
-		foreach ( $this->dataDescription->values as $Key => $Value )
-			unset ( $this->dataDescription->values [$Key] );
+		$this->dataDescription->values = array();
 	}
 	
 	public function getData() {
