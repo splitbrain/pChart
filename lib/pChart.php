@@ -434,16 +434,15 @@ class pChart {
 		$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 		$ID = 1;
 		$YMax = NULL;
-		foreach ( $Data->getData() as $Key => $Values ) {
+		foreach ( $Data->getData() as $Values ) {
 			if ($ID % $SkipLabels == 0) {
-				$dataArray = $Data->getData();
 				$this->canvas->drawLine(new Point(floor($XPos), $this->GArea_Y2),
 										new Point(floor($XPos), $this->GArea_Y2 + 5),
 										$style->getColor(),
 										$style->getLineWidth(),
 										$style->getLineDotSize(),
 										$this->shadowProperties);
-				$Value = $dataArray[$Key] [$Data->getDataDescription()->getPosition()];
+				$Value = $Values[$Data->getDataDescription()->getPosition()];
 				$Value = $this->convertValueForDisplay($Value,
 													   $Data->getDataDescription()->getXFormat(),
 													   $Data->getDataDescription()->getXUnit());
@@ -530,7 +529,7 @@ class pChart {
 				$this->VMin = 0;
 			}
 				
-			foreach ( $Data->getData() as $Key => $Values ) {
+			foreach ( $Data->getData() as $Values ) {
 				foreach ( $Data->getDataDescription()->values as $ColName ) {
 					if (isset ( $Values[$ColName] )) {
 						$Value = $Values[$ColName];
