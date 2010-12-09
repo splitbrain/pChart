@@ -1459,9 +1459,9 @@ class pChart {
 		
 		$XPos = $this->GAreaXOffset;
 		$LastXPos = - 1;
-		foreach ( $Data as $Key => $Values ) {
-			$Value1 = $Data [$Key] [$Serie1];
-			$Value2 = $Data [$Key] [$Serie2];
+		foreach ( $Data as $Values ) {
+			$Value1 = $Values[$Serie1];
+			$Value2 = $Values[$Serie2];
 			$YPos1 = $LayerHeight - (($Value1 - $this->VMin) * $this->DivisionRatio);
 			$YPos2 = $LayerHeight - (($Value2 - $this->VMin) * $this->DivisionRatio);
 			
@@ -1502,20 +1502,19 @@ class pChart {
 			$Series = array ($Series );
 		}
 		
-		foreach ( $Series as $Key => $Serie ) {
+		foreach ( $Series as $Serie ) {
 			$ColorID = $DataDescription->getColumnIndex($Serie);
 			
 			$XPos = $this->GArea_X1 + $this->GAreaXOffset;
-			$XLast = - 1;
-			foreach ( $Data as $Key => $Values ) {
-				if (isset ( $Data [$Key] [$Serie] ) && is_numeric ( $Data [$Key] [$Serie] )) {
-					$Value = $Data [$Key] [$Serie];
+
+			foreach ( $Data as $Values ) {
+				if (isset ( $Values[$Serie] ) && is_numeric ( $Values[$Serie] )) {
+					$Value = $Values[$Serie];
 					$YPos = $this->GArea_Y2 - (($Value - $this->VMin) * $this->DivisionRatio);
 					
 					$Positions = imagettfbbox ( $this->FontSize, 0, $this->FontName, $Value );
 					$Width = $Positions [2] - $Positions [6];
 					$XOffset = $XPos - ($Width / 2);
-					$Height = $Positions [3] - $Positions [7];
 					$YOffset = $YPos - 4;
 					
 					$this->canvas->drawText($this->FontSize,
