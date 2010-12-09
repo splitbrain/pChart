@@ -138,6 +138,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->clearShadow();
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
+
+		file_put_contents(dirname(__FILE__).'/action_logs/testFlatPieGraph',
+						  $canvas->getActionLog());		
+
 		$this->assertEquals('6fb645a6318014dc9978a1e77ccb9079',
 							md5($canvas->getActionLog()));
 	}
