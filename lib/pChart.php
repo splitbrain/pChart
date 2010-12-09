@@ -516,6 +516,10 @@ class pChart {
 	 * some minimum size in screen coordinates in order that the
 	 * divisions are clearly visible, so this is also a function of
 	 * the graph size in screen coordinates.
+	 *
+	 * This method returns the number of divisions, but it also has
+	 * side-effects on some class data members. This needs to be
+	 * refactored to make it clearer what is and isn't affected.
 	 */
 	private function calculateDivisions(pData $Data, ScaleStyle $style) {
 		if (isset ( $Data->getDataDescription()->values[0] )) {
@@ -798,19 +802,7 @@ class pChart {
 		}
 		
 		/* Write the X Axis caption if set */
-		if ($Data->getDataDescription()->getXAxisName() != '') {
-			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $Data->getDataDescription()->getXAxisName());
-			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
-			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
-			$this->canvas->drawText($this->FontSize,
-									0,
-									new Point($TextLeft,
-											  $YMax + $this->FontSize + 5),
-									$style->getColor(),
-									$this->FontName,
-									$Data->getDataDescription()->getXAxisName(),
-									$this->shadowProperties);
-		}
+		$this->writeScaleXAxisCaption($Data, $style, $YMax);
 	}
 
 	private function drawGridMosaic(GridStyle $style, $divisionCount, $divisionHeight) {
@@ -840,6 +832,26 @@ class pChart {
 		}
 	}
 	
+	/**
+	 * Write the X Axis caption on the scale, if set
+	 */
+	private function writeScaleXAxisCaption(pData $data, ScaleStyle $style, $YMax) {
+		if ($data->getDataDescription()->getXAxisName() != '') {
+			$Position = imageftbbox ( $this->FontSize, 90, $this->FontName, $data->getDataDescription()->getXAxisName());
+			$TextWidth = abs ( $Position [2] ) + abs ( $Position [0] );
+			$TextLeft = (($this->GArea_X2 - $this->GArea_X1) / 2) + $this->GArea_X1 + ($TextWidth / 2);
+			$this->canvas->drawText($this->FontSize,
+									0,
+									new Point($TextLeft,
+											  $YMax + $this->FontSize + 5),
+									$style->getColor(),
+									$this->FontName,
+									$data->getDataDescription()->getXAxisName(),
+									$this->shadowProperties);
+		}
+
+	}
+
 	/**
 	 * Compute and draw the scale 
 	 */
