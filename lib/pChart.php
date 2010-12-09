@@ -1547,14 +1547,14 @@ class pChart {
 			if ($SerieName == "" || $SerieName == $ColName) {
 				$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 				$XLast = - 1;
-				foreach ( $Data as $Key => $Values ) {
-					if (isset ( $Data [$Key] [$ColName] )) {
-						$Value = $Data [$Key] [$ColName];
+				foreach ( $Data as $Values ) {
+					if (isset ( $Values[$ColName] )) {
+						$Value = $Values[$ColName];
 						$YPos = $this->GArea_Y2 - (($Value - $this->VMin) * $this->DivisionRatio);
 						
 						/* Save point into the image map if option activated */
 						if ($this->BuildMap)
-							$this->addToImageMap ( $XPos - 3, $YPos - 3, $XPos + 3, $YPos + 3, $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "Line" );
+							$this->addToImageMap ( $XPos - 3, $YPos - 3, $XPos + 3, $YPos + 3, $DataDescription->description[$ColName], $Values[$ColName] . $DataDescription->getYUnit(), "Line" );
 						
 						if (! is_numeric ( $Value )) {
 							$XLast = - 1;
