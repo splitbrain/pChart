@@ -630,8 +630,8 @@ class pChart {
 		
 		/* Process Y scale */
 		if ($this->VMin == NULL && $this->VMax == NULL) {
-			self::calculateSeriesMinMax($Data->getData(), $YSerieName,
-										$this->VMin, $this->VMax);
+			$this->VMin = $Data->getSeriesMin($YSerieName);
+			$this->VMax = $Data->getSeriesMax($YSerieName);
 
 			/** @todo The use of ceil() here is questionable if all
 			 * the values are much less than 1, AIUI */
@@ -695,8 +695,8 @@ class pChart {
 		
 		/* Process X scale */
 		if ($this->VXMin == NULL && $this->VXMax == NULL) {
-			self::calculateSeriesMinMax($Data->getData(), $XSerieName,
-										$this->VXMin, $this->VXMax);
+			$this->VXMax = $Data->getSeriesMax($XSerieName);
+			$this->VXMin = $Data->getSeriesMin($XSerieName);
 
 			$this->VXMax = ceil($this->VXMax);
 			
@@ -3550,25 +3550,6 @@ class pChart {
 			}
 		} else /* Can occur for small graphs */
 			  $Scale = 1;
-	}
-
-	static private function calculateSeriesMinMax($data, $seriesName, &$min, &$max) {
-		$min = $data[0][$seriesName];
-		$max = $data[0][$seriesName];
-
-		foreach (array_keys($data) as $key) {
-			if (isset($data[$key][$seriesName])) {
-				$value = $data[$key][$seriesName];
-
-				if ($value > $max) {
-					$max = $value;
-				}
-
-				if ($value < $min) {
-					$min = $value;
-				}
-			}
-		}
 	}
 
 	static private function computeAutomaticScaling($minCoord, $maxCoord, &$minVal, &$maxVal, &$Divisions) {

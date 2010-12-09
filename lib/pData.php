@@ -25,6 +25,18 @@ require_once dirname(__FILE__).'/DataDescription.php';
 class pData {
 	private $Data = array();
 	private $dataDescription = array();
+
+	/**
+	 * An entry for each series giving the maximum value in that
+	 * series, if we've previously calculated it
+	 */
+	private $seriesMinimums = array();
+
+	/**
+	 * An entry for each series giving the minimum value in that
+	 * series, if we've previously calculated it
+	 */
+	private $seriesMaximums = array();
 	
 	public function __construct() {
 		$this->dataDescription = new DataDescription('Name', 
@@ -193,6 +205,49 @@ class pData {
 	
 	public function getDataDescription() {
 		return $this->dataDescription;
+	}
+
+	/**
+	 * @brief Get the minimum data value in the specified series
+	 */
+	public function getSeriesMin($seriesName) {
+		if (isset($this->seriesMinimums[$seriesName])) {
+			return $this->seriesMinimums[$seriesName];
+		}
+
+		/**
+		 * @todo This algorithm assumes that the data set contains a
+		 * value at index 0 for the specified series - but this is the
+		 * way it's always worked.
+		 */
+		$this->seriesMinimums[$seriesName] = $this->Data[0][$seriesName];
+
+		foreach ($this->Data as $valueSet) {
+			if (isset($valueSet[$seriesName])) {
+				$this->seriesMinimums[$seriesName] = 
+					min($this->seriesMinimums[$seriesName],
+						$valueSet[$seriesName]);
+			}
+		}
+
+		return $this->seriesMinimums[$seriesName];
+	}
+
+	/**
+	 * @brief Get the maximum data value in the specified series
+	 */
+	public function getSeriesMax($seriesName) {
+		$this->seriesMaximums[$seriesName] = $this->Data[0][$seriesName];
+
+		foreach ($this->Data as $valueSet) {
+			if (isset($valueSet[$seriesName])) {
+				$this->seriesMaximums[$seriesName] = 
+					max($this->seriesMaximums[$seriesName],
+						$valueSet[$seriesName]);
+			}
+		}
+
+		return $this->seriesMaximums[$seriesName];		
 	}
 
 	/**
