@@ -1588,8 +1588,11 @@ class pChart {
 	 * This function draw a line graph 
 	 */
 	function drawXYGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0) {
-		$YLast = - 1;
-		$XLast = - 1;
+		$graphAreaMin = new Point($this->GArea_X1, $this->GArea_Y1);
+		$graphAreaMax = new Point($this->GArea_X2, $this->GArea_Y2);
+
+		$lastPoint = null;
+
 		foreach ($Data as $Values) {
 			if (isset ( $Values[$YSerieName] ) && isset ( $Values[$XSerieName] )) {
 				$X = $Values[$XSerieName];
@@ -1597,22 +1600,21 @@ class pChart {
 				
 				$Y = $this->GArea_Y2 - (($Y - $this->VMin) * $this->DivisionRatio);
 				$X = $this->GArea_X1 + (($X - $this->VXMin) * $this->XDivisionRatio);
+
+				$currentPoint = new Point($X, $Y);
 				
-				if ($XLast != - 1 && $YLast != - 1) {
-					$this->canvas->drawLine(new Point($XLast, $YLast),
-											new Point($X, $Y),
+				if ($lastPoint != null) {
+					$this->canvas->drawLine($lastPoint,
+											$currentPoint,
 											$this->palette->colors[$PaletteID],
 											$this->LineWidth,
 											$this->LineDotSize,
 											$this->shadowProperties,
-											new Point($this->GArea_X1,
-													  $this->GArea_Y1),
-											new Point($this->GArea_X2,
-													  $this->GArea_Y2));
+											$graphAreaMin,
+											$graphAreaMax);
 				}
 				
-				$XLast = $X;
-				$YLast = $Y;
+				$lastPoint = $currentPoint;
 			}
 		}
 	}
