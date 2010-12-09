@@ -2178,6 +2178,9 @@ class pChart {
 		$XWidth = $this->DivisionWidth / 4;
 		$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 		
+		$graphAreaMin = new Point($this->GArea_X1, $this->GArea_Y1);
+		$graphAreaMax = new Point($this->GArea_X2, $this->GArea_Y2);
+
 		foreach (array_keys($Data) as $Key) {
 			$Min = $Data [$Key] [$DataDescription->values[0]];
 			$Max = $Data [$Key] [$DataDescription->values[0]];
@@ -2220,20 +2223,16 @@ class pChart {
 									$this->LineWidth,
 									$this->LineDotSize,
 									$this->shadowProperties,
-									new Point($this->GArea_X1,
-											  $this->GArea_Y1),
-									new Point($this->GArea_X2,
-											  $this->GArea_Y2));
+									$graphAreaMin,
+									$graphAreaMax);
 			$this->canvas->drawLine(new Point(floor ( $XPos ) + .2, $Y1 + 1),
 									new Point(floor ( $XPos ) + .2, $Y2 - 1),
 									$color,
 									$this->LineWidth,
 									$this->LineDotSize,
 									$this->shadowProperties,
-									new Point($this->GArea_X1,
-											  $this->GArea_Y1),
-									new Point($this->GArea_X2,
-											  $this->GArea_Y2));
+									$graphAreaMin,
+									$graphAreaMax);
 			$this->canvas->drawLine(new Point($X1,
 											  $Y1),
 									new Point($X2,
