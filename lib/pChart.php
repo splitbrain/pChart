@@ -294,8 +294,8 @@ class pChart {
 	 * Wrapper to the drawScale() function allowing a second scale to
 	 * be drawn
 	 */
-	function drawRightScale(pData $Data, ScaleStyle $style, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
-		$this->drawScale($Data, $style, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
+	function drawRightScale(pData $data, ScaleStyle $style, $Angle = 0, $Decimals = 1, $WithMargin = FALSE, $SkipLabels = 1) {
+		$this->drawScale($data, $style, $Angle, $Decimals, $WithMargin, $SkipLabels, TRUE );
 	}
 	
 	/**
@@ -339,10 +339,9 @@ class pChart {
 				}
 				
 				foreach ( $Data->getData() as $Key => $Values ) {
-					foreach ( $Data->getDataDescription()->values as $Key2 => $ColName ) {
-						$dataArray = $Data->getData();
-						if (isset ( $dataArray[$Key] [$ColName] )) {
-							$Value = $dataArray[$Key] [$ColName];
+					foreach ( $Data->getDataDescription()->values as $ColName ) {
+						if (isset ( $Values[$ColName] )) {
+							$Value = $Values[$ColName];
 							
 							if (is_numeric ( $Value )) {
 								if ($this->VMax < $Value) {
@@ -360,12 +359,12 @@ class pChart {
 					$this->VMin = 0;
 				}
 				
-				foreach ( $Data->getData() as $Key => $Values ) {
+				foreach ( $Data->getData() as $Values ) {
 					$Sum = 0;
-					foreach ( $Data->getDataDescription()->values as $Key2 => $ColName ) {
+					foreach ( $Data->getDataDescription()->values as $ColName ) {
 						$dataArray = $Data->getData();
-						if (isset ( $dataArray[$Key] [$ColName] )) {
-							$Value = $dataArray[$Key] [$ColName];
+						if (isset ( $Values[$ColName] )) {
+							$Value = $Values[$ColName];
 							if (is_numeric ( $Value ))
 								$Sum += $Value;
 						}
