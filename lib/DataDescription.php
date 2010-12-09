@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @brief Holds Metadata for the data set (name, unit, type etc.)
+ *
+ * The data description assumes we have X and Y axes, which isn't
+ * necessarily the case (e.g. if we are generating a pie chart). This
+ * is probably a design flaw.
+ */
 class DataDescription {
 	public function __construct($position, $xFormat, $yFormat, $xUnit, $yUnit) {
 		$this->position = $position;
@@ -12,6 +19,9 @@ class DataDescription {
 		$this->yAxisName = '';
 	}
 
+	/**
+	 * @todo I don't know exactly what the Position does
+	 */
 	public function setPosition($position) {
 		if (!is_string($position)) {
 			throw new InvalidArgumentException("Non-string argument passed to setPosition");

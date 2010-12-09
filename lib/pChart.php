@@ -1390,7 +1390,7 @@ class pChart {
 	}
 	
 	/**
-	 * This function draw a plot graph in an X/Y space 
+	 * @brief This function draw a plot graph in an X/Y space 
 	 */
 	function drawXYPlotGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0, $BigRadius = 5, $SmallRadius = 2, Color $color2 = null, $Shadow = TRUE) {
 		$color = $this->palette->colors[$PaletteID];
@@ -1529,7 +1529,8 @@ class pChart {
 	}
 	
 	/**
-	 * This function draw a line graph 
+	 * @brief Draws a line graph where the data gives Y values for a
+	 * series of regular positions along the X axis
 	 */
 	function drawLineGraph($Data, $DataDescription, $SerieName = "") {
 		/* Validate the Data and DataDescription array */
@@ -1581,7 +1582,8 @@ class pChart {
 	}
 	
 	/**
-	 * This function draw a line graph 
+	 * @brief Draws a line graph where one series of data defines the
+	 * X position and another the Y position
 	 */
 	function drawXYGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0) {
 		$graphAreaMin = new Point($this->GArea_X1, $this->GArea_Y1);
