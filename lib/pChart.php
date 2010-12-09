@@ -2608,7 +2608,6 @@ class pChart {
 					if (isset ( $Data [$Key] [$ColName] ))
 						$PieSum = $PieSum + $Data [$Key] [$ColName];
 					$iValues [] = $Data [$Key] [$ColName];
-					$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
 				}
 			}
 		}
@@ -2763,7 +2762,6 @@ class pChart {
 					if (isset ( $Data [$Key] [$ColName] ))
 						$PieSum = $PieSum + $Data [$Key] [$ColName];
 					$iValues [] = $Data [$Key] [$ColName];
-					$iLabels [] = $Data [$Key] [$DataDescription->getPosition()];
 				}
 			}
 		}
@@ -2794,9 +2792,6 @@ class pChart {
 			} else {
 				$color = $this->palette->colors[$Key];
 			}
-			
-			$XLineLast = "";
-			$YLineLast = "";
 			
 			/* Process labels position & size */
 			$this->processLabelsPositionAndSize($DrawLabels, $Angle, $Value, $SpliceRatio, $SplicePercent, $SpliceDistance, $Decimals, $Radius, $XPos, $YPos);
