@@ -911,7 +911,7 @@ class pChart {
 	/**
 	 * retrieve the legends size 
 	 */
-	function getLegendBoxSize($DataDescription) {
+	public function getLegendBoxSize($DataDescription) {
 		if (! isset ( $DataDescription->description))
 			return (- 1);
 			
@@ -936,7 +936,7 @@ class pChart {
 	/**
 	 * Draw the data legends 
 	 */
-	function drawLegend($XPos, $YPos, $DataDescription, Color $color, Color $color2 = null, Color $color3 = null, $Border = TRUE) {
+	public function drawLegend($XPos, $YPos, $DataDescription, Color $color, Color $color2 = null, Color $color3 = null, $Border = TRUE) {
 		if ($color2 == null) {
 			$color2 = $color->addRGBIncrement(-30);
 		}
@@ -1019,7 +1019,7 @@ class pChart {
 	 * @todo Should we pass in a ShadowProperties object here? Or is
 	 * this a public function?
 	 */
-	function drawTitle($XPos, $YPos, $Value, Color $color, $XPos2 = -1, $YPos2 = -1, ShadowProperties $shadowProperties = null) {
+	public function drawTitle($XPos, $YPos, $Value, Color $color, $XPos2 = -1, $YPos2 = -1, ShadowProperties $shadowProperties = null) {
 		if ($shadowProperties == null) {
 			$shadowProperties = ShadowProperties::NoShadow();
 		}
