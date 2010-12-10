@@ -76,6 +76,23 @@ class Color {
 		}
 	}
 
+	public function getR() {
+		return $this->r;
+	}
+
+	public function getG() {
+		return $this->g;
+	}
+
+	public function getB() {
+		return $this->b;
+	}
+
+	/**
+	 * The members r, g and b are still public since they are used
+	 * within GDCanvas. Since we don't have any GDCanvas unit tests
+	 * yet, we can't safely make these private at the moment.
+	 */
 	public $r;
 	public $g;
 	public $b;

@@ -27,14 +27,14 @@ class Palette {
 	static public function colorGradientPalette(Color $color1, Color $color2, $shades) {
 		$palette = new Palette();
 
-		$RFactor = ($color2->r - $color1->r) / $shades;
-		$GFactor = ($color2->g - $color1->g) / $shades;
-		$BFactor = ($color2->b - $color1->b) / $shades;
+		$RFactor = ($color2->getR() - $color1->getR()) / $shades;
+		$GFactor = ($color2->getG() - $color1->getG()) / $shades;
+		$BFactor = ($color2->getB() - $color1->getB()) / $shades;
 		
 		for($i = 0; $i <= $shades - 1; $i ++) {
-			$palette->colors[$i] = new Color($color1->r + $RFactor * $i,
-											 $color1->g + $GFactor * $i,
-											 $color1->b + $BFactor * $i);
+			$palette->colors[$i] = new Color($color1->getR() + $RFactor * $i,
+											 $color1->getG() + $GFactor * $i,
+											 $color1->getB() + $BFactor * $i);
 		}
 
 		return $palette;

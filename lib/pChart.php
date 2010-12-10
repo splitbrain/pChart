@@ -192,9 +192,9 @@ class pChart {
 				$buffer = str_replace ( chr ( 13 ), "", $buffer );
 				$Values = explode ( $Delimiter, $buffer );
 				if (count ( $Values ) == 3) {
-					$this->palette->colors[$ColorID]->r = $Values [0];
-					$this->palette->colors[$ColorID]->g = $Values [1];
-					$this->palette->colors[$ColorID]->b = $Values [2];
+					$this->palette->colors[$ColorID] = new Color($Values[0],
+																 $Values[1],
+																 $Values[2]);
 					$ColorID ++;
 				}
 			}
