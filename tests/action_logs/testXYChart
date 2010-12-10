@@ -223,7 +223,7 @@ TestCanvas::drawLine(Point<199, 77>, Point<210, 70>, Color<188, 224, 46>, 1, 0, 
 TestCanvas::drawLine(Point<210, 70>, Point<222, 63>, Color<188, 224, 46>, 1, 0, ShadowProperties<1, 2, 2, Color<0, 0, 0>, 60, 4>, Point<55, 30>, Point<270, 230>)
 TestCanvas::drawLine(Point<222, 63>, Point<235, 58>, Color<188, 224, 46>, 1, 0, ShadowProperties<1, 2, 2, Color<0, 0, 0>, 60, 4>, Point<55, 30>, Point<270, 230>)
 TestCanvas::drawLine(Point<235, 58>, Point<248, 54>, Color<188, 224, 46>, 1, 0, ShadowProperties<1, 2, 2, Color<0, 0, 0>, 60, 4>, Point<55, 30>, Point<270, 230>)
-TestCanvas::drawFilledRectangle(Point<0, 280>, Point<300, 300>, Color<0, 0, 0>, ShadowProperties<0, 0, 0, , 0, 0>, , 30)
+TestCanvas::drawFilledRectangle(Point<0, 280>, Point<300, 300>, Color<0, 0, 0>, ShadowProperties<1, 1, 1, Color<0, 0, 0>, 100, 0>, , 30)
 TestCanvas::drawText(8, 0, Point<60, 296>, Color<255, 255, 255>, Fonts/tahoma.ttf, Drawing X versus Y charts trigonometric functions  , ShadowProperties<1, 1, 1, Color<0, 0, 0>, 100, 0>)
 TestCanvas::drawFilledRoundedRectangle(Point<170, 11>, Point<174, 11>, 2, Color<188, 224, 46>, 1, 0, ShadowProperties<0, 0, 0, , 0, 0>)
 TestCanvas::drawText(6, 0, Point<182, 15>, Color<255, 255, 255>, Fonts/pf_arma_five.ttf, Trigonometric function, ShadowProperties<0, 0, 0, , 0, 0>)

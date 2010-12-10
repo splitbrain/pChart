@@ -1074,7 +1074,7 @@ class pChart {
 			$this->canvas->drawFilledRectangle($point1,
 											   $point2,
 											   $backgroundColor,
-											   $this->shadowProperties, FALSE, $Alpha );
+											   $shadowProperties, FALSE, $Alpha );
 		
 		if ($Align == ALIGN_TOP_LEFT) {
 			$newPosition = $point1->addIncrement(1, $this->FontSize + 1);

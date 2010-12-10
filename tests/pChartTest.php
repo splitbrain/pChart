@@ -220,7 +220,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		file_put_contents(dirname(__FILE__).'/action_logs/testXYChart',
 						  $canvas->getActionLog());
 		
-		$this->assertEquals('29617aa04eb4a3dfe787a5d45733c83c',
+		$this->assertEquals('3c45517b3d9549198ffffaac276ad353',
 							md5($canvas->getActionLog()));
 	}
 
