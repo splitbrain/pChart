@@ -613,6 +613,9 @@ class PieChart extends pChart {
 		}
 	}
 
+	/**
+	 * @brief Draw the polygons that form the top of a 3D pie chart
+	 */
 	private function drawPieGraphTopPolygons($iValues, $TopPlots, $EnhanceColors, $aTopPlots, ShadowProperties $shadowProperties) {
 		for($Key = count ( $iValues ) - 1; $Key >= 0; $Key --) {
 			$this->canvas->drawFilledPolygon($TopPlots [$Key],
