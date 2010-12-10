@@ -1046,9 +1046,16 @@ class pChart {
 	}
 	
 	/**
-	 * Draw a text box with text align & alpha properties 
+	 * Draw a text box with text align & alpha properties
+	 *
+	 * @param $point1 Minimum corner of the box
+	 * @param $point2 Maximum corner of the box
+	 *
+	 * @todo This should probably be a method on the ICanvas
+	 * interface, since it doesn't have anything specifically to do
+	 * with graphs
 	 */
-	function drawTextBox($X1, $Y1, $X2, $Y2, $Text, $Angle = 0, Color $color = null, $Align = ALIGN_LEFT, ShadowProperties $shadowProperties = null, Color $backgroundColor = null, $Alpha = 100) {
+	public function drawTextBox(Point $point1, Point $point2, $Text, $Angle = 0, Color $color = null, $Align = ALIGN_LEFT, ShadowProperties $shadowProperties = null, Color $backgroundColor = null, $Alpha = 100) {
 		if ($color == null) {
 			$color = new Color(255, 255, 255);
 		}
@@ -1060,53 +1067,52 @@ class pChart {
 		$Position = imageftbbox ( $this->FontSize, $Angle, $this->FontName, $Text );
 		$TextWidth = $Position [2] - $Position [0];
 		$TextHeight = $Position [5] - $Position [3];
-		$AreaWidth = $X2 - $X1;
-		$AreaHeight = $Y2 - $Y1;
+		$AreaWidth = $point2->getX() - $point1->getX();
+		$AreaHeight = $point2->getY() - $point1->getY();
 		
 		if ($backgroundColor != null)
-			$this->canvas->drawFilledRectangle(new Point($X1, $Y1),
-											   new Point($X2, $Y2),
+			$this->canvas->drawFilledRectangle($point1,
+											   $point2,
 											   $backgroundColor,
 											   $this->shadowProperties, FALSE, $Alpha );
 		
 		if ($Align == ALIGN_TOP_LEFT) {
-			$X = $X1 + 1;
-			$Y = $Y1 + $this->FontSize + 1;
+			$newPosition = $point1->addIncrement(1, $this->FontSize + 1);
 		}
 		if ($Align == ALIGN_TOP_CENTER) {
-			$X = $X1 + ($AreaWidth / 2) - ($TextWidth / 2);
-			$Y = $Y1 + $this->FontSize + 1;
+			$newPosition = $point1->addIncrement(($AreaWidth / 2) - ($TextWidth / 2),
+												 $this->FontSize + 1);
 		}
 		if ($Align == ALIGN_TOP_RIGHT) {
-			$X = $X2 - $TextWidth - 1;
-			$Y = $Y1 + $this->FontSize + 1;
+			$newPosition = new Point($point2->getX() - $TextWidth - 1,
+									 $point1->getY() + $this->FontSize + 1);
 		}
 		if ($Align == ALIGN_LEFT) {
-			$X = $X1 + 1;
-			$Y = $Y1 + ($AreaHeight / 2) - ($TextHeight / 2);
+			$newPosition = $point1->addIncrement(1,
+												 ($AreaHeight / 2) - ($TextHeight / 2));
 		}
 		if ($Align == ALIGN_CENTER) {
-			$X = $X1 + ($AreaWidth / 2) - ($TextWidth / 2);
-			$Y = $Y1 + ($AreaHeight / 2) - ($TextHeight / 2);
+			$newPosition = $point1->addIncrement(($AreaWidth / 2) - ($TextWidth / 2),
+												 ($AreaHeight / 2) - ($TextHeight / 2));
 		}
 		if ($Align == ALIGN_RIGHT) {
-			$X = $X2 - $TextWidth - 1;
-			$Y = $Y1 + ($AreaHeight / 2) - ($TextHeight / 2);
+			$newPosition = new Point($point2->getX() - $TextWidth - 1,
+									 $point1->getY() + ($AreaHeight / 2) - ($TextHeight / 2));
 		}
 		if ($Align == ALIGN_BOTTOM_LEFT) {
-			$X = $X1 + 1;
-			$Y = $Y2 - 1;
+			$newPosition = new Point($point1->getX() + 1,
+									 $point2->getY() - 1);
 		}
 		if ($Align == ALIGN_BOTTOM_CENTER) {
-			$X = $X1 + ($AreaWidth / 2) - ($TextWidth / 2);
-			$Y = $Y2 - 1;
+			$newPosition = new Point($point1->getX() + ($AreaWidth / 2) - ($TextWidth / 2),
+									 $point2->getY() - 1);
 		}
 		if ($Align == ALIGN_BOTTOM_RIGHT) {
-			$X = $X2 - $TextWidth - 1;
-			$Y = $Y2 - 1;
+			$newPosition = $point2->addIncrement(- $TextWidth - 1,
+												 -1);
 		}
 		
-		$this->canvas->drawText($this->FontSize, $Angle, new Point($X, $Y), $color, $this->FontName, $Text, $shadowProperties);
+		$this->canvas->drawText($this->FontSize, $Angle, $newPosition, $color, $this->FontName, $Text, $shadowProperties);
 	}
 	
 	/**
