@@ -40,6 +40,6 @@
   <target name="phpmd">
 	<mkdir dir="${reports.dir}/phpmd" />
 	<exec command="phpmd lib xml unusedcode --reportfile ${reports.dir}/phpmd/unusedcode.xml" />
-	<exec command="phpmd lib/CSVImporter.php,lib/pData.php xml codesize --reportfile ${reports.dir}/phpmd/codesize.xml" />
+	<exec command="phpmd lib/CSVImporter.php,lib/pData.php,lib/Color.php,lib/Point.php xml codesize --reportfile ${reports.dir}/phpmd/codesize.xml" />
   </target>
 </project>
