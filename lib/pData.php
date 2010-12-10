@@ -44,6 +44,11 @@ class pData {
 													 null, null);
 	}
 	
+	/**
+	 * @brief Import data into the current object from a CSV file
+	 *
+	 * @param $FileName  Name of the file (with path if necessary)
+	 */
 	public function importFromCSV($FileName, $Delimiter = ",", $DataColumns = -1, $HasHeader = FALSE, $DataName = -1) {
 		$handle = @fopen ( $FileName, "r" );
 
@@ -56,45 +61,52 @@ class pData {
 			$buffer = fgets ( $handle, 4096 );
 			
 			if ($buffer != "") {
-				$buffer = str_replace ( chr ( 10 ), "", $buffer );
-				$buffer = str_replace ( chr ( 13 ), "", $buffer );
-				$Values = explode ( $Delimiter, $buffer );
-
-				if ($HasHeader == TRUE && $HeaderParsed == FALSE) {
-					if ($DataColumns == - 1) {
-						$ID = 1;
-						foreach ( $Values as $key => $Value ) {
-							$this->SetSeriesName ( $Value, "Serie" . $ID );
-							$ID ++;
-						}
-					} else {
-						$SerieName = "";
-						
-						foreach ( $DataColumns as $key => $Value )
-							$this->SetSeriesName ( $Values [$Value], "Serie" . $Value );
-					}
-					$HeaderParsed = TRUE;
-				} else {
-					if ($DataColumns == - 1) {
-						$ID = 1;
-						foreach ( $Values as $key => $Value ) {
-							$this->AddPoint ( intval ( $Value ), "Serie" . $ID );
-							$ID ++;
-						}
-					} else {
-						$SerieName = "";
-						if ($DataName != - 1)
-							$SerieName = $Values [$DataName];
-						
-						foreach ( $DataColumns as $key => $Value )
-							$this->AddPoint ( $Values [$Value], "Serie" . $Value, $SerieName );
-					}
-				}
+				$this->importChunkFromCSV($buffer, $Delimiter, $HasHeader, $DataColumns, $DataName, $HeaderParsed);
 			}
 		}
 		fclose ( $handle );
 	}
 
+	/**
+	 * @brief Import CSV data from a partial file chunk
+	 */
+	private function importChunkFromCSV($buffer, $Delimiter, $HasHeader, $DataColumns, $DataName, & $HeaderParsed) {
+		$buffer = str_replace ( chr ( 10 ), "", $buffer );
+		$buffer = str_replace ( chr ( 13 ), "", $buffer );
+		$Values = explode ( $Delimiter, $buffer );
+
+		if ($HasHeader == TRUE && $HeaderParsed == FALSE) {
+			if ($DataColumns == - 1) {
+				$ID = 1;
+				foreach ( $Values as $key => $Value ) {
+					$this->SetSeriesName ( $Value, "Serie" . $ID );
+					$ID ++;
+				}
+			} else {
+				$SerieName = "";
+						
+				foreach ( $DataColumns as $key => $Value )
+					$this->SetSeriesName ( $Values [$Value], "Serie" . $Value );
+			}
+			$HeaderParsed = TRUE;
+		} else {
+			if ($DataColumns == - 1) {
+				$ID = 1;
+				foreach ( $Values as $key => $Value ) {
+					$this->AddPoint ( intval ( $Value ), "Serie" . $ID );
+					$ID ++;
+				}
+			} else {
+				$SerieName = "";
+				if ($DataName != - 1)
+					$SerieName = $Values [$DataName];
+						
+				foreach ( $DataColumns as $key => $Value )
+					$this->AddPoint ( $Values [$Value], "Serie" . $Value, $SerieName );
+			}
+		}
+	}
+	
 	/**
 	 * Add a single point to the data set
 	 */
