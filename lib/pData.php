@@ -93,40 +93,45 @@ class pData {
 		}
 		fclose ( $handle );
 	}
-	
+
 	/**
-	 * Add one or more points to the data set.
-	 *
-	 * @param $Value This may be a single value, or an array. If it is
-	 * an associative array the key values are ignored. The members of
-	 * the array are added sequentially to the data set, taking on
-	 * auto-incremented ID values based on the current state of the
-	 * data set.
+	 * Add a single point to the data set
 	 */
-	public function addPoint($Value, $Serie = "Series1", $Description = "") {
-		if (is_array ( $Value ) && count ( $Value ) == 1)
-			$Value = $Value [0];
-		
+	public function addPoint($value, $series = "Series1", $Description = "") {
+		if (is_array($value)) {
+			throw new InvalidArgumentException("Can't pass an array to addPoint()");
+		}
+
+		return $this->addPoints(array($value),
+								$series,
+								$Description);
+	}
+
+	/**
+	 * Add an array of one or more points to the data set.
+	 *
+	 * @param $Value If this is an associative array the key values
+	 * are ignored. The members of the array are added sequentially to
+	 * the data set, taking on auto-incremented ID values based on the
+	 * current state of the data set.
+	 */
+	public function addPoints(array $Value, $Serie = "Series1", $Description = "") {
 		$ID = 0;
 		for($i = 0; $i < count ( $this->Data ); $i ++) {
 			if (isset ( $this->Data [$i] [$Serie] )) {
 				$ID = $i + 1;
 			}
 		}
-		
-		if (count ( $Value ) == 1) {
-			$this->Data [$ID] [$Serie] = $Value;
-			if ($Description != "")
-				$this->Data [$ID] ["Name"] = $Description;
-			elseif (! isset ( $this->Data [$ID] ["Name"] ))
-				$this->Data [$ID] ["Name"] = $ID;
-		} else {
-			foreach ( $Value as $key => $Val ) {
-				$this->Data [$ID] [$Serie] = $Val;
-				if (! isset ( $this->Data [$ID] ["Name"] ))
-					$this->Data [$ID] ["Name"] = $ID;
-				$ID ++;
+
+		foreach ( $Value as $key => $Val ) {
+			$this->Data [$ID] [$Serie] = $Val;
+			if ($Description != "") {
+				$this->Data[$ID]["Name"] = $Description;
 			}
+			elseif (! isset ( $this->Data [$ID] ["Name"] )) {
+				$this->Data [$ID] ["Name"] = $ID;
+			}
+			$ID ++;
 		}
 	}
 	

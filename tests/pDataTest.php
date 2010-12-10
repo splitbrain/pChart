@@ -8,7 +8,7 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 	public function testAddPointAssociative() {
 		$data = new pData();
 
-		$data->addPoint(array(3 => 4, 4 => 5));
+		$data->addPoints(array(3 => 4, 4 => 5));
 
 		/* NB: Key values passed in the array to addPoint are
 		 discarded */
@@ -28,7 +28,7 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 											 'Name' => 0)),
 							$data->getData());
 
-		$data->addPoint(array(2, 3, 4));
+		$data->addPoints(array(2, 3, 4));
 
 		$this->assertEquals(array(0 => array('Series1' => 1,
 											 'Name' => 0),
@@ -50,8 +50,8 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 		// Adding the same series a second time should have no effect
 		$data->addSeries('testseries2');
 
-		$data->addPoint(array(1, 2), 'testseries1');
-		$data->addPoint(array(3, 4), 'testseries2');
+		$data->addPoints(array(1, 2), 'testseries1');
+		$data->addPoints(array(3, 4), 'testseries2');
 
 		$this->assertEquals(array(0 => array('testseries1' => 1,
 											 'testseries2' => 3,
@@ -65,8 +65,8 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 	public function testAddAllSeries() {
 		$data = new pData;
 
-		$data->addPoint(array(1, 2), 'testseries1');
-		$data->addPoint(array(3, 4), 'testseries2');
+		$data->addPoints(array(1, 2), 'testseries1');
+		$data->addPoints(array(3, 4), 'testseries2');
 
 		$data->addAllSeries();
 
@@ -86,8 +86,8 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 	public function testRemoveSeries() {
 		$data = new pData;
 
-		$data->addPoint(array(1, 2), 'testseries1');
-		$data->addPoint(array(3, 4), 'testseries2');
+		$data->addPoints(array(1, 2), 'testseries1');
+		$data->addPoints(array(3, 4), 'testseries2');
 
 		$data->addSeries('testseries1');
 		$data->addSeries('testseries2');

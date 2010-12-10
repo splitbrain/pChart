@@ -80,8 +80,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testPieGraph() {
 		// Dataset definition 
 		$DataSet = new pData();
-		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
-		$DataSet->AddPoint(array("January", "February", "March", "April", "May"), "Serie2");
+		$DataSet->addPoints(array(10, 2, 3, 5, 3), "Serie1");
+		$DataSet->addPoints(array("January", "February", "March", "April", "May"), "Serie2");
 		$DataSet->AddAllSeries();
 		$DataSet->setAbscissaLabelSeries("Serie2");
 		
@@ -121,8 +121,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testFlatPieGraph() {
 		// Dataset definition 
 		$DataSet = new pData();
-		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
-		$DataSet->AddPoint(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
+		$DataSet->addPoints(array(10, 2, 3, 5, 3), "Serie1");
+		$DataSet->addPoints(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries("Serie2");
 		
@@ -155,8 +155,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		// Compute the points
 		for($i=0;$i<=360;$i=$i+10) {
-			$DataSet->AddPoint(cos($i*3.14/180)*80+$i,"Serie1");
-			$DataSet->AddPoint(sin($i*3.14/180)*80+$i,"Serie2");
+			$DataSet->addPoint(cos($i*3.14/180)*80+$i,"Serie1");
+			$DataSet->addPoint(sin($i*3.14/180)*80+$i,"Serie2");
 		}
 		
 		$DataSet->setSeriesName("Trigonometric function","Serie1");
@@ -221,8 +221,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawFilledCubicCurve() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(1,4,3,2,3,3,2,1,0,7,4,3,2,3,3,5,1,0,7),"Serie1");
-		$DataSet->AddPoint(array(1,4,2,6,2,3,0,1,5,1,2,4,5,2,1,0,6,4,2),"Serie2");
+		$DataSet->addPoints(array(1,4,3,2,3,3,2,1,0,7,4,3,2,3,3,5,1,0,7),"Serie1");
+		$DataSet->addPoints(array(1,4,2,6,2,3,0,1,5,1,2,4,5,2,1,0,6,4,2),"Serie2");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->SetSeriesName("January","Serie1");
@@ -262,8 +262,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawBasicPieGraph() {
 		// Dataset definition 
 		$DataSet = new pData();
-		$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
-		$DataSet->AddPoint(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
+		$DataSet->addPoints(array(10, 2, 3, 5, 3), "Serie1");
+		$DataSet->addPoints(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
 		$DataSet->AddAllSeries();
 		$DataSet->setAbscissaLabelSeries("Serie2");
 		
@@ -307,9 +307,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawFilledRadar() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array("Memory","Disk","Network","Slots","CPU"),"Label");
-		$DataSet->AddPoint(array(1,2,3,4,3),"Serie1");
-		$DataSet->AddPoint(array(1,4,2,6,2),"Serie2");
+		$DataSet->addPoints(array("Memory","Disk","Network","Slots","CPU"),"Label");
+		$DataSet->addPoints(array(1,2,3,4,3),"Serie1");
+		$DataSet->addPoints(array(1,4,2,6,2),"Serie2");
 		$DataSet->AddSeries("Serie1");
 		$DataSet->AddSeries("Serie2");
 		$DataSet->setAbscissaLabelSeries("Label");
@@ -344,9 +344,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawRadar() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array("Memory","Disk","Network","Slots","CPU"),"Label");
-		$DataSet->AddPoint(array(1,2,3,4,3),"Serie1");
-		$DataSet->AddPoint(array(1,4,2,6,2),"Serie2");
+		$DataSet->addPoints(array("Memory","Disk","Network","Slots","CPU"),"Label");
+		$DataSet->addPoints(array(1,2,3,4,3),"Serie1");
+		$DataSet->addPoints(array(1,4,2,6,2),"Serie2");
 		$DataSet->AddSeries("Serie1");
 		$DataSet->AddSeries("Serie2");
 		$DataSet->SetAbscissaLabelSeries("Label");
@@ -376,8 +376,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawXYPlotGraph() {
 		$dataSet = new pData;
 
-		$dataSet->addPoint(array(1, 3, 2, 6, 3, 1), 'X');
-		$dataSet->addPoint(array(5, 2, 4, 12, 7, 3), 'Y');
+		$dataSet->addPoints(array(1, 3, 2, 6, 3, 1), 'X');
+		$dataSet->addPoints(array(5, 2, 4, 12, 7, 3), 'Y');
 
 		$dataSet->addSeries('X');
 		$dataSet->addSeries('Y');
@@ -413,8 +413,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testLabels() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(0,70,70,0,0,70,70,0,0,70),"Serie1");
-		$DataSet->AddPoint(array(0.5,2,4.5,8,12.5,18,24.5,32,40.5,50),"Serie2");
+		$DataSet->addPoints(array(0,70,70,0,0,70,70,0,0,70),"Serie1");
+		$DataSet->addPoints(array(0.5,2,4.5,8,12.5,18,24.5,32,40.5,50),"Serie2");
 
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
@@ -499,8 +499,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawOverlayBarGraph() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4,-3,2,-3,3,5,1,0,7),"Serie1");
-		$DataSet->AddPoint(array(0,3,-4,1,-2,2,1,0,-1,6,3,-4,1,-4,2,4,0,-1,6),"Serie2");
+		$DataSet->addPoints(array(1,4,-3,2,-3,3,2,1,0,7,4,-3,2,-3,3,5,1,0,7),"Serie1");
+		$DataSet->addPoints(array(0,3,-4,1,-2,2,1,0,-1,6,3,-4,1,-4,2,4,0,-1,6),"Serie2");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->SetSeriesName("January","Serie1");
@@ -543,9 +543,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawBarGraph() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4),"Serie1");
-		$DataSet->AddPoint(array(3,3,-4,1,-2,2,1,0,-1,6,3),"Serie2");
-		$DataSet->AddPoint(array(4,1,2,-1,-4,-2,3,2,1,2,2),"Serie3");
+		$DataSet->addPoints(array(1,4,-3,2,-3,3,2,1,0,7,4),"Serie1");
+		$DataSet->addPoints(array(3,3,-4,1,-2,2,1,0,-1,6,3),"Serie2");
+		$DataSet->addPoints(array(4,1,2,-1,-4,-2,3,2,1,2,2),"Serie3");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->setSeriesName("January","Serie1");
@@ -588,9 +588,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawStackedBarGraph() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4),"Serie1");
-		$DataSet->AddPoint(array(3,3,-4,1,-2,2,1,0,-1,6,3),"Serie2");
-		$DataSet->AddPoint(array(4,1,2,-1,-4,-2,3,2,1,2,2),"Serie3");
+		$DataSet->addPoints(array(1,4,-3,2,-3,3,2,1,0,7,4),"Serie1");
+		$DataSet->addPoints(array(3,3,-4,1,-2,2,1,0,-1,6,3),"Serie2");
+		$DataSet->addPoints(array(4,1,2,-1,-4,-2,3,2,1,2,2),"Serie3");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->SetSeriesName("January","Serie1");
@@ -633,8 +633,8 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawLimitsGraph() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(1,4,-3,2,-3,3,2,1,0,7,4,-3,2,-3,3,5,1,0,7),"Serie1");
-		$DataSet->AddPoint(array(2,5,7,5,1,5,6,4,8,4,0,2,5,6,4,5,6,7,6),"Serie2");
+		$DataSet->addPoints(array(1,4,-3,2,-3,3,2,1,0,7,4,-3,2,-3,3,5,1,0,7),"Serie1");
+		$DataSet->addPoints(array(2,5,7,5,1,5,6,4,8,4,0,2,5,6,4,5,6,7,6),"Serie2");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
 		$DataSet->SetSeriesName("January","Serie1");
@@ -678,10 +678,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawArea() {
 		// Dataset definition    
 		$DataSet = new pData;
-		$DataSet->AddPoint(array(10,9.4,7.7,5,1.7,-1.7,-5,-7.7,-9.4,-10,-9.4,-7.7,-5,-1.8,1.7),"Serie1");
-		$DataSet->AddPoint(array(0,3.4,6.4,8.7,9.8,9.8,8.7,6.4,3.4,0,-3.4,-6.4,-8.6,-9.8,-9.9),"Serie2");
-		$DataSet->AddPoint(array(7.1,9.1,10,9.7,8.2,5.7,2.6,-0.9,-4.2,-7.1,-9.1,-10,-9.7,-8.2,-5.8),"Serie3");
-		$DataSet->AddPoint(array("Jan","Jan","Jan","Feb","Feb","Feb","Mar","Mar","Mar","Apr","Apr","Apr","May","May","May"),"Serie4");
+		$DataSet->addPoints(array(10,9.4,7.7,5,1.7,-1.7,-5,-7.7,-9.4,-10,-9.4,-7.7,-5,-1.8,1.7),"Serie1");
+		$DataSet->addPoints(array(0,3.4,6.4,8.7,9.8,9.8,8.7,6.4,3.4,0,-3.4,-6.4,-8.6,-9.8,-9.9),"Serie2");
+		$DataSet->addPoints(array(7.1,9.1,10,9.7,8.2,5.7,2.6,-0.9,-4.2,-7.1,-9.1,-10,-9.7,-8.2,-5.8),"Serie3");
+		$DataSet->addPoints(array("Jan","Jan","Jan","Feb","Feb","Feb","Mar","Mar","Mar","Apr","Apr","Apr","May","May","May"),"Serie4");
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries("Serie4");
 		$DataSet->SetSeriesName("Max Average","Serie1");
