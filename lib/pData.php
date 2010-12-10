@@ -73,7 +73,7 @@ class pData {
 			}
 		}
 
-		foreach ( $Value as $key => $Val ) {
+		foreach ( $Value as $Val ) {
 			$this->Data [$ID] [$Serie] = $Val;
 			if ($Description != "") {
 				$this->Data[$ID]["Name"] = $Description;
@@ -90,7 +90,7 @@ class pData {
 			$this->dataDescription->values[] = $SerieName;
 		} else {
 			$Found = FALSE;
-			foreach ( $this->dataDescription->values as $key => $Value )
+			foreach ( $this->dataDescription->values as $Value )
 				if ($Value == $SerieName) {
 					$Found = TRUE;
 				}

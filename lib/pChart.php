@@ -918,7 +918,7 @@ class pChart {
 		/* <-10->[8]<-4->Text<-10-> */
 		$MaxWidth = 0;
 		$MaxHeight = 8;
-		foreach ( $DataDescription->description as $Key => $Value ) {
+		foreach ( $DataDescription->description as $Value ) {
 			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value );
 			$TextWidth = $Position [2] - $Position [0];
 			$TextHeight = $Position [1] - $Position [7];
@@ -1181,9 +1181,9 @@ class pChart {
 		
 		$Cp = 0;
 		$Found = FALSE;
-		foreach ( $Data as $Key => $Value ) {
-			if ($Data [$Key] [$DataDescription->getPosition()] == $ValueName) {
-				$NumericalValue = $Data [$Key] [$SerieName];
+		foreach ( $Data as $Value ) {
+			if ($Value[$DataDescription->getPosition()] == $ValueName) {
+				$NumericalValue = $Value[$SerieName];
 				$Found = TRUE;
 			}
 			if (! $Found)
@@ -1280,8 +1280,6 @@ class pChart {
 			$color2 = $colorO;
 			
 			if (isset ( $DataDescription->seriesSymbols[$ColName] )) {
-				$Is_Alpha = ((ord ( file_get_contents ( $DataDescription->seriesSymbols[$ColName], false, null, 25, 1 ) ) & 6) & 4) == 4;
-				
 				$Infos = getimagesize ( $DataDescription->seriesSymbols[$ColName] );
 				$ImageWidth = $Infos [0];
 				$ImageHeight = $Infos [1];
@@ -1292,13 +1290,13 @@ class pChart {
 			$Hsize = round ( $BigRadius / 2 );
 
 			$color3 = null;
-			foreach ( $Data as $Key => $Values ) {
-				$Value = $Data [$Key] [$ColName];
+			foreach ( $Data as $Values ) {
+				$Value = $Values[$ColName];
 				$YPos = $this->GArea_Y2 - (($Value - $this->VMin) * $this->DivisionRatio);
 				
 				/* Save point into the image map if option activated */
 				if ($this->BuildMap)
-					$this->addToImageMap ( $XPos - $Hsize, $YPos - $Hsize, $XPos + 1 + $Hsize, $YPos + $Hsize + 1, $DataDescription->description[$ColName], $Data [$Key] [$ColName] . $DataDescription->getYUnit(), "Plot" );
+					$this->addToImageMap ( $XPos - $Hsize, $YPos - $Hsize, $XPos + 1 + $Hsize, $YPos + $Hsize + 1, $DataDescription->description[$ColName], $Values[$ColName] . $DataDescription->getYUnit(), "Plot" );
 				
 				if (is_numeric ( $Value )) {
 					if (! isset ( $DataDescription->seriesSymbols[$ColName] )) {
