@@ -97,7 +97,7 @@ class pCache {
 	 */
 	protected function GetHash($ID, $Data) {
 		$mKey = "$ID";
-		foreach ( $Data as $key => $Values ) {
+		foreach ( $Data as $Values ) {
 			$tKey = "";
 			foreach ( $Values as $Serie => $Value )
 				$tKey = $tKey . $Serie . $Value;

@@ -76,8 +76,6 @@ class CSVImporter {
 				$ID ++;
 			}
 		} else {
-			$SerieName = "";
-			
 			foreach ( $DataColumns as $key => $Value )
 				$data->SetSeriesName ( $Values [$Value], "Serie" . $Value );
 		}
