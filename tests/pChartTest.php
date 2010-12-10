@@ -10,6 +10,7 @@ require_once 'lib/TestCanvas.php';
 require_once 'lib/GridStyle.php';
 require_once 'lib/BackgroundStyle.php';
 require_once 'lib/ScaleStyle.php';
+require_once 'lib/CSVImporter.php';
 
 class pChartTest extends PHPUnit_Framework_TestCase {
 	/**
@@ -21,7 +22,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$canvas = new TestCanvas();
 
 		$DataSet = new pData;   
-		$DataSet->importFromCSV(dirname(__FILE__)."/../sample/bulkdata.csv",",",array(1,2,3),FALSE,0);   
+		CSVImporter::importFromCSV($DataSet, dirname(__FILE__)."/../sample/bulkdata.csv",",",array(1,2,3),FALSE,0);   
 		$DataSet->addAllSeries();   
 		$DataSet->setAbscissaLabelSeries();   
 		$DataSet->setSeriesName("January","Serie1");   
@@ -467,8 +468,10 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 	public function testDrawFilledLineGraph() {
 		// Dataset definition 
 		$DataSet = new pData;
-		$DataSet->ImportFromCSV(dirname(__FILE__)
-								."/../sample/datawithtitle.csv",",",array(1,2,3),TRUE,0);
+		CSVImporter::importFromCSV($DataSet,
+								   dirname(__FILE__)
+								   ."/../sample/datawithtitle.csv",",",
+								   array(1,2,3),TRUE,0);
 		$DataSet->AddAllSeries();
 		$DataSet->SetAbscissaLabelSeries();
 
