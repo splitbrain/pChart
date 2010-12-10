@@ -3,6 +3,7 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once 'lib/pChart.php';
+require_once 'lib/PieChart.php';
 require_once 'lib/pData.php';
 require_once 'lib/GDCanvas.php';
 require_once 'lib/TestCanvas.php';
@@ -88,7 +89,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Initialise the graph
 		$canvas = new TestCanvas;
 		$canvas->setAntialiasQuality(0);
-		$Test = new pChart(420, 250, $canvas);
+		$Test = new PieChart(420, 250, $canvas);
 		$Test->setPalette(Palette::colorGradientPalette(new Color(195, 204, 56),
 														new Color(223, 110, 41),
 														5));
@@ -128,7 +129,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Initialise the graph
 		$canvas = new TestCanvas;
-		$Test = new pChart(300, 200, $canvas);
+		$Test = new PieChart(300, 200, $canvas);
 		$Test->setFontProperties("Fonts/tahoma.ttf", 8);
 		
 		// Draw the pie chart
@@ -290,7 +291,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 
 		// Initialise the graph
 		$canvas = new TestCanvas;
-		$Test = new pChart(300, 200, $canvas);
+		$Test = new PieChart(300, 200, $canvas);
 		$Test->loadColorPalette(dirname(__FILE__)."/../sample/softtones.txt");
 		
 		// Draw the pie chart

@@ -107,7 +107,14 @@ class pChart {
 	protected $tmpFolder = "tmp/";
 	protected $MapID = NULL;
 
-	private $canvas = null;
+	/**
+	 * @brief An abstract ICanvas onto which we draw the chart
+	 *
+	 * @todo This probably shouldn't be protected, I'm still working
+	 * on how the modules are going to break down between the various
+	 * chart types.
+	 */
+	protected $canvas = null;
 	
 	/**
 	 * This function create the background picture 
@@ -1005,78 +1012,7 @@ class pChart {
 			$ID ++;
 		}
 	}
-	
-	/**
-	 * Draw the data legends 
-	 */
-	function drawPieLegend($XPos, $YPos, $Data, $DataDescription, Color $color) {
-		/* Validate the Data and DataDescription array */
-		$this->validateDataDescription ( "drawPieLegend", $DataDescription, FALSE );
-		$this->validateData ( "drawPieLegend", $Data );
 		
-		if ($DataDescription->getPosition() == '')
-			return (- 1);
-		
-		/* <-10->[8]<-4->Text<-10-> */
-		$MaxWidth = 0;
-		$MaxHeight = 8;
-		foreach ( $Data as $Key => $Value ) {
-			$Value2 = $Value [$DataDescription->getPosition()];
-			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value2 );
-			$TextWidth = $Position [2] - $Position [0];
-			$TextHeight = $Position [1] - $Position [7];
-			if ($TextWidth > $MaxWidth) {
-				$MaxWidth = $TextWidth;
-			}
-			
-			$MaxHeight = $MaxHeight + $TextHeight + 4;
-		}
-		$MaxHeight = $MaxHeight - 3;
-		$MaxWidth = $MaxWidth + 32;
-		
-		$this->canvas->drawFilledRoundedRectangle(new Point($XPos + 1, $YPos + 1),
-												  new Point($XPos + $MaxWidth + 1,
-															$YPos + $MaxHeight + 1),
-												  5,
-												  $color->addRGBIncrement(-30),
-												  $this->LineWidth,
-												  $this->LineDotSize,
-												  $this->shadowProperties);
-		
-		$this->canvas->drawFilledRoundedRectangle(new Point($XPos, $YPos), 
-												  new Point($XPos + $MaxWidth,
-															$YPos + $MaxHeight), 
-												  5, $color,
-												  $this->LineWidth,
-												  $this->LineDotSize,
-												  $this->shadowProperties);
-		
-		$YOffset = 4 + $this->FontSize;
-		$ID = 0;
-		foreach ( $Data as $Key => $Value ) {
-			$Value2 = $Value [$DataDescription->getPosition()];
-			$Position = imageftbbox ( $this->FontSize, 0, $this->FontName, $Value2 );
-			$TextHeight = $Position [1] - $Position [7];
-			$this->canvas->drawFilledRectangle(new Point($XPos + 10,
-														 $YPos + $YOffset - 6),
-											   new Point($XPos + 14,
-														 $YPos + $YOffset - 2),
-											   $this->palette->colors[$ID],
-											   $this->shadowProperties);
-			
-			$this->canvas->drawText($this->FontSize,
-									0,
-									new Point($XPos + 22,
-											  $YPos + $YOffset),
-									new Color(0, 0, 0),
-									$this->FontName,
-									$Value2,
-									ShadowProperties::NoShadow());
-			$YOffset = $YOffset + $TextHeight + 4;
-			$ID ++;
-		}
-	}
-	
 	/**
 	 * Draw the graph title 
 	 *
@@ -3300,7 +3236,7 @@ class pChart {
 	 *
 	 * @todo Should this be a method on DataDescription?
 	 */
-	private function validateDataDescription($FunctionName, DataDescription &$DataDescription, $DescriptionRequired = TRUE) {
+	protected function validateDataDescription($FunctionName, DataDescription &$DataDescription, $DescriptionRequired = TRUE) {
 		if ($DataDescription->getPosition() == '') {
 			$this->Errors [] = "[Warning] " . $FunctionName . " - Y Labels are not set.";
 			$DataDescription->setPosition("Name");
@@ -3327,7 +3263,7 @@ class pChart {
 	/**
 	 * Validate data contained in the data array 
 	 */
-	private function validateData($FunctionName, &$Data) {
+	protected function validateData($FunctionName, &$Data) {
 		$DataSummary = array ();
 		
 		foreach ( $Data as $key => $Values ) {
