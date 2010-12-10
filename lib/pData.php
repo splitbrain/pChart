@@ -48,6 +48,10 @@ class pData {
 	 * @brief Import data into the current object from a CSV file
 	 *
 	 * @param $FileName  Name of the file (with path if necessary)
+	 * @param $DataColumns If specified, this should be an array of 
+	 * strings that give the names that will be suffixed to "Serie"
+	 * to name the series of data. If this is left to the default,
+	 * numbers will be used instead.
 	 */
 	public function importFromCSV($FileName, $Delimiter = ",", $DataColumns = -1, $HasHeader = FALSE, $DataName = -1) {
 		$handle = @fopen ( $FileName, "r" );
