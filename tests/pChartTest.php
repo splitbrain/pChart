@@ -199,7 +199,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		
 		// Draw the title
 		$Title = "Drawing X versus Y charts trigonometric functions  ";
-		$Test->drawTextBox(0,280,300,300,$Title,0,new Color(255,255,255),
+		$Test->drawTextBox(0,280,
+						   300,300,
+						   $Title,0,new Color(255,255,255),
 						   ALIGN_RIGHT,
 						   ShadowProperties::FromSettings(1, 1, new Color(0, 0, 0),
 														  100, 0),
@@ -214,6 +216,9 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 						  new Color(0,0,0),
 						  new Color(255,255,255),
 						  FALSE);
+
+		file_put_contents(dirname(__FILE__).'/action_logs/testXYChart',
+						  $canvas->getActionLog());
 		
 		$this->assertEquals('29617aa04eb4a3dfe787a5d45733c83c',
 							md5($canvas->getActionLog()));
