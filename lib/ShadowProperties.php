@@ -30,7 +30,7 @@ class ShadowProperties {
 		return $properties;
 	}
 
-	static public function FromSettings($xDistance, $yDistance, Color $color, $alpha, $blur) {
+	static public function FromSettings($xDistance, $yDistance, Color $color, $alpha = 50, $blur = 0) {
 		$properties = new ShadowProperties;
 
 		$properties->active = true;
@@ -41,6 +41,25 @@ class ShadowProperties {
 		$properties->blur = $blur;
 
 		return $properties;
+	}
+
+	/**
+	 * Instantiate a new ShadowProperties with the same settings as
+	 * the one passed in. Essentially this is a clone method.
+	 *
+	 * @todo clone appears to be a reserved word in PHP, is there
+	 * actually any special clone functionality? I can't RTFM at the
+	 * moment as the internet connection is down.
+	 */
+	static public function Copy(ShadowProperties $other) {
+		$copy = ShadowProperties::FromSettings($other->xDistance,
+											   $other->yDistance,
+											   $other->color,
+											   $other->alpha,
+											   $other->blur);
+		$copy->active = $other->active;
+
+		return $copy;
 	}
 
 	static public function NoShadow() {

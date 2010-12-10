@@ -134,12 +134,12 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		$Test->setFontProperties("Fonts/tahoma.ttf", 8);
 		
 		// Draw the pie chart
-		$Test->setShadowProperties(2, 2, new Color(200, 200, 200));
+		$shadowProperties = ShadowProperties::FromSettings(2, 2, new Color(200, 200, 200));
 		$Test->drawFlatPieGraphWithShadow($DataSet->GetData(), 
-										  $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8);
-		$Test->clearShadow();
+										  $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8, 0, $shadowProperties);
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
-							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
+							 $DataSet->GetDataDescription(),
+							 new Color(250, 250, 250));
 
 		file_put_contents(dirname(__FILE__).'/action_logs/testFlatPieGraph',
 						  $canvas->getActionLog());		
@@ -303,7 +303,7 @@ class pChartTest extends PHPUnit_Framework_TestCase {
 		// Draw the pie chart
 		$Test->setFontProperties("Fonts/tahoma.ttf", 8);
 		$Test->drawBasicPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 
-								 120, 100, 70, PIE_PERCENTAGE, new Color(255, 255, 218));
+								 120, 100, ShadowProperties::NoShadow(), 70, PIE_PERCENTAGE, new Color(255, 255, 218));
 		$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 							 $DataSet->GetDataDescription(), new Color(250, 250, 250));
 
