@@ -1616,14 +1616,9 @@ class pChart {
 				$Yt [0] = 0;
 				$Yt [1] = 0;
 				$U [1] = 0;
-				for($i = 2; $i <= $Index - 1; $i ++) {
-					$Sig = ($XIn [$i] - $XIn [$i - 1]) / ($XIn [$i + 1] - $XIn [$i - 1]);
-					$p = $Sig * $Yt [$i - 1] + 2;
-					$Yt [$i] = ($Sig - 1) / $p;
-					$U [$i] = ($YIn [$i + 1] - $YIn [$i]) / ($XIn [$i + 1] - $XIn [$i]) - ($YIn [$i] - $YIn [$i - 1]) / ($XIn [$i] - $XIn [$i - 1]);
-					$U [$i] = (6 * $U [$i] / ($XIn [$i + 1] - $XIn [$i - 1]) - $Sig * $U [$i - 1]) / $p;
-				}
-				
+
+				$this->calculateCubicCurve($Yt, $XIn, $YIn, $U, $Index);
+
 				$qn = 0;
 				$un = 0;
 				$Yt [$Index] = ($un - $qn * $U [$Index - 1]) / ($qn * $Yt [$Index - 1] + 1);
@@ -1689,6 +1684,20 @@ class pChart {
 			}
 		}
 	}
+
+	/**
+	 * @todo I haven't figured out exactly what this bit of code does,
+	 * it's just an attempt to reduce code duplication
+	 */
+	private function calculateCubicCurve(array & $Yt, array & $XIn, array & $YIn, array & $U, $Index) {
+		for($i = 2; $i <= $Index - 1; $i ++) {
+			$Sig = ($XIn [$i] - $XIn [$i - 1]) / ($XIn [$i + 1] - $XIn [$i - 1]);
+			$p = $Sig * $Yt [$i - 1] + 2;
+			$Yt [$i] = ($Sig - 1) / $p;
+			$U [$i] = ($YIn [$i + 1] - $YIn [$i]) / ($XIn [$i + 1] - $XIn [$i]) - ($YIn [$i] - $YIn [$i - 1]) / ($XIn [$i] - $XIn [$i - 1]);
+			$U [$i] = (6 * $U [$i] / ($XIn [$i + 1] - $XIn [$i - 1]) - $Sig * $U [$i - 1]) / $p;
+		}
+	}
 	
 	/**
 	 * This function draw a filled cubic curve
@@ -1724,13 +1733,8 @@ class pChart {
 			$Yt [0] = 0;
 			$Yt [1] = 0;
 			$U [1] = 0;
-			for($i = 2; $i <= $Index - 1; $i ++) {
-				$Sig = ($XIn [$i] - $XIn [$i - 1]) / ($XIn [$i + 1] - $XIn [$i - 1]);
-				$p = $Sig * $Yt [$i - 1] + 2;
-				$Yt [$i] = ($Sig - 1) / $p;
-				$U [$i] = ($YIn [$i + 1] - $YIn [$i]) / ($XIn [$i + 1] - $XIn [$i]) - ($YIn [$i] - $YIn [$i - 1]) / ($XIn [$i] - $XIn [$i - 1]);
-				$U [$i] = (6 * $U [$i] / ($XIn [$i + 1] - $XIn [$i - 1]) - $Sig * $U [$i - 1]) / $p;
-			}
+
+			$this->calculateCubicCurve($Yt, $XIn, $YIn, $U, $Index);
 			
 			$qn = 0;
 			$un = 0;
