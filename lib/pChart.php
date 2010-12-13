@@ -1619,9 +1619,7 @@ class pChart {
 
 				$this->calculateCubicCurve($Yt, $XIn, $YIn, $U, $Index);
 
-				$qn = 0;
-				$un = 0;
-				$Yt [$Index] = ($un - $qn * $U [$Index - 1]) / ($qn * $Yt [$Index - 1] + 1);
+				$Yt [$Index] = 0;
 				
 				for($k = $Index - 1; $k >= 1; $k --)
 					$Yt [$k] = $Yt [$k] * $Yt [$k + 1] + $U [$k];
@@ -1737,9 +1735,7 @@ class pChart {
 
 			$this->calculateCubicCurve($Yt, $XIn, $YIn, $U, $numElements);
 			
-			$qn = 0;
-			$un = 0;
-			$Yt [$numElements] = ($un - $qn * $U [$numElements- 1]) / ($qn * $Yt [$numElements - 1] + 1);
+			$Yt [$numElements] = 0;
 			
 			for($k = $numElements - 1; $k >= 1; $k --)
 				$Yt [$k] = $Yt [$k] * $Yt [$k + 1] + $U [$k];
