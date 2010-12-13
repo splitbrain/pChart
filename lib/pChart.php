@@ -1694,7 +1694,8 @@ class pChart {
 			$Sig = ($XIn [$i] - $XIn [$i - 1]) / ($XIn [$i + 1] - $XIn [$i - 1]);
 			$p = $Sig * $Yt [$i - 1] + 2;
 			$Yt [$i] = ($Sig - 1) / $p;
-			$U [$i] = ($YIn [$i + 1] - $YIn [$i]) / ($XIn [$i + 1] - $XIn [$i]) - ($YIn [$i] - $YIn [$i - 1]) / ($XIn [$i] - $XIn [$i - 1]);
+			$U [$i] = ($YIn [$i + 1] - $YIn [$i]) / ($XIn [$i + 1] - $XIn [$i])
+				- ($YIn [$i] - $YIn [$i - 1]) / ($XIn [$i] - $XIn [$i - 1]);
 			$U [$i] = (6 * $U [$i] / ($XIn [$i + 1] - $XIn [$i - 1]) - $Sig * $U [$i - 1]) / $p;
 		}
 	}
@@ -1719,28 +1720,28 @@ class pChart {
 		foreach ($data->getDataDescription()->values as $ColName) {
 			$XIn = array();
 			$YIn = array();
-			$Yt = "";
-			$U = "";
+			$Yt = array();
+			$U = array();
 			
 			$ColorID = $data->getDataDescription()->getColumnIndex($ColName);
 			
-			$Index = 1;
+			$numElements = 1;
 			$XLast = - 1;
 			$Missing = array();
 
-			$data->getXYMap($ColName, $XIn, $YIn, $Missing, $Index);
+			$data->getXYMap($ColName, $XIn, $YIn, $Missing, $numElements);
 			
 			$Yt [0] = 0;
 			$Yt [1] = 0;
 			$U [1] = 0;
 
-			$this->calculateCubicCurve($Yt, $XIn, $YIn, $U, $Index);
+			$this->calculateCubicCurve($Yt, $XIn, $YIn, $U, $numElements);
 			
 			$qn = 0;
 			$un = 0;
-			$Yt [$Index] = ($un - $qn * $U [$Index - 1]) / ($qn * $Yt [$Index - 1] + 1);
+			$Yt [$numElements] = ($un - $qn * $U [$numElements- 1]) / ($qn * $Yt [$numElements - 1] + 1);
 			
-			for($k = $Index - 1; $k >= 1; $k --)
+			for($k = $numElements - 1; $k >= 1; $k --)
 				$Yt [$k] = $Yt [$k] * $Yt [$k + 1] + $U [$k];
 			
 			$Points = "";
@@ -1750,9 +1751,9 @@ class pChart {
 			$YLast = NULL;
 			$XPos = $this->GAreaXOffset;
 			$PointsCount = 2;
-			for($X = 1; $X <= $Index; $X = $X + $Accuracy) {
+			for($X = 1; $X <= $numElements; $X = $X + $Accuracy) {
 				$klo = 1;
-				$khi = $Index;
+				$khi = $numElements;
 				$k = $khi - $klo;
 				while ( $k > 1 ) {
 					$k = $khi - $klo;
@@ -1807,7 +1808,7 @@ class pChart {
 			// Add potentialy missing values
 			$XPos = $XPos - $this->DivisionWidth * $Accuracy;
 			if ($XPos < ($LayerWidth - $this->GAreaXOffset)) {
-				$YPos = $LayerHeight - (($YIn [$Index] - $this->VMin) * $this->DivisionRatio);
+				$YPos = $LayerHeight - (($YIn [$numElements] - $this->VMin) * $this->DivisionRatio);
 				if ($YLast != NULL && $AroundZero) {
 					$aPoints = "";
 					$aPoints [] = $XLast + $this->GArea_X1;

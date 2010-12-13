@@ -208,10 +208,17 @@ class pData {
 	/**
 	 * Ugly interface, but this is a step towards refactoring
 	 * duplicated code
+	 *
+	 * @param $index Returns the number of values in the specified
+	 * data set
+	 *
+	 * @return Null
 	 */
 	public function getXYMap($colName, array &$xIn, array & $yIn, array & $missing, & $index) {
 		$xIn [0] = 0;
 		$yIn [0] = 0;
+
+		$index = 1;
 
 		foreach (array_keys($this->Data) as $Key) {
 			if (isset ( $this->Data[$Key] [$colName] )) {
