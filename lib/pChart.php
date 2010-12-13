@@ -1689,7 +1689,7 @@ class pChart {
 	 * @todo I haven't figured out exactly what this bit of code does,
 	 * it's just an attempt to reduce code duplication
 	 */
-	private function calculateCubicCurve(array & $Yt, array & $XIn, array & $YIn, array & $U, $Index) {
+	private function calculateCubicCurve(array & $Yt, array $XIn, array $YIn, array & $U, $Index) {
 		for($i = 2; $i <= $Index - 1; $i ++) {
 			$Sig = ($XIn [$i] - $XIn [$i - 1]) / ($XIn [$i + 1] - $XIn [$i - 1]);
 			$p = $Sig * $Yt [$i - 1] + 2;
