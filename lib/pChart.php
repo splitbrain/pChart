@@ -1713,9 +1713,18 @@ class pChart {
 	 */
 	private function calculateCubicCurve(array & $Yt, array $XIn, array $YIn, array & $U, $Index) {
 		for($i = 2; $i <= $Index - 1; $i ++) {
+			/* Typically $Sig will be 0.5, since each X value will be
+			 * one unit past the last. If there is missing data then
+			 * this ratio will change */
 			$Sig = ($XIn [$i] - $XIn [$i - 1]) / ($XIn [$i + 1] - $XIn [$i - 1]);
+			
 			$p = $Sig * $Yt [$i - 1] + 2;
+
+			/* This Y value will nearly always be negative, thanks to
+			 * $Sig being 0.5 */
 			$Yt [$i] = ($Sig - 1) / $p;
+
+			/** @todo No idea what the following code is doing */
 			$U [$i] = ($YIn [$i + 1] - $YIn [$i]) / ($XIn [$i + 1] - $XIn [$i])
 				- ($YIn [$i] - $YIn [$i - 1]) / ($XIn [$i] - $XIn [$i - 1]);
 			$U [$i] = (6 * $U [$i] / ($XIn [$i + 1] - $XIn [$i - 1]) - $Sig * $U [$i - 1]) / $p;
