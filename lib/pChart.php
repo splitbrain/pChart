@@ -1613,6 +1613,9 @@ class pChart {
 
 				$data->getXYMap($ColName, $XIn, $YIn, $Missing, $Index);
 				
+				assert(count($XIn) == count($YIn));
+				assert($Index + 1 >= count($XIn));
+				
 				$Yt [0] = 0;
 				$Yt [1] = 0;
 				$U [1] = 0;

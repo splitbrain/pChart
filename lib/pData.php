@@ -213,11 +213,20 @@ class pData {
 	 *
 	 * For some reason, the data set is assumed to start at (0, 0).
 	 *
-	 * @param[out] $xIn   Returns an array of X values
+	 * @param[out] $xIn   Returns an array of numeric X values
 	 * @param[out] $yIn   Returns an array of Y values, corresponding
-	 *   to the array of X values
+	 *   to the array of X values. Non-numeric values are omitted
+	 *
 	 * @param $index Returns the number of values in the specified
-	 * data set
+	 *   data set, including any non-numeric values (thus this is not
+	 *   necessarily equal to the size of the $xIn or $yIn arrays), minus
+	 *   one (to account for the bogus (0, 0) value added to the X and Y
+	 *   arrays?)
+	 *
+	 * @param $missing  Returns the X values for which no Y value is
+	 *   available. The missing keys form the keys of the $missing array,
+	 *   and the corresponding value in the associative array is always
+	 *   true
 	 *
 	 * @return Null
 	 */
