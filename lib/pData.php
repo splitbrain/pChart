@@ -206,9 +206,16 @@ class pData {
 	}
 
 	/**
+	 * Get the numeric X and Y values, for a given series.
+	 * 
 	 * Ugly interface, but this is a step towards refactoring
 	 * duplicated code
 	 *
+	 * For some reason, the data set is assumed to start at (0, 0).
+	 *
+	 * @param[out] $xIn   Returns an array of X values
+	 * @param[out] $yIn   Returns an array of Y values, corresponding
+	 *   to the array of X values
 	 * @param $index Returns the number of values in the specified
 	 * data set
 	 *

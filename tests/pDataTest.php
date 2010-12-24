@@ -104,4 +104,24 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(1 => 'testseries2'),
 							$data->getDataDescription()->values);
 	}
+
+	public function testGetXYMap() {
+		$data = new pData;
+
+		$data->addPoints(array(2, 3, 4, 5), 'series1');
+		$data->addPoints(array(4, 3, 2, 1), 'series2');
+
+		$xIn = array();
+		$yIn = array();
+		$missing = array();
+		$data->getXYMap('series1', $xIn, $yIn, $missing, $index);
+
+		$this->assertEquals(4, $index);
+		$this->assertEquals(array(0, 1, 2, 3, 4),
+							$xIn);
+		$this->assertEquals(array(0, 2, 3, 4, 5),
+							$yIn);
+		$this->assertEquals(array(),
+							$missing);
+	}
 }
