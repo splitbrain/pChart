@@ -1626,6 +1626,10 @@ class pChart {
 				
 				$XPos = $this->GArea_X1 + $this->GAreaXOffset;
 				for($X = 1; $X <= $Index; $X = $X + $Accuracy) {
+
+					/* I believe here we're searching for the integral
+					 * value k such that $X lies between $XIn[k] and
+					 * $XIn[k-1] */
 					$klo = 1;
 					$khi = $Index;
 					$k = $khi - $klo;
@@ -1637,10 +1641,27 @@ class pChart {
 							$klo = $k;
 					}
 					$klo = $khi - 1;
-					
+
+					/* These assertions are to check my understanding
+					 * of the code. If they fail, it is my fault and
+					 * not a bug */
+					assert($khi = $klo + 1);
+					assert($XIn[$klo] < $X);
+					assert($X <= $XIn[$khi]);
+
 					$h = $XIn [$khi] - $XIn [$klo];
 					$a = ($XIn [$khi] - $X) / $h;
 					$b = ($X - $XIn [$klo]) / $h;
+
+					/**
+					 * I believe this is the actual cubic Bezier
+					 * calculation. In parametric form:
+					 *
+					 * B(t) = (1-t)^3 * B0 
+					 *        + 3 (1-t)^2 * t * B1
+					 *        + 3 (1-t) * t^2 * B2
+					 *        + t^3 B3
+					 */
 					$Value = $a * $YIn [$klo] + $b * $YIn [$khi] + (($a * $a * $a - $a) * $Yt [$klo] + ($b * $b * $b - $b) * $Yt [$khi]) * ($h * $h) / 6;
 					
 					$YPos = $this->GArea_Y2 - (($Value - $this->VMin) * $this->DivisionRatio);
