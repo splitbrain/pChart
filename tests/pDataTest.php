@@ -105,6 +105,11 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 							$data->getDataDescription()->values);
 	}
 
+	/**
+	 * Basic test of getXYMap() (which isn't a well-defined method at
+	 * the moment, so this should act as documentation of what the
+	 * method actually does)
+	 */
 	public function testGetXYMap() {
 		$data = new pData;
 
@@ -122,6 +127,28 @@ class pDataTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(0, 2, 3, 4, 5),
 							$yIn);
 		$this->assertEquals(array(),
+							$missing);
+	}
+
+	/**
+	 * Check that if our data set contains non-numeric data, it will
+	 * add they keys to the $missing array
+	 */
+	public function testGetXYMapMissing() {
+		$data = new pData;
+		
+		$data->addPoints(array(2, 3, 4, 'apple', 5, 'banana'), 'series1');
+		$data->addPoints(array(3, 4, 5, 6, 7), 'series2');
+
+		$xIn = array();
+		$yIn = array();
+		$missing = array();
+		$data->getXYMap('series1', $xIn, $yIn, $missing, $index);
+		
+		$this->assertEquals(6, $index);
+		
+		$this->assertEquals(array(4 => true,
+								  6 => true),
 							$missing);
 	}
 }
