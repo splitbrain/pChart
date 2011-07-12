@@ -21,6 +21,7 @@
  */
 
 require_once dirname(__FILE__).'/DataDescription.php';
+require_once dirname(__FILE__).'/CSVImporter.php';
 
 class pData {
 	private $Data = array();

@@ -53,11 +53,11 @@ ECHO  [24/28] Using shadows
 ECHO  [25/28] Two Y axis / shadow demonstration
  php -q %~dp0Example26.php
 ECHO  [26/28] Naked and easy!
- php -q %~dp0Naked.php
+ php -q %~dp0Example27.php
 ECHO  [27/28] Let's go fast, draw small!
- php -q %~dp0SmallGraph.php
+ php -q %~dp0Example28.php
 ECHO  [28/28] A Small stacked chart
- php -q %~dp0SmallStacked.php
+ php -q %~dp0Example29.php
 ECHO.
 ECHO Rendering complete!
 PAUSE
