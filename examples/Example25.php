@@ -51,5 +51,5 @@
  $Test->drawLegend(610,5,$DataSet->GetDataDescription(),0,0,0,0,0,0,255,255,255,FALSE);
 
  // Render the picture
- $Test->Render("example25.png");
+ $Test->Render("Example25.png");
 ?>

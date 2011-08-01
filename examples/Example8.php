@@ -37,5 +37,5 @@
  $Test->drawLegend(15,15,$DataSet->GetDataDescription(),255,255,255);
  $Test->setFontProperties("../Fonts/tahoma.ttf",10);
  $Test->drawTitle(0,22,"Example 8",50,50,50,400);
- $Test->Render("example8.png");
+ $Test->Render("Example8.png");
 ?>

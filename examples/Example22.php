@@ -46,5 +46,5 @@
  $Test->drawLegend(80,60,$DataSet->GetDataDescription(),255,255,255);
 
  // Render the chart
- $Test->Render("example22.png");
+ $Test->Render("Example22.png");
 ?>

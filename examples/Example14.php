@@ -29,5 +29,5 @@ $Test->drawBasicPieGraph($DataSet->GetData(), $DataSet->GetDataDescription(),
 120, 100, 70, PIE_PERCENTAGE, 255, 255, 218);
 $Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 $DataSet->GetDataDescription(), 250, 250, 250);
-$Test->Render("example14.png");
+$Test->Render("Example14.png");
 ?>

@@ -49,5 +49,5 @@
  $DataSet->RemoveSerie("Serie2");
  $Test->drawLegend(160,5,$DataSet->GetDataDescription(),0,0,0,0,0,0,255,255,255,FALSE);
 
- $Test->Render("example24.png");
+ $Test->Render("Example24.png");
 ?>

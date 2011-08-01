@@ -58,11 +58,11 @@
  $Test->setFontProperties("../Fonts/tahoma.ttf",8);   
  $Test->drawLegend(590,90,$DataSet->GetDataDescription(),255,255,255);   
  $Test->setFontProperties("../Fonts/tahoma.ttf",10);   
- $Test->drawTitle(60,22,"example 15",50,50,50,585);
+ $Test->drawTitle(60,22,"Example 15",50,50,50,585);
 
  // Add an image
  $Test->drawFromPNG("../Sample/logo.png",584,35);
 
  // Render the chart
- $Test->Render("example15.png");   
+ $Test->Render("Example15.png");   
 ?>

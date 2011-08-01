@@ -65,4 +65,4 @@
  $Test->clearShadow();
 
  // Render the picture
- $Test->Render("example26.png");
+ $Test->Render("Example26.png");

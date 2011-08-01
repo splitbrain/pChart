@@ -49,5 +49,5 @@
 
  // Render the picture
  $Test->addBorder(2);
- $Test->Render("example21.png");
+ $Test->Render("Example21.png");
 ?>

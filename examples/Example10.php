@@ -29,5 +29,5 @@ $DataSet->GetDataDescription(), 250, 250, 250);
 // Write the title
 $Test->setFontProperties("../Fonts/MankSans.ttf", 10);
 $Test->drawTitle(10, 20, "Sales per month", 100, 100, 100);
-$Test->Render("example10.png");
+$Test->Render("Example10.png");
 ?>

@@ -45,5 +45,5 @@ $Test->drawTitle(50, 22, "Example 1", 50, 50, 50, 585);
 
 // Render the graph
 $Cache->WriteToCache("Graph1", $DataSet->GetData(), $Test);
-$Test->Render("example11.png");
+$Test->Render("Example11.png");
 ?>

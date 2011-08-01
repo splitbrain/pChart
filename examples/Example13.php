@@ -28,5 +28,5 @@ $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8);
 $Test->clearShadow();
 $Test->drawPieLegend(230, 15, $DataSet->GetData(), 
 $DataSet->GetDataDescription(), 250, 250, 250);
-$Test->Render("example13.png");
+$Test->Render("Example13.png");
 ?>
