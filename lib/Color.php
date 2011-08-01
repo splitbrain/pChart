@@ -28,72 +28,81 @@
  * eventually be done away with.
  */
 class Color {
-	public function __construct($red, $green, $blue) {
-		if ($red < 0 || $red > 255) {
-			throw new InvalidArgumentException("Invalid Red component");
-		}
 
-		if ($green < 0 || $green > 255) {
-			throw new InvalidArgumentException("Invalid Green component");
-		}
+    public function __construct($red, $green = FALSE, $blue = FALSE) {
+        if ($red < 0 || $red > 255) {
+            throw new InvalidArgumentException("Invalid Red component");
+        }
 
-		if ($blue < 0 || $blue > 255) {
-			throw new InvalidArgumentException("Invalid Blue component");
-		}
+        if ($green < 0 || $green > 255) {
+            throw new InvalidArgumentException("Invalid Green component");
+        }
 
-		$this->r = $red;
-		$this->g = $green;
-		$this->b = $blue;
-	}
+        if ($blue < 0 || $blue > 255) {
+            throw new InvalidArgumentException("Invalid Blue component");
+        }
+        if (!$green && !$blue) {
+            if ($red < 0 || $red > 255) {
+                throw new InvalidArgumentException("Invalid Unicolor component");
+            } else {
+                $green = $red;
+                $blue = $red;
+            }
+        }
 
-	/**
-	 * Return a new color formed by adding the specified increment to
-	 * the R, G and B values
-	 */
-	public function addRGBIncrement($increment) {
-		$incremented = new Color($this->r, $this->g, $this->b);
 
-		$incremented->r = $this->truncateColorComponentRange($incremented->r + $increment);
-		$incremented->g = $this->truncateColorComponentRange($incremented->g + $increment);
-		$incremented->b = $this->truncateColorComponentRange($incremented->b + $increment);
+        $this->r = $red;
+        $this->g = $green;
+        $this->b = $blue;
+    }
 
-		return $incremented;
-	}
+    /**
+     * Return a new color formed by adding the specified increment to
+     * the R, G and B values
+     */
+    public function addRGBIncrement($increment) {
+        $incremented = new Color($this->r, $this->g, $this->b);
 
-	public function __toString() {
-		return sprintf("Color<%d, %d, %d>", $this->r, $this->g, $this->b);
-	}
+        $incremented->r = $this->truncateColorComponentRange($incremented->r + $increment);
+        $incremented->g = $this->truncateColorComponentRange($incremented->g + $increment);
+        $incremented->b = $this->truncateColorComponentRange($incremented->b + $increment);
 
-	private function truncateColorComponentRange($input) {
-		if ($input > 255) {
-			return 255;
-		}
-		elseif ($input < 0) {
-			return 0;
-		}
-		else {
-			return $input;
-		}
-	}
+        return $incremented;
+    }
 
-	public function getR() {
-		return $this->r;
-	}
+    public function __toString() {
+        return sprintf("Color<%d, %d, %d>", $this->r, $this->g, $this->b);
+    }
 
-	public function getG() {
-		return $this->g;
-	}
+    private function truncateColorComponentRange($input) {
+        if ($input > 255) {
+            return 255;
+        } elseif ($input < 0) {
+            return 0;
+        } else {
+            return $input;
+        }
+    }
 
-	public function getB() {
-		return $this->b;
-	}
+    public function getR() {
+        return $this->r;
+    }
 
-	/**
-	 * The members r, g and b are still public since they are used
-	 * within GDCanvas. Since we don't have any GDCanvas unit tests
-	 * yet, we can't safely make these private at the moment.
-	 */
-	public $r;
-	public $g;
-	public $b;
+    public function getG() {
+        return $this->g;
+    }
+
+    public function getB() {
+        return $this->b;
+    }
+
+    /**
+     * The members r, g and b are still public since they are used
+     * within GDCanvas. Since we don't have any GDCanvas unit tests
+     * yet, we can't safely make these private at the moment.
+     */
+    public $r;
+    public $g;
+    public $b;
+
 }
