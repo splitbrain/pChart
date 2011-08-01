@@ -33,12 +33,12 @@ $Chart->setGraphArea(50, 30, 585, 200);
 
 // Canvas
 //$Canvas->setAntialiasQuality(0);
-$Canvas->drawFilledRoundedRectangle(new Point(7, 7), new Point(693, 223), 5, new Color(240, 240, 240), 1, 0, ShadowProperties::NoShadow());
-$Canvas->drawRoundedRectangle(new Point(5, 5), new Point(695, 225), 5, new Color(230, 230, 230), 1, 0, ShadowProperties::NoShadow());
+$Canvas->drawFilledRoundedRectangle(new Point(7, 7), new Point(693, 223), 5, new Color(240), 1, 0, ShadowProperties::NoShadow());
+$Canvas->drawRoundedRectangle(new Point(5, 5), new Point(695, 225), 5, new Color(230), 1, 0, ShadowProperties::NoShadow());
 
-$Chart->drawGraphBackground(new BackgroundStyle(new Color(255, 255, 255)), TRUE);
+$Chart->drawGraphBackground(new BackgroundStyle(new Color(255)), TRUE);
 $Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), TRUE, 0, 2);
-$Chart->drawGrid(new GridStyle(4,TRUE,new Color(230,230,230),50));
+$Chart->drawGrid(new GridStyle(4,TRUE,new Color(230),50));
 
 // Draw the 0 line
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
@@ -50,8 +50,8 @@ $Chart->drawFilledCubicCurve($DataSet, .1, 50);
 
 // Finish the graph
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Chart->drawLegend(600,30,$DataSet->GetDataDescription(), new Color(255,255,255));
+$Chart->drawLegend(600,30,$DataSet->GetDataDescription(), new Color(255));
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
-$Chart->drawTitle(50,22,"Example 2", new Color(50,50,50),585);
+$Chart->drawTitle(50,22,"Example 2", new Color(50),585);
 $Chart->Render("Example2.png");
 ?>
