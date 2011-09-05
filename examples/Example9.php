@@ -1,49 +1,53 @@
 <?php
- /*
-     Example9 : Showing how to use labels
+
+/*
+  Example9 : Showing how to use labels
  */
 
- // Standard inclusions   
- include("../lib/pData.php");
- include("../lib/pChart.php");
+// Standard inclusions   
+require_once("../lib/pData.php");
+require_once("../lib/pChart.php");
+require_once '../lib/GDCanvas.php';
+require_once '../lib/BackgroundStyle.php';
 
- // Dataset definition 
- $DataSet = new pData;
- $DataSet->AddPoint(array(0,70,70,0,0,70,70,0,0,70),"Serie1");
- $DataSet->AddPoint(array(0.5,2,4.5,8,12.5,18,24.5,32,40.5,50),"Serie2");
+// Definitions
+$DataSet = new pData;
+$Canvas = new GDCanvas(700, 230);
+$Chart = new pChart(700, 230, $Canvas);
+// Dataset 
+$DataSet->AddPoints(array(0, 70, 70, 0, 0, 70, 70, 0, 0, 70), "Serie1");
+$DataSet->AddPoints(array(0.5, 2, 4.5, 8, 12.5, 18, 24.5, 32, 40.5, 50), "Serie2");
+$DataSet->AddAllSeries();
+$DataSet->setAbscissaLabelSeries();
+$DataSet->SetSeriesName("January", "Serie1");
+$DataSet->SetSeriesName("February", "Serie2");
 
- $DataSet->AddAllSeries();
- $DataSet->SetAbsciseLabelSerie();
- $DataSet->SetSerieName("January","Serie1");
- $DataSet->SetSerieName("February","Serie2");
+// Initialise the graph
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setGraphArea(50, 30, 585, 200);
+$Chart->drawGraphBackground(new BackgroundStyle(new Color(255), TRUE));
+$Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
+$Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
- // Initialise the graph
- $Test = new pChart(700,230);
- $Test->setFontProperties("../Fonts/tahoma.ttf",8);
- $Test->setGraphArea(50,30,585,200);
- $Test->drawFilledRoundedRectangle(7,7,693,223,5,240,240,240);
- $Test->drawRoundedRectangle(5,5,695,225,5,230,230,230);
- $Test->drawGraphArea(255,255,255,TRUE);
- $Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2);
- $Test->drawGrid(4,TRUE,230,230,230,50);
+// Draw the 0 line
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
+$Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
- // Draw the 0 line
- $Test->setFontProperties("../Fonts/tahoma.ttf",6);
- $Test->drawTreshold(0,143,55,72,TRUE,TRUE);
+// Draw the line graph
+$Chart->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
+$Chart->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 2, new Color(255));
 
- // Draw the line graph
- $Test->drawLineGraph($DataSet->GetData(),$DataSet->GetDataDescription());
- $Test->drawPlotGraph($DataSet->GetData(),$DataSet->GetDataDescription(),3,2,255,255,255);
+// Set labels
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setLabel($DataSet->GetData(), $DataSet->GetDataDescription(), "Serie1", "2", "Daily incomes", new Color(221, 230, 174));
+$Chart->setLabel($DataSet->GetData(), $DataSet->GetDataDescription(), "Serie2", "6", "Production break", new Color(239, 233, 195));
 
- // Set labels
- $Test->setFontProperties("../Fonts/tahoma.ttf",8);
- $Test->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie1","2","Daily incomes",221,230,174);
- $Test->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"Serie2","6","Production break",239,233,195);
+// Finish the graph
+$Chart->drawLegend(600, 30, $DataSet->GetDataDescription(), new Color(255));
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Chart->drawTitle(50, 22, "Example 9", new Color(50), 585);
 
- // Finish the graph
- $Test->setFontProperties("../Fonts/tahoma.ttf",8);
- $Test->drawLegend(600,30,$DataSet->GetDataDescription(),255,255,255);
- $Test->setFontProperties("../Fonts/tahoma.ttf",10);
- $Test->drawTitle(50,22,"Example 9",50,50,50,585);
- $Test->Render("Example9.png");
+$Chart->Render("Example9.png");
+header("Content-Type:image/png");
+readfile("Example9.png");
 ?>

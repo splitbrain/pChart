@@ -38,7 +38,7 @@ $Canvas->drawFilledRoundedRectangle(new Point(7, 7), new Point(693, 223), 5, new
 $Canvas->drawRoundedRectangle(new Point(5,5), new Point(695,225), 5, new Color(230), 1, 0, ShadowProperties::NoShadow());
 $Chart->drawGraphBackground(new BackgroundStyle(new Color(255), true));
 $Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
-$Chart->drawGrid(new GridStyle(4,TRUE,new Color(230),50));
+$Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
 // Draw the 0 line   
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
@@ -54,4 +54,7 @@ $Chart->drawLegend(75, 35, $DataSet->GetDataDescription(), new Color(255));
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
 $Chart->drawTitle(60, 22, "Example 1", new Color(50), 585);
 $Chart->Render("Example1.png");
+
+header("Content-Type:image/png");
+readfile("Example1.png");
 ?>

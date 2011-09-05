@@ -54,4 +54,7 @@ $Chart->drawLegend(600,30,$DataSet->GetDataDescription(), new Color(255));
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
 $Chart->drawTitle(50,22,"Example 2", new Color(50),585);
 $Chart->Render("Example2.png");
+
+header("Content-Type:image/png");
+readfile("Example2.png");
 ?>

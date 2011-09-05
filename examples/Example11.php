@@ -1,49 +1,53 @@
 <?php
+
 /*
-     Example11 : Using the pCache class
+  Example11 : Using the pCache class
  */
 // Standard inclusions   
-include ("../lib/pData.php");
-include ("../lib/pChart.php");
-include ("../lib/pCache.php");
+require_once("../lib/pData.php");
+require_once("../lib/pChart.php");
+require_once '../lib/GDCanvas.php';
+require_once '../lib/BackgroundStyle.php';
+require_once '../lib/pCache.php';
 
-// Dataset definition 
-$DataSet = new pData();
-$DataSet->AddPoint(array(1, 4, 3, 2, 3, 3, 2, 1, 0, 7, 4, 3, 2, 3, 3, 5, 1, 0, 7), "Serie1");
-$DataSet->AddPoint(array(1, 4, 2, 6, 2, 3, 0, 1, 5, 1, 2, 4, 5, 2, 1, 0, 6, 4, 2), "Serie2");
+// Definitions
+$DataSet = new pData;
+$Canvas = new GDCanvas(700, 230);
+$Chart = new pChart(700, 230, $Canvas);
+// Dataset 
+$DataSet->AddPoints(array(1, 4, 3, 2, 3, 3, 2, 1, 0, 7, 4, 3, 2, 3, 3, 5, 1, 0, 7), "Serie1");
+$DataSet->AddPoints(array(1, 4, 2, 6, 2, 3, 0, 1, 5, 1, 2, 4, 5, 2, 1, 0, 6, 4, 2), "Serie2");
 $DataSet->AddAllSeries();
-$DataSet->SetAbsciseLabelSerie();
-$DataSet->SetSerieName("January", "Serie1");
-$DataSet->SetSerieName("February", "Serie2");
+$DataSet->SetAbscissaLabelSeries();
+$DataSet->SetSeriesName("January", "Serie1");
+$DataSet->SetSeriesName("February", "Serie2");
 
 // Cache definition 
 $Cache = new pCache();
-$Cache->GetFromCache("Graph1", $DataSet->GetData());
-
+$Cache->GetFromCache("Example11", $DataSet->GetData());
 // Initialise the graph
-$Test = new pChart(700, 230);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Test->setGraphArea(50, 30, 585, 200);
-$Test->drawFilledRoundedRectangle(7, 7, 693, 223, 5, 240, 240, 240);
-$Test->drawRoundedRectangle(5, 5, 695, 225, 5, 230, 230, 230);
-$Test->drawGraphArea(255, 255, 255, TRUE);
-$Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2);
-$Test->drawGrid(4, TRUE, 230, 230, 230, 50);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setGraphArea(50, 30, 585, 200);
+$Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
+$Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
 // Draw the 0 line
-$Test->setFontProperties("../Fonts/tahoma.ttf", 6);
-$Test->drawTreshold(0, 143, 55, 72, TRUE, TRUE);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
+$Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
 // Draw the cubic curve graph
-$Test->drawCubicCurve($DataSet->GetData(), $DataSet->GetDataDescription());
+$Chart->drawCubicCurve($DataSet, .1, "Serie1");
+$Chart->drawCubicCurve($DataSet, .1, "Serie2");
 
 // Finish the graph
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Test->drawLegend(600, 30, $DataSet->GetDataDescription(), 255, 255, 255);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 10);
-$Test->drawTitle(50, 22, "Example 1", 50, 50, 50, 585);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->drawLegend(600, 30, $DataSet->GetDataDescription(), new Color(255));
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Chart->drawTitle(50, 22, "Example 1", new Color(50), 585);
 
 // Render the graph
-$Cache->WriteToCache("Graph1", $DataSet->GetData(), $Test);
-$Test->Render("Example11.png");
+$Cache->WriteToCache("Example11", $DataSet->GetData(), $Chart);
+$Chart->Render("Example11.png");
+header("Content-Type:image/png");
+readfile("Example11.png");
 ?>

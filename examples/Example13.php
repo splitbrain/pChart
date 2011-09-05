@@ -4,29 +4,30 @@
  */
 
 // Standard inclusions   
-include ("../lib/pData.php");
-include ("../lib/pChart.php");
+require_once("../lib/pData.php");
+require_once("../lib/pChart.php");
+require_once '../lib/GDCanvas.php';
+require_once '../lib/BackgroundStyle.php';
+require_once('../lib/PieChart.php');
 
-// Dataset definition 
-$DataSet = new pData();
-$DataSet->AddPoint(array(10, 2, 3, 5, 3), "Serie1");
-$DataSet->AddPoint(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
+// Definitions
+$DataSet = new pData;
+$Canvas = new GDCanvas(300, 200);
+$Chart = new PieChart(300, 200, $Canvas);
+// Dataset
+$DataSet->AddPoints(array(10, 2, 3, 5, 3), "Serie1");
+$DataSet->AddPoints(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");
 $DataSet->AddAllSeries();
-$DataSet->SetAbsciseLabelSerie("Serie2");
+$DataSet->SetAbscissaLabelSeries("Serie2");
 
 // Initialise the graph
-$Test = new pChart(300, 200);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Test->drawFilledRoundedRectangle(7, 7, 293, 193, 5, 240, 240, 240);
-$Test->drawRoundedRectangle(5, 5, 295, 195, 5, 230, 230, 230);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
 
 // Draw the pie chart
-$Test->setAntialiasQuality(0);
-$Test->setShadowProperties(2, 2, 200, 200, 200);
-$Test->drawFlatPieGraphWithShadow($DataSet->GetData(), 
-$DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8);
-$Test->clearShadow();
-$Test->drawPieLegend(230, 15, $DataSet->GetData(), 
-$DataSet->GetDataDescription(), 250, 250, 250);
-$Test->Render("Example13.png");
+$shadowProperties = ShadowProperties::FromSettings(2, 2, new Color(200));
+$Chart->drawFlatPieGraphWithShadow($DataSet->GetData(), $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8, 0, $shadowProperties);
+$Chart->drawPieLegend(230, 15, $DataSet->GetData(), $DataSet->GetDataDescription(), new Color(250));
+$Chart->Render("Example13.png");
+header("Content-Type:image/png");
+readfile("Example13.png");
 ?>
