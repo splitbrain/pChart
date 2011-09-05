@@ -3019,6 +3019,13 @@ class pChart {
 		} else /* Can occur for small graphs */
 			  $Scale = 1;
 	}
+        
+        /*
+         * Returns the resource
+         */
+        public function getPicture() {
+            return $this->canvas->getPicture();
+        }
 
 	static private function computeAutomaticScaling($minCoord, $maxCoord, &$minVal, &$maxVal, &$Divisions) {
 		$ScaleOk = FALSE;

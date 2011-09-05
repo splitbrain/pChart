@@ -60,11 +60,11 @@ class pCache {
 	/** 
 	 * Make a copy of drawn chart in the cache folder 
 	 */
-	public function WriteToCache($ID, $Data, $Picture) {
+	public function WriteToCache($ID, $Data, pChart $Picture) {
 		$Hash = $this->GetHash ( $ID, $Data );
 		$FileName = $this->CacheFolder . $Hash;
 		
-		imagepng ( $Picture->Picture, $FileName );
+		imagepng ( $Picture->getPicture(), $FileName );
 	}
 	
 	/** 
@@ -79,16 +79,25 @@ class pCache {
 	}
 	
 	/**
-	 *  Retrieve the cached picture if applicable 
+	 *  Retrieve the cached picture if applicable
+         * @param   string  $ID     ID/short string of the Picture
+         * @param   pData   $Data   pChart->getData ;)
+         * @param   bool    $return FALSE prints the image and exits
+         *                          TRUE returns the picture
+         * @return  image/PNG   If $return == TRUE, the image is returned
 	 */
-	public function GetFromCache($ID, $Data) {
+	public function GetFromCache($ID, $Data, $return = FALSE) {
 		$Hash = $this->GetHash ( $ID, $Data );
 		if ($this->IsInCache ( "", "", $Hash )) {
 			$FileName = $this->CacheFolder . $Hash;
 			
-			header ( 'Content-type: image/png' );
-			@readfile ( $FileName );
-			exit ();
+                        if ($return) {
+                            return file_get_contents($FileName);
+                        } else {
+                            header ( 'Content-type: image/png' );
+                            @readfile ( $FileName );
+                            exit ();
+                        }
 		}
 	}
 	
@@ -106,4 +115,3 @@ class pCache {
 		return (md5 ( $mKey ));
 	}
 }
-?>
