@@ -24,6 +24,11 @@
 
 require_once(dirname(__FILE__).'/pChart.php');
 
+define ( "PIE_PERCENTAGE", 1 );
+define ( "PIE_LABELS", 2 );
+define ( "PIE_NOLABEL", 3 );
+define ( "PIE_PERCENTAGE_LABEL", 4 );
+
 /**
  * This is an attempt to separate out the pie chart drawing code from
  * the rest of the chart code, since pie charts are very different
@@ -36,6 +41,13 @@ require_once(dirname(__FILE__).'/pChart.php');
 class PieChart extends pChart {
 	/**
 	 * Draw the data legends 
+         * @param int X-Position
+         * @param int Y-Position
+         * @param array Data pData->getData
+         * @param array DataDescription pData->getDataDescription
+         * @param Color
+         * @param ShadowProperties
+         * @access public
 	 */
 	public function drawPieLegend($XPos, $YPos, $Data, $DataDescription, Color $color, ShadowProperties $shadowProperties = null) {
 		if ($shadowProperties == null) {
@@ -110,9 +122,19 @@ class PieChart extends pChart {
 	}
 
 	/**
-	 * @brief This function draw a flat pie chart 
-	 */
-	public function drawBasicPieGraph($Data, $DataDescription, $XPos, $YPos, ShadowProperties $shadowProperties = null, $Radius = 100, $DrawLabels = PIE_NOLABEL, Color $color = null, $Decimals = 0) {
+	 * This function draw a flat pie chart 
+         * @param array Data (PieChart->getData())
+         * @param array Description (PieChart->getDataDescription())
+         * @param int X-Position of the Center
+         * @param int Y-Position of the Center
+         * @param int Radius of the cake
+         * @param const int Draw the Labels to the pies? PIE_LABELS, PIE_NOLABEL, PIE_PERCENTAGE, PIE_PERCENATGE_LABEL
+         * @param int Distance between the splices
+         * @param int number of decimals
+         * @param ShadowProperties
+         * @access public
+         */
+	public function drawBasicPieGraph($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, Color $color = null, $Decimals = 0, ShadowProperties $shadowProperties = null) {
 		if ($shadowProperties == null) {
 			$shadowProperties = ShadowProperties::NoShadow();
 		}
@@ -256,8 +278,21 @@ class PieChart extends pChart {
 									$shadowProperties);
 		}
 	}
-	
-	function drawFlatPieGraphWithShadow($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $SpliceDistance = 0, $Decimals = 0, ShadowProperties $shadowProperties) {
+        
+	/**
+         * This function draw a simple flat pie graph with shadows
+         * @param array Data (PieChart->getData())
+         * @param array Description (PieChart->getDataDescription())
+         * @param int X-Position of the Center
+         * @param int Y-Position of the Center
+         * @param int Radius of the cake
+         * @param const int Draw the Labels to the pies? PIE_LABELS, PIE_NOLABEL, PIE_PERCENTAGE, PIE_PERCENATGE_LABEL
+         * @param int Distance between the splices
+         * @param int number of decimals
+         * @param ShadowProperties
+         * @access public
+         */
+	public function drawFlatPieGraphWithShadow($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $SpliceDistance = 0, $Decimals = 0, ShadowProperties $shadowProperties = NULL) {
 		/**
 		 * @todo Slightly ugly code follows: We want to draw the graph
 		 * with once to be the 'shadow', without itself having a
@@ -284,9 +319,20 @@ class PieChart extends pChart {
 	}
 	
 	/**
-	 * This function draw a flat pie chart 
-	 */
-	function drawFlatPieGraph($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $SpliceDistance = 0, $Decimals = 0, $AllBlack = FALSE, ShadowProperties $shadowProperties = null) {
+         * This function draw a simple flat pie graph with shadows
+         * @param array Data (PieChart->getData())
+         * @param array Description (PieChart->getDataDescription())
+         * @param int X-Position of the Center
+         * @param int Y-Position of the Center
+         * @param int Radius of the cake
+         * @param const int Draw the Labels to the pies? PIE_LABELS, PIE_NOLABEL, PIE_PERCENTAGE, PIE_PERCENATGE_LABEL
+         * @param int Distance between the splices
+         * @param int number of decimals
+         * @param bool Should the Chart be gray?
+         * @param ShadowProperties
+         * @access public
+         */
+	public function drawFlatPieGraph($Data, $DataDescription, $XPos, $YPos, $Radius = 100, $DrawLabels = PIE_NOLABEL, $SpliceDistance = 0, $Decimals = 0, $AllBlack = FALSE, ShadowProperties $shadowProperties = null) {
 		if ($shadowProperties == null) {
 			$shadowProperties = ShadowProperties::FromDefaults();
 		}
@@ -362,8 +408,20 @@ class PieChart extends pChart {
 	
 	/**
 	 * This function draw a pseudo-3D pie chart 
-	 */
-	function drawPieGraph(pData $data, $XPos, $YPos,
+         * @param pData
+         * @param int X-Position of the Center
+         * @param int Y-Position of the Center
+         * @param int Radius of the cake
+         * @param const int Draw the Labels to the pies? PIE_LABELS, PIE_NOLABEL, PIE_PERCENTAGE, PIE_PERCENATGE_LABEL
+         * @param bool Enhance colors?
+         * @param int Skew
+         * @param int Height of the splices
+         * @param int Distance between the splices
+         * @param int number of decimals
+         * @param ShadowProperties
+         * @access public
+         */
+	public function drawPieGraph(pData $data, $XPos, $YPos,
 						  $Radius = 100, $DrawLabels = PIE_NOLABEL,
 						  $EnhanceColors = TRUE, $Skew = 60,
 						  $SpliceHeight = 20, $SpliceDistance = 0,
