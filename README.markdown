@@ -1,13 +1,35 @@
-pChart PHP 5 Compatibility
+pChart 1 for PHP 5
 ==========================
 
-pChart is a great charting library for PHP. 
+## Why?
+
+pChart is a great charting library for PHP. The original library
+(http://pchart.sourceforge.net/) was written in PHP4 and is no longer maintained.
+It's author created a new version called pChart 2 that is available at
+http://www.pChart.net
+
+Unfortunately his licesing terms lined out at http://www.pchart.net/license
+are confusing:
+
+> If your application is not a commercial one (eg: you make no money by
+> redistributing it) then the GNU GPLv3 license (General Public License)
+> applies.
+
+This is contradicting itself. The exclusion of commercial appliance is in direct
+violation with the GPL and thus renders it invalid. This standard copyright
+applies and the library can not be used in any Open Source program.
+
+The author was informed about these invalid license terms in November 2011, but
+hasn't changed anything.
+
+This leaves only the old, GPL Version 2 licensed version 1 of pChart.
 However, it has not been updated in a long time and it's compatibility
 with PHP 5 will soon be lost because of new language features 
 (namely constuctors can no longer be the class name as of PHP 5.3.3)
 
-The v2 branch will not retain backward compatibility with the old API
-(though it will not be changed unnecessarily)
+This project aims to update the library to modern PHP5. It will not retain
+backward compatibility with the old API (though it will not be changed
+unnecessarily)
 
 ## Goals
 
@@ -18,59 +40,26 @@ The goal of this project is:
 * Refactor as needed
 * Add proper docblocks to all functions (and there's a lot of them)
 * Rename some functions (it seems the original author's native language was not english)
+* Have clear a license
  
 ## Status
 
-The main body of the code now has over 75% unit test coverage, and
-all the examples appear to be working. If you're starting a new
-project, it's probably reasonable to use this distribution in
-preference to the Sourceforge distribution, since any bugs in this
-distribution should hopefully be fixed on a reasonable timescale.
+This project was started by github user aweiland at https://github.com/aweiland/pChart-php5
+but all the API documentation and continuous integration server seems
+to be down. Development was picked up by github users timmartin and sebix
+but stopped again.
 
-## Code cleanup
+The current repository at https://github.com/splitbrain/pChart is the most
+recent pickup, but I'd be happy to give development over to whoever wants to
+drive this project forward.
 
-The code has some questionable style issues, most noticeably
-inconsistent use of camel casing for method names. This isn't a
-particularly big deal in itself, since method names are
-case-insensitive, but we aim to clean it up as part of this project.
+## Todo
 
-## Documentation
-
-There's [API documentation](http://pchart.asymptotic.co.uk/) which is
-built by the continuous integration server, so will track the latest
-changes on the master branch. We don't yet have separate documentation
-of the stable releases.
-
-## Branches
-
-There are several branches of the code:
-
-* **master** is the current development trunk, which is a substantial
-  rewrite in a more modern, Object-Oriented style. The API is still
-  under heavy development and is not yet stable, though there should
-  be a release branch of this before long.
-* **v2** is the branch that originally housed the API rewrite when it
-  was too unstable to be used, but is now probably obsolete
-* **v1** retains full (or almost full) backward compatibility with the	
-  API of the original pChart, but has been updated for PHP 5 OO and
-  cleaned up a little
-* **gdline** is an experimental optimisation based on the **v1** branch 
-  that uses the native GD line drawing rather than drawing pixel-by-pixel.
-  It is substantially faster (400% in some cases) but doesn't have
-  antialiasing or drop-shadows working. Eventually I intend
-  to incorporate these improvements in as optional speedups to the
-  main branch, but for now if you need speed and don't care too much
-  about prettiness, this is a viable option.
-
-## Continuous integration
-
-There's now a hudson server
-[here](http://builds.asymptotic.co.uk:8080/job/pChart-PHP5/) doing
-continuous integration.
- 
-## Future development
-
-I've been pondering switching to Cairo over GD as the rendering
-engine, since the support for antialiasing doesn't seem to be reliably
-present on PHP. This probably won't happen until after a release of
-the v2 API branch has gone out, at the very least.
+* unit tests are failing currently but I'm not sure that comparing md5 sums of
+  action logs is the right way to test anyway
+* the example files are probably the best way to really test the library for
+  break/non-break state - these should be integrated into the test suite
+* the example files 15 to 29 are currently broken, probably just because of
+  API changes not real bugs
+* the code needs more cleanup and most importantly useful doc comments to auto
+  create a usable API documentation
