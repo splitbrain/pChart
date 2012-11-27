@@ -38,6 +38,13 @@
         </phpunit>
     </target>
 
+    <target name="testreport" description="Run PHPUnit Report">
+        <phpunitreport
+            infile="${reports.dir}/phpunit/test-results.xml"
+            format="frames"
+            todir="${reports.dir}/phpunit" />
+    </target>
+
     <target name="documentation">
         <exec command="phpdoc -t ${project.basedir}/docs -ti 'pChart' -ue on -s -d ./"
               dir="${project.basedir}/lib"/>
