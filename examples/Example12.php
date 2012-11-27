@@ -12,8 +12,8 @@ require_once '../lib/BackgroundStyle.php';
 
 // Definitions
 $DataSet = new pData;
-$Canvas = new GDCanvas(700, 230);
-$Chart = new pChart(700, 230, $Canvas);
+$Canvas  = new GDCanvas(700, 230);
+$Chart   = new pChart(700, 230, $Canvas);
 // Dataset 
 $DataSet->AddPoints(array(1, 4, -3, 2, -3, 3, 2, 1, 0, 7, 4), "Serie1");
 $DataSet->AddPoints(array(3, 3, -4, 1, -2, 2, 1, 0, -1, 6, 3), "Serie2");
@@ -38,7 +38,6 @@ $Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
 // Draw the bar graph
 $Chart->drawBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 80);
-
 
 // Finish the graph
 $Chart->setFontProperties("../Fonts/tahoma.ttf", 8);

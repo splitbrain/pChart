@@ -11,8 +11,8 @@ require_once('../lib/PieChart.php');
 
 // Definitions
 $DataSet = new pData;
-$Canvas = new GDCanvas(300, 200);
-$Chart = new PieChart(300, 200, $Canvas);
+$Canvas  = new GDCanvas(300, 200);
+$Chart   = new PieChart(300, 200, $Canvas);
 // Dataset
 $DataSet->AddPoints(array(10, 2, 3, 5, 3), "Serie1");
 $DataSet->AddPoints(array("Jan", "Feb", "Mar", "Apr", "May"), "Serie2");

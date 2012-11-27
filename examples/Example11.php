@@ -12,8 +12,8 @@ require_once '../lib/pCache.php';
 
 // Definitions
 $DataSet = new pData;
-$Canvas = new GDCanvas(700, 230);
-$Chart = new pChart(700, 230, $Canvas);
+$Canvas  = new GDCanvas(700, 230);
+$Chart   = new pChart(700, 230, $Canvas);
 // Dataset 
 $DataSet->AddPoints(array(1, 4, 3, 2, 3, 3, 2, 1, 0, 7, 4, 3, 2, 3, 3, 5, 1, 0, 7), "Serie1");
 $DataSet->AddPoints(array(1, 4, 2, 6, 2, 3, 0, 1, 5, 1, 2, 4, 5, 2, 1, 0, 6, 4, 2), "Serie2");

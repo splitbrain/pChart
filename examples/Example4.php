@@ -13,8 +13,8 @@ require_once '../lib/BackgroundStyle.php';
 
 // Definitions
 $DataSet = new pData;
-$canvas = new GDCanvas(700, 230);
-$Chart = new pChart(700, 230, $canvas);
+$canvas  = new GDCanvas(700, 230);
+$Chart   = new pChart(700, 230, $canvas);
 // Dataset definition
 CSVImporter::ImportFromCSV($DataSet, "../sample/datawithtitle.csv", ",", array(1, 2, 3), TRUE, 0);
 $DataSet->AddAllSeries();

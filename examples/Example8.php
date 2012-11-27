@@ -12,8 +12,8 @@ require_once '../lib/BackgroundStyle.php';
 
 // Definitions
 $DataSet = new pData;
-$Canvas = new GDCanvas(400, 400);
-$Chart = new pChart(400, 400, $Canvas);
+$Canvas  = new GDCanvas(400, 400);
+$Chart   = new pChart(400, 400, $Canvas);
 // Dataset
 $DataSet->AddPoints(array("Memory", "Disk", "Network", "Slots", "CPU"), "Label");
 $DataSet->AddPoints(array(1, 2, 3, 4, 3), "Serie1");
@@ -21,7 +21,6 @@ $DataSet->AddPoints(array(1, 4, 2, 6, 2), "Serie2");
 $DataSet->AddSeries("Serie1");
 $DataSet->AddSeries("Serie2");
 $DataSet->SetAbscissaLabelSeries("Label");
-
 
 $DataSet->SetSeriesName("Reference", "Serie1");
 $DataSet->SetSeriesName("Tested computer", "Serie2");

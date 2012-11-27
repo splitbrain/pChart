@@ -12,8 +12,8 @@ require_once '../lib/BackgroundStyle.php';
 
 // Definitions
 $DataSet = new pData;
-$canvas = new GDCanvas(700, 230);
-$Chart = new pChart(700, 230, $canvas);
+$canvas  = new GDCanvas(700, 230);
+$Chart   = new pChart(700, 230, $canvas);
 
 // Dataset definition
 $DataSet->AddPoints(array(1, 4, -3, 2, -3, 3, 2, 1, 0, 7, 4, -3, 2, -3, 3, 5, 1, 0, 7), "Serie1");

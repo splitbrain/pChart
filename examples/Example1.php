@@ -17,8 +17,8 @@ require_once '../lib/CSVImporter.php';
 
 // Definitions
 $DataSet = new pData;
-$Canvas = new GDCanvas(700, 230);
-$Chart = new pChart(700, 230, $Canvas);
+$Canvas  = new GDCanvas(700, 230);
+$Chart   = new pChart(700, 230, $Canvas);
 // Dataset
 CSVImporter::importFromCSV($DataSet, dirname(__FILE__)."/../sample/bulkdata.csv", ",", array(1, 2, 3), FALSE, 0);
 $DataSet->AddAllSeries();
@@ -35,7 +35,7 @@ $Chart->setGraphArea(70, 30, 680, 200);
 
 // Set Canvas
 $Canvas->drawFilledRoundedRectangle(new Point(7, 7), new Point(693, 223), 5, new Color(240), 1, 0, ShadowProperties::NoShadow());
-$Canvas->drawRoundedRectangle(new Point(5,5), new Point(695,225), 5, new Color(230), 1, 0, ShadowProperties::NoShadow());
+$Canvas->drawRoundedRectangle(new Point(5, 5), new Point(695, 225), 5, new Color(230), 1, 0, ShadowProperties::NoShadow());
 $Chart->drawGraphBackground(new BackgroundStyle(new Color(255), true));
 $Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
 $Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));

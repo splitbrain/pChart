@@ -10,7 +10,7 @@ include ("../lib/pChart.php");
 // Dataset definition 
 $DataSet = new pData();
 $DataSet->AddPoint(array(2, 5, 7, "", "", 5, 6, 4, 8, 4, "", 2, 5, 6, 4, 5, 6, 7, 6), "Serie1");
-$DataSet->AddPoint(array(- 1, - 3, - 1, - 2, - 4, - 1, "", - 4, - 5, - 3, - 2, - 2, - 3, - 3, - 5, - 4, - 3, - 1, ""), "Serie2");
+$DataSet->AddPoint(array(-1, -3, -1, -2, -4, -1, "", -4, -5, -3, -2, -2, -3, -3, -5, -4, -3, -1, ""), "Serie2");
 $DataSet->AddAllSeries();
 $DataSet->SetAbsciseLabelSerie();
 $DataSet->SetSerieName("Raw #1", "Serie1");
