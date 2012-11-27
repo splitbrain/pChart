@@ -31,17 +31,17 @@ class Color {
 
     public function __construct($red, $green = null, $blue = null) {
         if(is_null($green)) $green = $red;
-        if(is_null($blue))  $blue  = $red;
+        if(is_null($blue)) $blue = $red;
 
-        if ($red < 0 || $red > 255) {
+        if($red < 0 || $red > 255) {
             throw new InvalidArgumentException("Invalid Red component");
         }
 
-        if ($green < 0 || $green > 255) {
+        if($green < 0 || $green > 255) {
             throw new InvalidArgumentException("Invalid Green component");
         }
 
-        if ($blue < 0 || $blue > 255) {
+        if($blue < 0 || $blue > 255) {
             throw new InvalidArgumentException("Invalid Blue component");
         }
 
@@ -69,9 +69,9 @@ class Color {
     }
 
     private function truncateColorComponentRange($input) {
-        if ($input > 255) {
+        if($input > 255) {
             return 255;
-        } elseif ($input < 0) {
+        } elseif($input < 0) {
             return 0;
         } else {
             return $input;
