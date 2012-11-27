@@ -6,9 +6,8 @@ for i in `ls -v *.php`; do
    head -n 1 ${NAME}.txt
    php -q ${NAME}.php > /dev/null 2>&1
    if [ $? -ne 0 ]; then
-      echo -e "\033[31mError!\033[30m"
-      # That's red color
+      echo -e "\033[31mError!\033[0m" # red
    else
-      echo "Passed!"
+      echo -e "\033[32mPassed!\033[0m" # green
    fi
 done;
