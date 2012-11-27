@@ -26,6 +26,7 @@
 
     <target name="test" description="Run PHPUnit Tests">
         <mkdir dir="${reports.dir}/phpunit"/>
+        <mkdir dir="${tests.dir}/action_logs"/>
         <phpunit haltonerror="true" haltonfailure="true" printsummary="true">
             <batchtest>
                 <fileset dir="${tests.dir}">

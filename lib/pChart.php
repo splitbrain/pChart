@@ -2764,7 +2764,7 @@ class pChart {
 	 *
 	 * @todo Should this be a method on DataDescription?
 	 */
-	protected function validateDataDescription($FunctionName, DataDescription &$DataDescription, $DescriptionRequired = TRUE) {
+	protected function validateDataDescription($FunctionName, DataDescription $DataDescription, $DescriptionRequired = TRUE) {
 		if ($DataDescription->getPosition() == '') {
 			$this->Errors [] = "[Warning] " . $FunctionName . " - Y Labels are not set.";
 			$DataDescription->setPosition("Name");
@@ -2791,7 +2791,7 @@ class pChart {
 	/**
 	 * Validate data contained in the data array 
 	 */
-	protected function validateData($FunctionName, &$Data) {
+	protected function validateData($FunctionName, $Data) {
 		$DataSummary = array ();
 		
 		foreach ( $Data as $key => $Values ) {
