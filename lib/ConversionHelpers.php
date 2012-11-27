@@ -69,6 +69,9 @@ class ConversionHelpers {
 
     /**
      * Convert to curency
+     *
+     * @param float $Value
+     * @return string
      */
     static public function ToCurrency($Value) {
         $Go = floor($Value / 1000000000);
@@ -94,7 +97,6 @@ class ConversionHelpers {
             $ResultString = $Go.".".$ResultString;
         }
 
-        $ResultString = $this->Currency.$ResultString;
         return ($ResultString);
     }
 }

@@ -87,6 +87,7 @@ class pChart {
 
     /* Text format related vars */
     protected $FontName = NULL;
+    /** @var float $FontSize */
     protected $FontSize = NULL;
     protected $DateFormat = "d/m/Y";
 
@@ -1547,8 +1548,10 @@ class pChart {
 
         $LayerHeight = $this->GArea_Y2 - $this->GArea_Y1;
 
-        $XPos     = $this->GAreaXOffset;
-        $LastXPos = -1;
+        $XPos      = $this->GAreaXOffset;
+        $LastXPos  = -1;
+        $LastYPos1 = 0;
+        $LastYPos2 = 0;
         foreach($Data as $Values) {
             $Value1 = $Values[$Serie1];
             $Value2 = $Values[$Serie2];
@@ -1641,6 +1644,7 @@ class pChart {
             if($SerieName == "" || $SerieName == $ColName) {
                 $XPos  = $this->GArea_X1 + $this->GAreaXOffset;
                 $XLast = -1;
+                $YLast = 0;
                 foreach($Data as $Values) {
                     if(isset ($Values[$ColName])) {
                         $Value = $Values[$ColName];
@@ -1746,6 +1750,7 @@ class pChart {
 
                 $Index   = 1;
                 $XLast   = -1;
+                $YLast   = 0;
                 $Missing = array();
 
                 $data->getXYMap($ColName, $XIn, $YIn, $Missing, $Index);
@@ -2460,6 +2465,10 @@ class pChart {
             }
         }
 
+        $LastX2 = 0;
+        $LastY1 = 0;
+        $LastY2 = 0;
+
         /* Draw the mosaic */
         if($Mosaic) {
             $RadiusScale = $Radius / $MaxValue;
@@ -2501,6 +2510,7 @@ class pChart {
         }
 
         /* Draw the spider web */
+        $LastY = 0;
         for($t = 1; $t <= $MaxValue; $t++) {
             $TRadius = ($Radius / $MaxValue) * $t;
             $LastX   = -1;
@@ -2655,6 +2665,7 @@ class pChart {
         }
 
         $GraphID = 0;
+        $YLast = 0;
         foreach($DataDescription->values as $ColName) {
             $ColorID = $DataDescription->getColumnIndex($ColName);
 
@@ -3302,7 +3313,7 @@ class pChart {
         if($format == "time")
             return ConversionHelpers::ToTime($value);
         if($format == "date")
-            return $this->ToDate($value);
+            return date('Y-m-d', $value); //todo: might be wrong, needs to go into converseion helper and needs a test
         if($format == "metric")
             return ConversionHelpers::ToMetric($value);
         if($format == "currency")
