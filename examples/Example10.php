@@ -35,4 +35,3 @@ $Chart->drawTitle(10, 20, "Sales per month", new Color(100));
 $Chart->Render("Example10.png");
 header("Content-Type:image/png");
 readfile("Example10.png");
-?>

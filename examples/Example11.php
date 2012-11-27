@@ -50,4 +50,3 @@ $Cache->WriteToCache("Example11", $DataSet->GetData(), $Chart);
 $Chart->Render("Example11.png");
 header("Content-Type:image/png");
 readfile("Example11.png");
-?>

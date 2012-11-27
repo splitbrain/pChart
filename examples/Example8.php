@@ -42,4 +42,3 @@ $Chart->drawTitle(0, 22, "Example 8", new Color(50), 400);
 $Chart->Render("Example8.png");
 header("Content-Type:image/png");
 readfile("Example8.png");
-?>

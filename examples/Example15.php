@@ -64,5 +64,4 @@
  $Test->drawFromPNG("../Sample/logo.png",584,35);
 
  // Render the chart
- $Test->Render("Example15.png");   
-?>
+ $Test->Render("Example15.png");

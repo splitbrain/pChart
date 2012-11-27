@@ -50,4 +50,3 @@
  // Render the picture
  $Test->addBorder(2);
  $Test->Render("Example21.png");
-?>

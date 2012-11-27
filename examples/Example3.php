@@ -48,4 +48,3 @@ $Chart->Render("Example3.png");
 
 header("Content-Type:image/png");
 readfile("Example3.png");
-?>

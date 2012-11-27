@@ -50,5 +50,3 @@ $Chart->Render("Example6.png");
 
 header("Content-Type:image/png");
 echo file_get_contents("Example6.png");
-
-?>

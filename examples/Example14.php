@@ -31,4 +31,3 @@ $Chart->drawPieLegend(230, 15, $DataSet->GetData(), $DataSet->GetDataDescription
 $Chart->Render("Example14.png");
 header("Content-Type:image/png");
 readfile("Example14.png");
-?>
