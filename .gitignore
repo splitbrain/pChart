@@ -4,3 +4,5 @@
 .settings
 nbproject/
 examples/Cache/
+tests/action_logs/
+*.iml
