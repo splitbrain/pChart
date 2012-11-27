@@ -26,4 +26,4 @@ $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORM
 $Test->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
 
 // Finish the graph
-$Test->Render("SmallGraph.png");
+$Test->Render("Example28.png");
