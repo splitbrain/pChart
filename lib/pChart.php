@@ -112,9 +112,9 @@ class pChart {
     protected $canvas = null;
 
     /**
-     * This function create the background picture
+     * Initializes the Graph and Canvas object
      */
-    function __construct($XSize, $YSize, ICanvas $canvas) {
+    public function __construct($XSize, $YSize, ICanvas $canvas) {
         $this->palette = Palette::defaultPalette();
 
         $this->XSize = $XSize;
@@ -137,12 +137,22 @@ class pChart {
 
     /**
      * Set the font properties
+     *
+     * Will be used for all following text operations.
+     *
+     * @param string $FontFile full path to the TTF font file
+     * @param float  $FontSize
      */
-    function setFontProperties($FontName, $FontSize) {
-        $this->FontName = $FontName;
+    function setFontProperties($FontFile, $FontSize) {
+        $this->FontName = $FontFile;
         $this->FontSize = $FontSize;
     }
 
+    /**
+     * Changes the color Palette
+     *
+     * @param Palette $newPalette
+     */
     public function setPalette(Palette $newPalette) {
         $this->palette = $newPalette;
     }
@@ -3307,5 +3317,3 @@ function RaiseFatal($Message) {
     echo "[FATAL] ".$Message."\r\n";
     exit ();
 }
-
-?>

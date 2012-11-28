@@ -95,38 +95,38 @@ class ExampleTest extends PHPUnit_Framework_TestCase {
         $this->loadexample(15);
     }
 
-
-/* tests below are currently broken
     function testExample16() {
         $this->loadexample(16);
     }
 
-    function testExample17() {
-        $this->loadexample(17);
-    }
+    /* tests below are currently broken
 
-    function testExample18() {
-        $this->loadexample(18);
-    }
+        function testExample17() {
+            $this->loadexample(17);
+        }
 
-    function testExample19() {
-        $this->loadexample(19);
-    }
+        function testExample18() {
+            $this->loadexample(18);
+        }
 
-    function testExample20() {
-        $this->loadexample(20);
-    }
+        function testExample19() {
+            $this->loadexample(19);
+        }
 
-    function testExample21() {
-        $this->loadexample(21);
-    }
+        function testExample20() {
+            $this->loadexample(20);
+        }
 
-    function testExample22() {
-        $this->loadexample(22);
-    }
+        function testExample21() {
+            $this->loadexample(21);
+        }
 
-    function testExample23() {
-        $this->loadexample(23);
-    }
-*/
+        function testExample22() {
+            $this->loadexample(22);
+        }
+
+        function testExample23() {
+            $this->loadexample(23);
+        }
+    */
 }
