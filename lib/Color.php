@@ -40,13 +40,13 @@ class Color {
     /**
      * Initializes a new RGB color
      *
-     * @param mixed $red either red channel or the whole color in hex
+     * @param int|string $red  either red channel or the whole color in hex
      * @param int $green
      * @param int $blue
      * @throws InvalidArgumentException
      */
     public function __construct($red, $green = null, $blue = null) {
-        if(!is_numeric($red)){
+        if(!is_numeric($red)) {
             // we assume it's hex
             list($red, $green, $blue) = $this->Hex2RGB($red);
         }
@@ -71,11 +71,25 @@ class Color {
     }
 
     /**
+     * Creates a new random color
+     *
+     * @static
+     * @todo make sure it's a visible color
+     * @param mixed $rand optional externally created random value
+     * @return Color
+     */
+    public static function random($rand = null) {
+        if(!$rand) $rand = rand();
+
+        return new Color('#'.substr(md5($rand),0,6));
+    }
+
+    /**
      * Return the color as a HTML hex color
      *
      * @return string
      */
-    public function getHex(){
+    public function getHex() {
         return sprintf('#%02x%02x%02x', $this->r, $this->g, $this->b);
     }
 
@@ -86,16 +100,16 @@ class Color {
      * @return array
      * @throws InvalidArgumentException
      */
-    private function Hex2RGB($color){
-        if ($color[0] == '#') $color = substr($color, 1);
+    private function Hex2RGB($color) {
+        if($color[0] == '#') $color = substr($color, 1);
 
-        if (strlen($color) == 6) {
+        if(strlen($color) == 6) {
             list($r, $g, $b) = array(
                 $color[0].$color[1],
                 $color[2].$color[3],
                 $color[4].$color[5]
             );
-        } elseif (strlen($color) == 3) {
+        } elseif(strlen($color) == 3) {
             list($r, $g, $b) = array(
                 $color[0].$color[0],
                 $color[1].$color[1],

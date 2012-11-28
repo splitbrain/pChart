@@ -1068,7 +1068,7 @@ class pChart {
                 new Point($XPos + 14,
                           $YPos + $YOffset - 4),
                 2,
-                $this->palette->colors[$ID],
+                $this->palette->getColor($ID),
                 $this->LineWidth,
                 $this->LineDotSize,
                 $this->shadowProperties
@@ -1388,7 +1388,7 @@ class pChart {
         foreach($DataDescription->values as $ColName) {
             $ColorID = $DataDescription->getColumnIndex($ColName);
 
-            $color  = $this->palette->colors[$ColorID];
+            $color  = $this->palette->getColor($ColorID);
             $color2 = $colorO;
 
             if(isset ($DataDescription->seriesSymbols[$ColName])) {
@@ -1423,7 +1423,7 @@ class pChart {
                                     $this->shadowProperties
                                 );
                             } else {
-                                $color3 = $this->palette->colors[$ColorID]->addRGBIncrement(-20);
+                                $color3 = $this->palette->getColor($ColorID)->addRGBIncrement(-20);
 
                                 $this->canvas->drawFilledCircle(
                                     new Point($XPos + 2,
@@ -1453,7 +1453,7 @@ class pChart {
                                     $this->shadowProperties
                                 );
                             } else {
-                                $color2 = $this->palette->colors[$ColorID]->addRGBIncrement(-15);
+                                $color2 = $this->palette->getColor($ColorID)->addRGBIncrement(-15);
 
                                 $this->canvas->drawFilledCircle(
                                     new Point($XPos + 1,
@@ -1479,7 +1479,7 @@ class pChart {
      * @brief This function draw a plot graph in an X/Y space
      */
     function drawXYPlotGraph($Data, $YSerieName, $XSerieName, $PaletteID = 0, $BigRadius = 5, $SmallRadius = 2, Color $color2 = null, $Shadow = TRUE) {
-        $color = $this->palette->colors[$PaletteID];
+        $color = $this->palette->getColor($PaletteID);
 
         $color3 = null;
 
@@ -1500,7 +1500,7 @@ class pChart {
                             $this->shadowProperties
                         );
                     } else {
-                        $color3 = $this->palette->colors[$PaletteID]->addRGBIncrement(-20);
+                        $color3 = $this->palette->getColor($PaletteID)->addRGBIncrement(-20);
                         $this->canvas->drawFilledCircle(
                             new Point($X + 2, $Y + 2),
                             $BigRadius,
@@ -1525,7 +1525,7 @@ class pChart {
                         $this->shadowProperties
                     );
                 } else {
-                    $color2 = $this->palette->colors[$PaletteID]->addRGBIncrement(20);
+                    $color2 = $this->palette->getColor($PaletteID)->addRGBIncrement(20);
 
                     $this->canvas->drawFilledCircle(
                         new Point($X + 1, $Y + 1),
@@ -1616,7 +1616,7 @@ class pChart {
                         $this->FontSize,
                         0,
                         new Point($XOffset, $YOffset),
-                        $this->palette->colors[$ColorID],
+                        $this->palette->getColor($ColorID),
                         $this->FontName,
                         $Value,
                         ShadowProperties::NoShadow()
@@ -1661,7 +1661,7 @@ class pChart {
                             $this->canvas->drawLine(
                                 new Point($XLast, $YLast),
                                 new Point($XPos, $YPos),
-                                $this->palette->colors[$ColorID],
+                                $this->palette->getColor($ColorID),
                                 $this->LineWidth,
                                 $this->LineDotSize,
                                 $this->shadowProperties,
@@ -1708,7 +1708,7 @@ class pChart {
                     $this->canvas->drawLine(
                         $lastPoint,
                         $currentPoint,
-                        $this->palette->colors[$PaletteID],
+                        $this->palette->getColor($PaletteID),
                         $this->LineWidth,
                         $this->LineDotSize,
                         $this->shadowProperties,
@@ -1817,7 +1817,7 @@ class pChart {
                                       $YLast),
                             new Point($XPos,
                                       $YPos),
-                            $this->palette->colors[$ColorID],
+                            $this->palette->getColor($ColorID),
                             $this->LineWidth,
                             $this->LineDotSize,
                             $this->shadowProperties,
@@ -1839,7 +1839,7 @@ class pChart {
                                   $YLast),
                         new Point($this->GArea_X2 - $this->GAreaXOffset,
                                   $YPos),
-                        $this->palette->colors[$ColorID],
+                        $this->palette->getColor($ColorID),
                         $this->LineWidth,
                         $this->LineDotSize,
                         $this->shadowProperties,
@@ -1963,7 +1963,7 @@ class pChart {
                     $this->canvas->drawFilledPolygon(
                         $aPoints,
                         4,
-                        $this->palette->colors[$ColorID],
+                        $this->palette->getColor($ColorID),
                         $alpha
                     );
                 }
@@ -2005,7 +2005,7 @@ class pChart {
                     $this->canvas->drawFilledPolygon(
                         $aPoints,
                         4,
-                        $this->palette->colors[$ColorID],
+                        $this->palette->getColor($ColorID),
                         $alpha
                     );
                 }
@@ -2026,7 +2026,7 @@ class pChart {
                 $this->canvas->drawFilledPolygon(
                     $Points,
                     $PointsCount,
-                    $this->palette->colors[$ColorID],
+                    $this->palette->getColor($ColorID),
                     $Alpha
                 );
             }
@@ -2109,7 +2109,7 @@ class pChart {
                         $this->canvas->drawFilledPolygon(
                             $Points,
                             4,
-                            $this->palette->colors[$ColorID],
+                            $this->palette->getColor($ColorID),
                             $Alpha
                         );
                     }
@@ -2126,7 +2126,7 @@ class pChart {
                 $this->canvas->drawFilledPolygon(
                     $aPoints,
                     $PointsCount,
-                    $this->palette->colors[$ColorID],
+                    $this->palette->getColor($ColorID),
                     $Alpha
                 );
             }
@@ -2164,7 +2164,7 @@ class pChart {
                                       floor($YPos + $this->GArea_Y1)),
                             new Point(floor($XPos + $XWidth + $this->GArea_X1),
                                       floor($YZero + $this->GArea_Y1)),
-                            $this->palette->colors[$GraphID],
+                            $this->palette->getColor($GraphID),
                             ShadowProperties::NoShadow(),
                             false,
                             $Alpha
@@ -2190,7 +2190,7 @@ class pChart {
                                       $Y1),
                             new Point($X2,
                                       $Y1),
-                            $this->palette->colors[$ColorID],
+                            $this->palette->getColor($ColorID),
                             $this->LineWidth,
                             $this->LineDotSize,
                             $this->shadowProperties,
@@ -2259,7 +2259,7 @@ class pChart {
                                       $YZero),
                             new Point($XPos + $SeriesWidth - 1,
                                       $YPos),
-                            $this->palette->colors[$ColorID],
+                            $this->palette->getColor($ColorID),
                             $this->shadowProperties,
                             TRUE, $Alpha
                         );
@@ -2319,7 +2319,7 @@ class pChart {
                                       $YBottom),
                             new Point($XPos + $SeriesWidth - 1,
                                       $YPos),
-                            $this->palette->colors[$ColorID],
+                            $this->palette->getColor($ColorID),
                             $this->shadowProperties,
                             TRUE,
                             $Alpha
@@ -2411,7 +2411,7 @@ class pChart {
                           $Y1),
                 new Point($X2,
                           $Y1),
-                $this->palette->colors[$MaxID],
+                $this->palette->getColor($MaxID),
                 $this->LineWidth,
                 $this->LineDotSize,
                 $this->shadowProperties
@@ -2421,7 +2421,7 @@ class pChart {
                           $Y2),
                 new Point($X2,
                           $Y2),
-                $this->palette->colors[$MinID],
+                $this->palette->getColor($MinID),
                 $this->LineWidth,
                 $this->LineDotSize,
                 $this->shadowProperties
@@ -2685,7 +2685,7 @@ class pChart {
                                       $YLast),
                             new Point($XPos,
                                       $YPos),
-                            $this->palette->colors[$ColorID],
+                            $this->palette->getColor($ColorID),
                             $this->LineWidth,
                             $this->LineDotSize,
                             $this->shadowProperties
@@ -2706,7 +2706,7 @@ class pChart {
                           $YPos),
                 new Point($FirstX,
                           $FirstY),
-                $this->palette->colors[$ColorID],
+                $this->palette->getColor($ColorID),
                 $this->LineWidth,
                 $this->LineDotSize,
                 $this->shadowProperties
@@ -2766,7 +2766,7 @@ class pChart {
                 $this->canvas->drawFilledPolygon(
                     $Plots,
                     (count($Plots) + 1) / 2,
-                    $this->palette->colors[$ColorID],
+                    $this->palette->getColor($ColorID),
                     $Alpha
                 );
 
@@ -2776,7 +2776,7 @@ class pChart {
                                   $Plots [$i + 1]),
                         new Point($Plots [$i + 2],
                                   $Plots [$i + 3]),
-                        $this->palette->colors[$ColorID],
+                        $this->palette->getColor($ColorID),
                         $this->LineWidth,
                         $this->LineDotSize,
                         $this->shadowProperties

@@ -42,7 +42,27 @@ class Palette {
         return $palette;
     }
 
+    /**
+     * Set the color at the specified position
+     *
+     * @param int   $id
+     * @param Color $color
+     */
     public function setColor($id, Color $color) {
         $this->colors[$id] = $color;
+    }
+
+    /**
+     * Get the color at the specified position
+     *
+     * @param int $id position in the color array
+     * @return Color
+     */
+    public function getColor($id){
+        if(isset($this->colors[$id])) return $this->colors[$id];
+
+        // there's no color assigned, create a pseudo random one
+        $this->colors[$id] = Color::random($id);
+        return $this->colors[$id];
     }
 }
