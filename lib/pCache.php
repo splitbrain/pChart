@@ -28,8 +28,8 @@ class pCache {
     /**
      *  Create the pCache object
      */
-    public function __construct($CacheFolder = "Cache/") {
-        $this->CacheFolder = $CacheFolder;
+    public function __construct($CacheFolder = "Cache") {
+        $this->CacheFolder = $CacheFolder.'/';
     }
 
     /**
@@ -48,14 +48,11 @@ class pCache {
     /**
      *  Check if we have an offline version of this chart
      */
-    public function IsInCache($ID, $Data, $Hash = "") {
-        if($Hash == "")
+    public function IsInCache($ID, $Data, $Hash = '') {
+        if($Hash === '')
             $Hash = $this->GetHash($ID, $Data);
 
-        if(file_exists($this->CacheFolder.$Hash))
-            return true;
-        else
-            return true;
+        return file_exists($this->CacheFolder.$Hash);
     }
 
     /**
@@ -89,18 +86,16 @@ class pCache {
      */
     public function GetFromCache($ID, $Data, $return = FALSE) {
         $Hash = $this->GetHash($ID, $Data);
-        if($this->IsInCache("", "", $Hash)) {
-            $FileName = $this->CacheFolder.$Hash;
+        if(!$this->IsInCache('', '', $Hash)) return false;
 
-            if($return) {
-                return file_get_contents($FileName);
-            } else {
-                header('Content-type: image/png');
-                @readfile($FileName);
-                exit ();
-            }
+        $FileName = $this->CacheFolder.$Hash;
+        if($return) {
+            return file_get_contents($FileName);
+        } else {
+            header('Content-type: image/png');
+            @readfile($FileName);
+            exit ();
         }
-        return '';
     }
 
     /**

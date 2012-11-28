@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Example 11: Using the pCache class
  */
@@ -22,30 +21,33 @@ $DataSet->SetSeriesName("January", "Serie1");
 $DataSet->SetSeriesName("February", "Serie2");
 
 // Cache definition 
-$Cache = new pCache();
-$Cache->GetFromCache("Example11", $DataSet->GetData());
-// Initialise the graph
-$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
-$Chart->setGraphArea(50, 30, 585, 200);
-$Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
-$Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
+$Cache = new pCache($DIR);
+$image = $Cache->GetFromCache("Example11", $DataSet->GetData(), true);
 
-// Draw the 0 line
-$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 6);
-$Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
+if(!$image) {
+    // Initialise the graph
+    $Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
+    $Chart->setGraphArea(50, 30, 585, 200);
+    $Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
+    $Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
-// Draw the cubic curve graph
-$Chart->drawCubicCurve($DataSet, .1, "Serie1");
-$Chart->drawCubicCurve($DataSet, .1, "Serie2");
+    // Draw the 0 line
+    $Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 6);
+    $Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
-// Finish the graph
-$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
-$Chart->drawLegend(600, 30, $DataSet->GetDataDescription(), new Color(255));
-$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 10);
-$Chart->drawTitle(50, 22, "Example 1", new Color(50), 585);
+    // Draw the cubic curve graph
+    $Chart->drawCubicCurve($DataSet, .1, "Serie1");
+    $Chart->drawCubicCurve($DataSet, .1, "Serie2");
 
-// Render the graph
-$Cache->WriteToCache("Example11", $DataSet->GetData(), $Chart);
-$Chart->Render(OUTDIR."/Example11.png");
-header("Content-Type:image/png");
-readfile(OUTDIR."/Example11.png");
+    // Finish the graph
+    $Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
+    $Chart->drawLegend(600, 30, $DataSet->GetDataDescription(), new Color(255));
+    $Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 10);
+    $Chart->drawTitle(50, 22, "Example 1", new Color(50), 585);
+
+    // Render the graph
+    $Cache->WriteToCache("Example11", $DataSet->GetData(), $Chart);
+    $image = $Chart->Render(null);
+}
+
+file_put_contents(OUTDIR."/Example11.png", $image);

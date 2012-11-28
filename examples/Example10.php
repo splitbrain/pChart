@@ -31,5 +31,3 @@ $Chart->drawPieLegend(330, 15, $DataSet->GetData(), $DataSet->GetDataDescription
 $Chart->setFontProperties("$DIR/../Fonts/MankSans.ttf", 10);
 $Chart->drawTitle(10, 20, "Sales per month", new Color(100));
 $Chart->Render(OUTDIR."/Example10.png");
-header("Content-Type:image/png");
-readfile(OUTDIR."/Example10.png");

@@ -26,5 +26,3 @@ $shadowProperties = ShadowProperties::FromSettings(2, 2, new Color(200));
 $Chart->drawFlatPieGraphWithShadow($DataSet->GetData(), $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8, 0, $shadowProperties);
 $Chart->drawPieLegend(230, 15, $DataSet->GetData(), $DataSet->GetDataDescription(), new Color(250));
 $Chart->Render(OUTDIR."/Example13.png");
-header("Content-Type:image/png");
-readfile(OUTDIR."/Example13.png");

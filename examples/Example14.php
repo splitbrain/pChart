@@ -28,5 +28,3 @@ $Chart->drawFlatPieGraphWithShadow($DataSet->GetData(), $DataSet->GetDataDescrip
 //$Chart->drawFlatPieGra
 $Chart->drawPieLegend(230, 15, $DataSet->GetData(), $DataSet->GetDataDescription(), new Color(250));
 $Chart->Render(OUTDIR."/Example14.png");
-header("Content-Type:image/png");
-readfile(OUTDIR."/Example14.png");

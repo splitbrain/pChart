@@ -69,5 +69,4 @@ $Chart->drawFromPNG("$DIR/../Sample/logo.png", 584, 35);
 
 // Render the chart
 $Chart->Render(OUTDIR."/Example15.png");
-header("Content-Type:image/png");
-readfile(OUTDIR."/Example15.png");
+
