@@ -97,7 +97,6 @@ class pCache {
             } else {
                 header('Content-type: image/png');
                 @readfile($FileName);
-                exit ();
             }
         }
         return '';
