@@ -1,18 +1,17 @@
 <?php
-/*
-    Example15 : Playing with line style & pictures inclusion
-*/
+/**
+ * Example 15: Playing with line style & pictures inclusion
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once '../lib/GDCanvas.php';
-require_once("../lib/pChart.php");
-require_once '../lib/BackgroundStyle.php';
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData;
 $Canvas  = new GDCanvas(700, 230);
-$Chart = new pChart(700, 230, $Canvas);
+$Chart   = new pChart(700, 230, $Canvas);
 
 $DataSet->AddPoints(array(10, 9.4, 7.7, 5, 1.7, -1.7, -5, -7.7, -9.4, -10, -9.4, -7.7, -5, -1.8, 1.7), "Serie1");
 $DataSet->AddPoints(array(0, 3.4, 6.4, 8.7, 9.8, 9.8, 8.7, 6.4, 3.4, 0, -3.4, -6.4, -8.6, -9.8, -9.9), "Serie2");
@@ -28,7 +27,7 @@ $DataSet->SetXAxisName("Month of the year");
 
 // Initialise the graph
 $Chart->setFixedScale(-12, 12, 5);
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Chart->setGraphArea(65, 30, 570, 185);
 
 $Canvas->drawFilledRoundedRectangle(new Point(7, 7), new Point(693, 223), 5, new Color(240), 1, 0, ShadowProperties::NoShadow());
@@ -39,7 +38,7 @@ $Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
 $Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
 // Draw the 0 line
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 6);
 $Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
 // Draw the area
@@ -56,19 +55,19 @@ $Chart->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
 $Chart->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 2, new Color(255));
 
 // Write values on Serie3
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Chart->writeValues($DataSet->GetData(), $DataSet->GetDataDescription(), "Serie3");
 
 // Finish the graph
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Chart->drawLegend(590, 90, $DataSet->GetDataDescription(), new Color(255));
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 10);
 $Chart->drawTitle(60, 22, "Example 15", new Color(50), 585);
 
 // Add an image
-$Chart->drawFromPNG("../Sample/logo.png", 584, 35);
+$Chart->drawFromPNG("$DIR/../Sample/logo.png", 584, 35);
 
 // Render the chart
-$Chart->Render("Example15.png");
+$Chart->Render(OUTDIR."/Example15.png");
 header("Content-Type:image/png");
-readfile("Example15.png");
+readfile(OUTDIR."/Example15.png");

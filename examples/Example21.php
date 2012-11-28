@@ -1,11 +1,12 @@
 <?php
-/*
-    Example21 : Playing with background
-*/
+/**
+ * Example 21: Playing with background
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData;
@@ -26,7 +27,7 @@ $Test = new pChart(700, 230);
 $Test->drawGraphAreaGradient(132, 153, 172, 50, TARGET_BACKGROUND);
 
 // Graph area setup
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->setGraphArea(60, 20, 585, 180);
 $Test->drawGraphArea(213, 217, 221, FALSE);
 $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORMAL, 213, 217, 221, TRUE, 0, 2);
@@ -40,7 +41,7 @@ $Test->clearShadow();
 $Test->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 4, 2, -1, -1, -1, TRUE);
 
 // Draw the legend
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawLegend(605, 142, $DataSet->GetDataDescription(), 236, 238, 240, 52, 58, 82);
 
 // Draw the title
@@ -49,4 +50,4 @@ $Test->drawTextBox(0, 210, 700, 230, $Title, 0, 255, 255, 255, ALIGN_RIGHT, TRUE
 
 // Render the picture
 $Test->addBorder(2);
-$Test->Render("Example21.png");
+$Test->Render(OUTDIR."/Example21.png");

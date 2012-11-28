@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__FILE__).'/ICanvas.php';
-
 class GDCanvas implements ICanvas {
     public function __construct($xSize, $ySize) {
         $this->picture = imagecreatetruecolor($xSize, $ySize);

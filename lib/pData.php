@@ -21,8 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once dirname(__FILE__).'/DataDescription.php';
-require_once dirname(__FILE__).'/CSVImporter.php';
 
 class pData {
     private $Data = array();

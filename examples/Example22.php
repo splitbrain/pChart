@@ -1,11 +1,12 @@
 <?php
-/*
-    Example22 : Customizing plot graphs
-*/
+/**
+ * Example 22: Customizing plot graphs
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData;
@@ -19,12 +20,12 @@ $DataSet->SetSerieName("Company A", "Serie1");
 $DataSet->SetSerieName("Company B", "Serie2");
 $DataSet->SetYAxisName("Product sales");
 $DataSet->SetYAxisUnit("k");
-$DataSet->SetSerieSymbol("Serie1", "../sample/Point_Asterisk.gif");
-$DataSet->SetSerieSymbol("Serie2", "../sample/Point_Cd.gif");
+$DataSet->SetSerieSymbol("Serie1", "$DIR/../sample/Point_Asterisk.gif");
+$DataSet->SetSerieSymbol("Serie2", "$DIR/../sample/Point_Cd.gif");
 
 // Initialise the graph
 $Test = new pChart(700, 230);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->setGraphArea(65, 30, 650, 200);
 $Test->drawFilledRoundedRectangle(7, 7, 693, 223, 5, 240, 240, 240);
 $Test->drawRoundedRectangle(5, 5, 695, 225, 5, 230, 230, 230);
@@ -33,7 +34,7 @@ $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORM
 $Test->drawGrid(4, TRUE, 230, 230, 230, 50);
 
 // Draw the title
-$Test->setFontProperties("../Fonts/pf_arma_five.ttf", 6);
+$Test->setFontProperties("$DIR/../Fonts/pf_arma_five.ttf", 6);
 $Title = "Comparative product sales for company A & B  ";
 $Test->drawTextBox(65, 30, 650, 45, $Title, 0, 255, 255, 255, ALIGN_RIGHT, TRUE, 0, 0, 0, 30);
 
@@ -42,8 +43,8 @@ $Test->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
 $Test->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 2, 255, 255, 255);
 
 // Draw the legend
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawLegend(80, 60, $DataSet->GetDataDescription(), 255, 255, 255);
 
 // Render the chart
-$Test->Render("Example22.png");
+$Test->Render(OUTDIR."/Example22.png");

@@ -1,19 +1,12 @@
 <?php
-
-/*
-  Example2 : A cubic curve graph
+/**
+ * Example 2: A cubic curve graph
  */
 
-// Standard inclusions   
-require_once '../lib/pChart.php';
-require_once '../lib/PieChart.php';
-require_once '../lib/pData.php';
-require_once '../lib/GDCanvas.php';
-require_once '../lib/TestCanvas.php';
-require_once '../lib/GridStyle.php';
-require_once '../lib/BackgroundStyle.php';
-require_once '../lib/ScaleStyle.php';
-require_once '../lib/CSVImporter.php';
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Definitions
 $DataSet = new pData;
@@ -28,7 +21,7 @@ $DataSet->SetSeriesName("January", "Serie1");
 $DataSet->SetSeriesName("February", "Serie2");
 
 // Initialise the graph
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Chart->setGraphArea(50, 30, 585, 200);
 
 // Canvas
@@ -41,7 +34,7 @@ $Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), TRUE, 0, 2);
 $Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
 // Draw the 0 line
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 6);
 $Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
 // Draw the cubic curve graph
@@ -49,11 +42,11 @@ $Chart->drawFilledCubicCurve($DataSet, .1, 50);
 //$Chart->drawCubicCurve($DataSet, .1, 50);
 
 // Finish the graph
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Chart->drawLegend(600, 30, $DataSet->GetDataDescription(), new Color(255));
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 10);
 $Chart->drawTitle(50, 22, "Example 2", new Color(50), 585);
-$Chart->Render("Example2.png");
+$Chart->Render(OUTDIR."/Example2.png");
 
 header("Content-Type:image/png");
-readfile("Example2.png");
+readfile(OUTDIR."/Example2.png");

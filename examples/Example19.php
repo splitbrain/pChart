@@ -1,10 +1,12 @@
 <?php
-/*
-     Example19 : Error reporting
+/**
+ * Example 19: Error reporting
  */
-// Standard inclusions   
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition 
 $DataSet = new pData();
@@ -19,7 +21,7 @@ $DataSet->SetSerieName("January", "Serie1");
 // Initialise the graph
 $Test = new pChart(700, 230);
 $Test->reportWarnings("GD");
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->setGraphArea(60, 30, 585, 185);
 $Test->drawFilledRoundedRectangle(7, 7, 693, 223, 5, 240, 240, 240);
 $Test->drawRoundedRectangle(5, 5, 695, 225, 5, 230, 230, 230);
@@ -28,15 +30,15 @@ $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORM
 $Test->drawGrid(4, TRUE, 230, 230, 230, 50);
 
 // Draw the 0 line
-$Test->setFontProperties("../Fonts/tahoma.ttf", 6);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 6);
 $Test->drawTreshold(0, 143, 55, 72, TRUE, TRUE);
 
 // Draw the cubic curve graph
 $Test->drawCubicCurve($DataSet->GetData(), $DataSet->GetDataDescription());
 
 // Finish the graph
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawLegend(600, 30, $DataSet->GetDataDescription(), 255, 255, 255);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 10);
 $Test->drawTitle(50, 22, "Example 19", 50, 50, 50, 585);
-$Test->Render("Example19.png");
+$Test->Render(OUTDIR."/Example19.png");

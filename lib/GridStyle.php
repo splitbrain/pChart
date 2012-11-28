@@ -19,8 +19,6 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(dirname(__FILE__).'/Color.php');
-
 class GridStyle {
     public function __construct($lineWidth, $mosaic = true, Color $color = null, $alpha = 100) {
         if($color == null) {

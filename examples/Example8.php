@@ -1,14 +1,12 @@
 <?php
-
-/*
-  Example8 : A radar graph
+/**
+ * Example 8: A radar graph
  */
 
-// Standard inclusions   
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
-require_once '../lib/GDCanvas.php';
-require_once '../lib/BackgroundStyle.php';
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Definitions
 $DataSet = new pData;
@@ -26,7 +24,7 @@ $DataSet->SetSeriesName("Reference", "Serie1");
 $DataSet->SetSeriesName("Tested computer", "Serie2");
 
 // Initialise the graph
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Chart->setGraphArea(30, 30, 370, 370);
 
 // Draw the radar graph
@@ -35,9 +33,9 @@ $Chart->drawFilledRadar($DataSet->GetData(), $DataSet->GetDataDescription(), 50,
 
 // Finish the graph
 $Chart->drawLegend(15, 15, $DataSet->GetDataDescription(), new Color(255));
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 10);
 $Chart->drawTitle(0, 22, "Example 8", new Color(50), 400);
 
-$Chart->Render("Example8.png");
+$Chart->Render(OUTDIR."/Example8.png");
 header("Content-Type:image/png");
-readfile("Example8.png");
+readfile(OUTDIR."/Example8.png");

@@ -1,11 +1,12 @@
 <?php
-/*
-    Example26 : Two Y axis / shadow demonstration
-*/
+/**
+ * Example 26: Two Y axis / shadow demonstration
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData;
@@ -22,11 +23,11 @@ $Test = new pChart(660, 230);
 $Test->drawGraphAreaGradient(90, 90, 90, 90, TARGET_BACKGROUND);
 
 // Prepare the graph area
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->setGraphArea(60, 40, 595, 190);
 
 // Initialise graph area
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 
 // Draw the SourceForge Rank graph
 $DataSet->SetYAxisName("Sourceforge Rank");
@@ -55,14 +56,14 @@ $Test->drawFilledCubicCurve($DataSet->GetData(), $DataSet->GetDataDescription(),
 $Test->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 2, 255, 255, 255);
 
 // Write the legend (box less)
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawLegend(530, 5, $DataSet->GetDataDescription(), 0, 0, 0, 0, 0, 0, 255, 255, 255, FALSE);
 
 // Write the title
-$Test->setFontProperties("../Fonts/MankSans.ttf", 18);
+$Test->setFontProperties("$DIR/../Fonts/MankSans.ttf", 18);
 $Test->setShadowProperties(1, 1, 0, 0, 0);
 $Test->drawTitle(0, 0, "SourceForge ranking summary", 255, 255, 255, 660, 30, TRUE);
 $Test->clearShadow();
 
 // Render the picture
-$Test->Render("Example26.png");
+$Test->Render(OUTDIR."/Example26.png");

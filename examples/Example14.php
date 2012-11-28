@@ -1,13 +1,12 @@
 <?php
-/*
-     Example14: A smooth flat pie graph
+/**
+ * Example 14: A smooth flat pie graph
  */
-// Standard inclusions   
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
-require_once '../lib/GDCanvas.php';
-require_once '../lib/BackgroundStyle.php';
-require_once('../lib/PieChart.php');
+
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Definitions
 $DataSet = new pData;
@@ -20,14 +19,14 @@ $DataSet->AddAllSeries();
 $DataSet->SetAbscissaLabelSeries("Serie2");
 
 // Initialise the graph
-$Chart->loadColorPalette("../sample/softtones.txt");
+$Chart->loadColorPalette("$DIR/../sample/softtones.txt");
 
 // Draw the pie chart
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $shadowProperties = ShadowProperties::FromSettings(2, 2, new Color(200));
 $Chart->drawFlatPieGraphWithShadow($DataSet->GetData(), $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8, 0, $shadowProperties);
 //$Chart->drawFlatPieGra
 $Chart->drawPieLegend(230, 15, $DataSet->GetData(), $DataSet->GetDataDescription(), new Color(250));
-$Chart->Render("Example14.png");
+$Chart->Render(OUTDIR."/Example14.png");
 header("Content-Type:image/png");
-readfile("Example14.png");
+readfile(OUTDIR."/Example14.png");

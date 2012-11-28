@@ -1,11 +1,12 @@
 <?php
-/*
-    Example25 : Playing with shadow
-*/
+/**
+ * Example 25: Playing with shadow
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData;
@@ -27,7 +28,7 @@ $Test->drawGraphAreaGradient(90, 90, 90, 90, TARGET_BACKGROUND);
 $Test->setFixedScale(0, 40, 4);
 
 // Graph area setup
-$Test->setFontProperties("../Fonts/pf_arma_five.ttf", 6);
+$Test->setFontProperties("$DIR/../Fonts/pf_arma_five.ttf", 6);
 $Test->setGraphArea(60, 40, 680, 200);
 $Test->drawGraphArea(200, 200, 200, FALSE);
 $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORMAL, 200, 200, 200, TRUE, 0, 2);
@@ -41,14 +42,14 @@ $Test->clearShadow();
 $Test->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 0, -1, -1, -1, TRUE);
 
 // Write the title
-$Test->setFontProperties("../Fonts/MankSans.ttf", 18);
+$Test->setFontProperties("$DIR/../Fonts/MankSans.ttf", 18);
 $Test->setShadowProperties(1, 1, 0, 0, 0);
 $Test->drawTitle(0, 0, "Average temperatures", 255, 255, 255, 700, 30, TRUE);
 $Test->clearShadow();
 
 // Draw the legend
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawLegend(610, 5, $DataSet->GetDataDescription(), 0, 0, 0, 0, 0, 0, 255, 255, 255, FALSE);
 
 // Render the picture
-$Test->Render("Example25.png");
+$Test->Render(OUTDIR."/Example25.png");

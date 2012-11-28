@@ -1,9 +1,5 @@
 <?php
 
-require_once dirname(__FILE__).'/Color.php';
-require_once dirname(__FILE__).'/Point.php';
-require_once dirname(__FILE__).'/ShadowProperties.php';
-
 /**
  * @brief Interface that abstracts the implementation of drawing operations
  *

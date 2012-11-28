@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/Color.php');
-
 /**
  * Represents a palette of indexed graph colors
  *

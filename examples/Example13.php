@@ -1,14 +1,12 @@
 <?php
-/*
-     Example13: A 2D exploded pie graph
+/**
+ * Example 13: A 2D exploded pie graph
  */
 
-// Standard inclusions   
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
-require_once '../lib/GDCanvas.php';
-require_once '../lib/BackgroundStyle.php';
-require_once('../lib/PieChart.php');
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Definitions
 $DataSet = new pData;
@@ -21,12 +19,12 @@ $DataSet->AddAllSeries();
 $DataSet->SetAbscissaLabelSeries("Serie2");
 
 // Initialise the graph
-$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 
 // Draw the pie chart
 $shadowProperties = ShadowProperties::FromSettings(2, 2, new Color(200));
 $Chart->drawFlatPieGraphWithShadow($DataSet->GetData(), $DataSet->GetDataDescription(), 120, 100, 60, PIE_PERCENTAGE, 8, 0, $shadowProperties);
 $Chart->drawPieLegend(230, 15, $DataSet->GetData(), $DataSet->GetDataDescription(), new Color(250));
-$Chart->Render("Example13.png");
+$Chart->Render(OUTDIR."/Example13.png");
 header("Content-Type:image/png");
-readfile("Example13.png");
+readfile(OUTDIR."/Example13.png");

@@ -20,13 +20,11 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(dirname(__FILE__).'/ConversionHelpers.php');
-require_once(dirname(__FILE__).'/ShadowProperties.php');
-require_once(dirname(__FILE__).'/Color.php');
-require_once(dirname(__FILE__).'/Palette.php');
-require_once(dirname(__FILE__).'/ICanvas.php');
-require_once(dirname(__FILE__).'/GridStyle.php');
-require_once(dirname(__FILE__).'/ScaleStyle.php');
+spl_autoload_register('pChart_autoload');
+function pChart_autoload($name){
+    $file = dirname(__FILE__).'/'.$name.'.php';
+    if(file_exists($file)) require_once($file);
+}
 
 /* Declare some script wide constants */
 define ("SCALE_NORMAL", 1);

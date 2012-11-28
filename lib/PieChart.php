@@ -22,8 +22,6 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(dirname(__FILE__).'/pChart.php');
-
 define ("PIE_PERCENTAGE", 1);
 define ("PIE_LABELS", 2);
 define ("PIE_NOLABEL", 3);

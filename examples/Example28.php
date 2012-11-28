@@ -1,11 +1,12 @@
 <?php
-/*
-    SmallGraph: Let's go fast, draw small!
-*/
+/**
+ * Example 28: SmallGraph
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData();
@@ -16,7 +17,7 @@ $DataSet->SetSerieName("January", "Serie1");
 
 // Initialise the graph
 $Test = new pChart(100, 30);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawFilledRoundedRectangle(2, 2, 98, 28, 2, 230, 230, 230);
 $Test->setGraphArea(5, 5, 95, 25);
 $Test->drawGraphArea(255, 255, 255);
@@ -26,4 +27,4 @@ $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORM
 $Test->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
 
 // Finish the graph
-$Test->Render("Example28.png");
+$Test->Render(OUTDIR."/Example28.png");

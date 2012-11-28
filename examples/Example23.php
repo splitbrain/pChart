@@ -1,11 +1,12 @@
 <?php
-/*
-    Example23 : Playing with background bis
-*/
+/**
+ * Example 23: Playing with background bis
+ */
 
-// Standard inclusions
-require_once("../lib/pData.php");
-require_once("../lib/pChart.php");
+// Standard setup
+$DIR = dirname(__FILE__);
+if(!defined('OUTDIR')) define('OUTDIR', $DIR);
+require_once("$DIR/../lib/pChart.php");
 
 // Dataset definition
 $DataSet = new pData;
@@ -25,7 +26,7 @@ $DataSet->SetXAxisUnit("h");
 $Test = new pChart(700, 230);
 $Test->drawGraphAreaGradient(132, 173, 131, 50, TARGET_BACKGROUND);
 
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->setGraphArea(120, 20, 675, 190);
 $Test->drawGraphArea(213, 217, 221, FALSE);
 $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_ADDALL, 213, 217, 221, TRUE, 0, 2, TRUE);
@@ -40,9 +41,9 @@ $Title = "  Average Temperatures during\r\n  the first months of 2008  ";
 $Test->drawTextBox(0, 0, 50, 230, $Title, 90, 255, 255, 255, ALIGN_BOTTOM_CENTER, TRUE, 0, 0, 0, 30);
 
 // Draw the legend
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Test->setFontProperties("$DIR/../Fonts/tahoma.ttf", 8);
 $Test->drawLegend(610, 10, $DataSet->GetDataDescription(), 236, 238, 240, 52, 58, 82);
 
 // Render the picture
 $Test->addBorder(2);
-$Test->Render("Example23.png");
+$Test->Render(OUTDIR."/Example23.png");
