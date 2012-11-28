@@ -28,8 +28,28 @@
  * eventually be done away with.
  */
 class Color {
+    /**
+     * The members r, g and b are still public since they are used
+     * within GDCanvas. Since we don't have any GDCanvas unit tests
+     * yet, we can't safely make these private at the moment.
+     */
+    public $r;
+    public $g;
+    public $b;
 
+    /**
+     * Initializes a new RGB color
+     *
+     * @param mixed $red either red channel or the whole color in hex
+     * @param int $green
+     * @param int $blue
+     * @throws InvalidArgumentException
+     */
     public function __construct($red, $green = null, $blue = null) {
+        if(!is_numeric($red)){
+            // we assume it's hex
+            list($red, $green, $blue) = $this->Hex2RGB($red);
+        }
         if(is_null($green)) $green = $red;
         if(is_null($blue)) $blue = $red;
 
@@ -51,6 +71,48 @@ class Color {
     }
 
     /**
+     * Return the color as a HTML hex color
+     *
+     * @return string
+     */
+    public function getHex(){
+        return sprintf('#%02x%02x%02x', $this->r, $this->g, $this->b);
+    }
+
+    /**
+     * Return RGB values of a hex color
+     *
+     * @param $color
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    private function Hex2RGB($color){
+        if ($color[0] == '#') $color = substr($color, 1);
+
+        if (strlen($color) == 6) {
+            list($r, $g, $b) = array(
+                $color[0].$color[1],
+                $color[2].$color[3],
+                $color[4].$color[5]
+            );
+        } elseif (strlen($color) == 3) {
+            list($r, $g, $b) = array(
+                $color[0].$color[0],
+                $color[1].$color[1],
+                $color[2].$color[2]
+            );
+        } else {
+            throw new InvalidArgumentException("Invalid Hex color");
+        }
+
+        $r = hexdec($r);
+        $g = hexdec($g);
+        $b = hexdec($b);
+
+        return array($r, $g, $b);
+    }
+
+    /**
      * Return a new color formed by adding the specified increment to
      * the R, G and B values
      */
@@ -64,10 +126,21 @@ class Color {
         return $incremented;
     }
 
+    /**
+     * Returns a string representation of the color
+     *
+     * @return string
+     */
     public function __toString() {
         return sprintf("Color<%d, %d, %d>", $this->r, $this->g, $this->b);
     }
 
+    /**
+     * Makes sure the input is a valid color range (0-255)
+     *
+     * @param $input
+     * @return int
+     */
     private function truncateColorComponentRange($input) {
         if($input > 255) {
             return 255;
@@ -78,25 +151,30 @@ class Color {
         }
     }
 
+    /**
+     * Get the red channel
+     *
+     * @return int
+     */
     public function getR() {
         return $this->r;
     }
 
+    /**
+     * Get the green channel
+     *
+     * @return int
+     */
     public function getG() {
         return $this->g;
     }
 
+    /**
+     * Get the blue channel
+     *
+     * @return int
+     */
     public function getB() {
         return $this->b;
     }
-
-    /**
-     * The members r, g and b are still public since they are used
-     * within GDCanvas. Since we don't have any GDCanvas unit tests
-     * yet, we can't safely make these private at the moment.
-     */
-    public $r;
-    public $g;
-    public $b;
-
 }
