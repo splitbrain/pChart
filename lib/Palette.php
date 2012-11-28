@@ -2,6 +2,11 @@
 
 require_once(dirname(__FILE__).'/Color.php');
 
+/**
+ * Represents a palette of indexed graph colors
+ *
+ * @todo move palette loading from pChart to this file
+ */
 class Palette {
     /** @todo Are the keys on this array always numbers, and always
      * sequential?  That's the way it's used in the code, but I don't
@@ -9,23 +14,38 @@ class Palette {
      * thing to do? */
     public $colors = array();
 
+    /**
+     * Return the 7 color standard palette
+     *
+     * @static
+     * @return Palette
+     */
     static public function defaultPalette() {
         $palette = new Palette;
 
         $palette->colors = array(
-            '0' => new Color(188, 224, 46),
-            "1" => new Color(224, 100, 46),
-            "2" => new Color(224, 214, 46),
-            "3" => new Color(46, 151, 224),
-            "4" => new Color(176, 46, 224),
-            "5" => new Color(224, 46, 117),
-            "6" => new Color(92, 224, 46),
-            "7" => new Color(224, 176, 46)
+            0 => new Color(188, 224, 46),
+            1 => new Color(224, 100, 46),
+            2 => new Color(224, 214, 46),
+            3 => new Color(46, 151, 224),
+            4 => new Color(176, 46, 224),
+            5 => new Color(224, 46, 117),
+            6 => new Color(92, 224, 46),
+            7 => new Color(224, 176, 46)
         );
 
         return $palette;
     }
 
+    /**
+     * Creates a palette from a gradient between $color1 and $color2
+     *
+     * @static
+     * @param Color $color1 start color
+     * @param Color $color2 end color
+     * @param int   $shades number of colors to create
+     * @return Palette
+     */
     static public function colorGradientPalette(Color $color1, Color $color2, $shades) {
         $palette = new Palette();
 
@@ -58,7 +78,7 @@ class Palette {
      * @param int $id position in the color array
      * @return Color
      */
-    public function getColor($id){
+    public function getColor($id) {
         if(isset($this->colors[$id])) return $this->colors[$id];
 
         // there's no color assigned, create a pseudo random one
