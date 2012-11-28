@@ -5,7 +5,6 @@ require_once(dirname(__FILE__).'/Color.php');
 /**
  * Represents a palette of indexed graph colors
  *
- * @todo move palette loading from pChart to this file
  */
 class Palette {
     /** @todo Are the keys on this array always numbers, and always
@@ -59,6 +58,36 @@ class Palette {
                                              $color1->getB() + $BFactor * $i);
         }
 
+        return $palette;
+    }
+
+    /**
+     * Create a color palette from a file
+     *
+     * @static
+     * @param string $filename
+     * @param string $delimiter
+     * @throws Exception
+     * @return Palette
+     */
+    static public function fromFile($filename, $delimiter = ',') {
+        $handle = @fopen($filename, 'r');
+        if(!$handle) throw new Exception('Failed to open file in loadColorPalette');
+
+        $palette = new Palette();
+        $idx = 0;
+        while(!feof($handle)) {
+            $buffer = fgets($handle, 4096);
+            $buffer = str_replace(chr(10), '', $buffer);
+            $buffer = str_replace(chr(13), '', $buffer);
+            $values = explode($delimiter, $buffer);
+            if(count($values) == 3) {
+                $palette->setColor($idx, new Color($values[0], $values[1], $values[2]));
+                $idx++;
+            }elseif(count($values) == 1){
+                $palette->setColor($idx, new Color($values[0]));
+            }
+        }
         return $palette;
     }
 

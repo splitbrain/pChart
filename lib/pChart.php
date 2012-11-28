@@ -177,27 +177,7 @@ class pChart {
      * Load Color Palette from file
      */
     function loadColorPalette($FileName, $Delimiter = ",") {
-        $handle = @fopen($FileName, "r");
-
-        if($handle == null) {
-            throw new Exception("Failed to open file in loadColorPalette");
-        }
-
-        $ColorID = 0;
-        if($handle) {
-            while(!feof($handle)) {
-                $buffer = fgets($handle, 4096);
-                $buffer = str_replace(chr(10), "", $buffer);
-                $buffer = str_replace(chr(13), "", $buffer);
-                $Values = explode($Delimiter, $buffer);
-                if(count($Values) == 3) {
-                    $this->palette->colors[$ColorID] = new Color($Values[0],
-                                                                 $Values[1],
-                                                                 $Values[2]);
-                    $ColorID++;
-                }
-            }
-        }
+        $this->palette = Palette::fromFile($FileName, $Delimiter);
     }
 
     /**
