@@ -5,63 +5,70 @@
 
 // Standard inclusions
 require_once("../lib/pData.php");
+require_once '../lib/GDCanvas.php';
 require_once("../lib/pChart.php");
+require_once '../lib/BackgroundStyle.php';
 
 // Dataset definition
 $DataSet = new pData;
-$DataSet->AddPoint(array(10, 9.4, 7.7, 5, 1.7, -1.7, -5, -7.7, -9.4, -10, -9.4, -7.7, -5, -1.8, 1.7), "Serie1");
-$DataSet->AddPoint(array(0, 3.4, 6.4, 8.7, 9.8, 9.8, 8.7, 6.4, 3.4, 0, -3.4, -6.4, -8.6, -9.8, -9.9), "Serie2");
-$DataSet->AddPoint(array(7.1, 9.1, 10, 9.7, 8.2, 5.7, 2.6, -0.9, -4.2, -7.1, -9.1, -10, -9.7, -8.2, -5.8), "Serie3");
-$DataSet->AddPoint(array("Jan", "Jan", "Jan", "Feb", "Feb", "Feb", "Mar", "Mar", "Mar", "Apr", "Apr", "Apr", "May", "May", "May"), "Serie4");
+$Canvas  = new GDCanvas(700, 230);
+$Chart = new pChart(700, 230, $Canvas);
+
+$DataSet->AddPoints(array(10, 9.4, 7.7, 5, 1.7, -1.7, -5, -7.7, -9.4, -10, -9.4, -7.7, -5, -1.8, 1.7), "Serie1");
+$DataSet->AddPoints(array(0, 3.4, 6.4, 8.7, 9.8, 9.8, 8.7, 6.4, 3.4, 0, -3.4, -6.4, -8.6, -9.8, -9.9), "Serie2");
+$DataSet->AddPoints(array(7.1, 9.1, 10, 9.7, 8.2, 5.7, 2.6, -0.9, -4.2, -7.1, -9.1, -10, -9.7, -8.2, -5.8), "Serie3");
+$DataSet->AddPoints(array("Jan", "Jan", "Jan", "Feb", "Feb", "Feb", "Mar", "Mar", "Mar", "Apr", "Apr", "Apr", "May", "May", "May"), "Serie4");
 $DataSet->AddAllSeries();
-$DataSet->SetAbsciseLabelSerie("Serie4");
-$DataSet->SetSerieName("Max Average", "Serie1");
-$DataSet->SetSerieName("Min Average", "Serie2");
-$DataSet->SetSerieName("Temperature", "Serie3");
+$DataSet->SetAbscissaLabelSeries("Serie4");
+$DataSet->setSeriesName("Max Average", "Serie1");
+$DataSet->setSeriesName("Min Average", "Serie2");
+$DataSet->setSeriesName("Temperature", "Serie3");
 $DataSet->SetYAxisName("Temperature");
 $DataSet->SetXAxisName("Month of the year");
 
 // Initialise the graph
-$Test = new pChart(700, 230);
-$Test->reportWarnings("GD");
-$Test->setFixedScale(-12, 12, 5);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Test->setGraphArea(65, 30, 570, 185);
-$Test->drawFilledRoundedRectangle(7, 7, 693, 223, 5, 240, 240, 240);
-$Test->drawRoundedRectangle(5, 5, 695, 225, 5, 230, 230, 230);
-$Test->drawGraphArea(255, 255, 255, TRUE);
-$Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 3);
-$Test->drawGrid(4, TRUE, 230, 230, 230, 50);
+$Chart->setFixedScale(-12, 12, 5);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->setGraphArea(65, 30, 570, 185);
+
+$Canvas->drawFilledRoundedRectangle(new Point(7, 7), new Point(693, 223), 5, new Color(240), 1, 0, ShadowProperties::NoShadow());
+$Canvas->drawRoundedRectangle(new Point(5, 5), new Point(695, 225), 5, new Color(230), 1, 0, ShadowProperties::NoShadow());
+
+$Chart->drawGraphBackground(new BackgroundStyle(new Color(255), true));
+$Chart->drawScale($DataSet, ScaleStyle::DefaultStyle(), 0, 2);
+$Chart->drawGrid(new GridStyle(4, TRUE, new Color(230), 50));
 
 // Draw the 0 line
-$Test->setFontProperties("../Fonts/tahoma.ttf", 6);
-$Test->drawTreshold(0, 143, 55, 72, TRUE, TRUE);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 6);
+$Chart->drawTreshold(0, new Color(143, 55, 72), TRUE, TRUE);
 
 // Draw the area
-$DataSet->RemoveSerie("Serie4");
-$Test->drawArea($DataSet->GetData(), "Serie1", "Serie2", 239, 238, 227, 50);
-$DataSet->RemoveSerie("Serie3");
-$Test->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
+$DataSet->removeSeriesName("Serie4");
+$Chart->drawArea($DataSet, "Serie1", "Serie2", new Color(239, 238, 227));
+$DataSet->removeSeriesName("Serie3");
+$Chart->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
 
 // Draw the line graph
-$Test->setLineStyle(1, 6);
-$DataSet->RemoveAllSeries();
-$DataSet->AddSerie("Serie3");
-$Test->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
-$Test->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 2, 255, 255, 255);
+$Chart->setLineStyle(1, 6);
+$DataSet->removeAllSeries();
+$DataSet->AddSeries("Serie3");
+$Chart->drawLineGraph($DataSet->GetData(), $DataSet->GetDataDescription());
+$Chart->drawPlotGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 3, 2, new Color(255));
 
 // Write values on Serie3
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Test->writeValues($DataSet->GetData(), $DataSet->GetDataDescription(), "Serie3");
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->writeValues($DataSet->GetData(), $DataSet->GetDataDescription(), "Serie3");
 
 // Finish the graph
-$Test->setFontProperties("../Fonts/tahoma.ttf", 8);
-$Test->drawLegend(590, 90, $DataSet->GetDataDescription(), 255, 255, 255);
-$Test->setFontProperties("../Fonts/tahoma.ttf", 10);
-$Test->drawTitle(60, 22, "Example 15", 50, 50, 50, 585);
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 8);
+$Chart->drawLegend(590, 90, $DataSet->GetDataDescription(), new Color(255));
+$Chart->setFontProperties("../Fonts/tahoma.ttf", 10);
+$Chart->drawTitle(60, 22, "Example 15", new Color(50), 585);
 
 // Add an image
-$Test->drawFromPNG("../Sample/logo.png", 584, 35);
+$Chart->drawFromPNG("../Sample/logo.png", 584, 35);
 
 // Render the chart
-$Test->Render("Example15.png");
+$Chart->Render("Example15.png");
+header("Content-Type:image/png");
+readfile("Example15.png");
