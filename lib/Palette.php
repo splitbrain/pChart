@@ -81,10 +81,11 @@ class Palette {
             $buffer = str_replace(chr(10), '', $buffer);
             $buffer = str_replace(chr(13), '', $buffer);
             $values = explode($delimiter, $buffer);
+            $values = array_map('trim', $values);
             if(count($values) == 3) {
                 $palette->setColor($idx, new Color($values[0], $values[1], $values[2]));
                 $idx++;
-            }elseif(count($values) == 1){
+            }elseif(count($values) == 1 && $values[0] !== ''){
                 $palette->setColor($idx, new Color($values[0]));
             }
         }

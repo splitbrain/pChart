@@ -101,7 +101,7 @@ class Color {
      * @throws InvalidArgumentException
      */
     private function Hex2RGB($color) {
-        if($color[0] == '#') $color = substr($color, 1);
+        if(substr($color,0,1) == '#') $color = substr($color, 1);
 
         if(strlen($color) == 6) {
             list($r, $g, $b) = array(
@@ -116,7 +116,7 @@ class Color {
                 $color[2].$color[2]
             );
         } else {
-            throw new InvalidArgumentException("Invalid Hex color");
+            throw new InvalidArgumentException("Invalid hex color: ".$color);
         }
 
         $r = hexdec($r);
