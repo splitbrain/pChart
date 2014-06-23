@@ -3243,16 +3243,29 @@ class pChart {
     static private function computeAutomaticScaling($minCoord, $maxCoord, &$minVal, &$maxVal, &$Divisions) {
         $ScaleOk      = FALSE;
         $Factor       = 1;
+        $Scale        = 1;
         $MinDivHeight = 25;
         $MaxDivs      = ($maxCoord - $minCoord) / $MinDivHeight;
+
+        $minVal = (float) $minVal;
+        $maxVal = (float) $maxVal;
+
+        // when min and max are the them spread out the value
+        if($minVal == $maxVal) {
+            $ispos = $minVal > 0;
+            $maxVal += $maxVal/2;
+            $minVal -= $minVal/2;
+            if($minVal < 0 && $ispos) $minVal = 0;
+        }
 
         if($minVal == 0 && $maxVal == 0) {
             $minVal    = 0;
             $maxVal    = 2;
-            $Scale     = 1;
             $Divisions = 2;
         } elseif($MaxDivs > 1) {
             while(!$ScaleOk) {
+                if($Factor == 0) throw new Exception('Division by zero whne calculating scales (should not happen)');
+
                 $Scale1 = ($maxVal - $minVal) / $Factor;
                 $Scale2 = ($maxVal - $minVal) / $Factor / 2;
 
@@ -3267,11 +3280,11 @@ class pChart {
                     $Scale     = 2;
                 }
                 if(!$ScaleOk) {
-                    if($Scale2 > 1) {
-                        $Factor = $Factor * 10;
+                    if($Scale2 >= 1) {
+                        $Factor = $Factor * 10.0;
                     }
                     if($Scale2 < 1) {
-                        $Factor = $Factor / 10;
+                        $Factor = $Factor / 10.0;
                     }
                 }
             }
@@ -3287,16 +3300,18 @@ class pChart {
                 $minVal = $GridID * $Scale * $Factor;
                 $Divisions++;
             }
-        } else /* Can occurs for small graphs */
-            $Scale = 1;
+        }
 
-        if(!isset ($Divisions))
+        if(!isset ($Divisions)) {
             $Divisions = 2;
+        }
 
-        if(self::isRealInt(($maxVal - $minVal) / ($Divisions - 1)))
+        if(self::isRealInt(($maxVal - $minVal) / ($Divisions - 1))) {
             $Divisions--;
-        elseif(self::isRealInt(($maxVal - $minVal) / ($Divisions + 1)))
+        }
+        elseif(self::isRealInt(($maxVal - $minVal) / ($Divisions + 1))) {
             $Divisions++;
+        }
     }
 
     static private function convertValueForDisplay($value, $format, $unit) {
