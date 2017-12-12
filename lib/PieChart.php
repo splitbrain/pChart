@@ -183,7 +183,7 @@ class PieChart extends pChart {
 
         /* Calculate all polygons */
         $Angle    = 0;
-        $TopPlots = "";
+        $TopPlots = array();
         foreach($iValues as $Key => $Value) {
             $TopPlots [$Key] [] = $XPos;
             $TopPlots [$Key] [] = $YPos;
